@@ -1,0 +1,31 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: Vitalii
+  Date: 22.06.2015
+  Time: 10:24
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
+          xmlns:spring="http://www.springframework.org/tags"
+          xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <jsp:directive.page contentType="text/html; charset=utf-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+   <!-- <spring:message code="home_text" var="homeText"/>-->
+
+
+
+<!--    <div id="menu">
+        <a href="${usersUrl}">${homeText}</a>
+
+    </div>-->
+    <div id="footer">
+        <div class="container">
+            <div class="row">
+                <i class="fa fa-facebook fa-3x"></i>
+
+            </div>
+        </div>
+    </div>
+
+</jsp:root>

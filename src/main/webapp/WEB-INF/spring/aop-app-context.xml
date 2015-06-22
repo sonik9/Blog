@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop-3.1.xsd">
+
+    <aop:config>
+        <!--<aop:pointcut id="fooExecution" expression="execution(* pl.upir.learn3..foo*(int))"/>-->
+        <aop:pointcut id="fooExecution" expression="execution(* pl.upir.learn3..foo*(int)) and args(i)"/>
+        <aop:aspect ref="myAdvice">
+            <aop:before  pointcut-ref="fooExecution" method="simpleBeforeAdvice"/>
+            <aop:around  pointcut-ref="fooExecution" method="simpleAroundAdvice"/>
+        </aop:aspect>
+    </aop:config>
+    <bean id="myAdvice" class="pl.upir.learn3.MyAdvice"/>
+
+
+
+    <bean id="testBean" class="pl.upir.learn3.TestBean"/>
+
+    <!--<bean id="myBean" class="pl.upir.learn3.MyBean"
+          p:testBean-ref="testBean"/>-->
+    <bean id="myBean" class="pl.upir.learn3.MyBean">
+        <property name="testBean" ref="testBean"/>
+    </bean>
+
+<!--
+
+    <bean id="myBean2" class="pl.upir.learn3.MyBean">
+        <property name="testBean">
+            <ref local="testBean1"/>
+        </property>
+    </bean>
+
+    <bean id="myBean3" class="pl.upir.learn3.MyBean">
+        <property name="testBean">
+            <ref local="testBean2"/>
+        </property>
+    </bean>
+
+
+    <bean id="testBean1" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <ref local="testBean"/>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>recomendID</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="testBean2" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target">
+            <ref local="testBean"/>
+        </property>
+        <property name="interceptorNames">
+            <list>
+                <value>adviceID</value>
+            </list>
+        </property>
+    </bean>
+
+
+    <bean id="recomendID" class="pl.upir.learn3.SimpleBeforeAdvice"/>
+
+    <bean id="pointcutID" class="org.springframework.aop.support.NameMatchMethodPointcut">
+        <property name="mappedNames" value="foo"/>
+    </bean>
+
+    <bean id="adviceID" class="org.springframework.aop.support.DefaultPointcutAdvisor">
+        <property name="pointcut" ref="pointcutID"/>
+        <property name="advice" ref="recomendID"/>
+    </bean>
+
+
+    <bean id="proxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="testBean"/>
+        <property name="interceptorNames">
+            <list>
+                <value>recomendID</value>
+                <value>adviceID</value>
+            </list>
+
+        </property>
+    </bean>
+    <bean id="proxy1" class="org.springframework.aop.framework.ProxyFactoryBean">
+        <property name="target" ref="testBean"/>
+        <property name="interceptorNames">
+            <list>
+                <value>adviceID</value>
+            </list>
+
+        </property>
+    </bean>
+-->
+
+
+    <!--*********************-->
+
+
+
+
+</beans>

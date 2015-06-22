@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_blgUsers_list" var="labelUsersList"/>
+    <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
+    <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
+    <spring:message code="label_blgUsers_timeChange" var="labelUsersTimeChange"/>
+
+
+
+    <h1>${labelUsersList}</h1>
+
+    <c:if test="${not empty blgUsers}">
+        <div>
+            <p>${labelUsersLogin}</p>
+
+            <p>${labelUsersPass}</p>
+
+            <p>${labelUsersTimeChange}</p>
+        </div>
+        <div>
+            <c:forEach items="${blgUsers}" var="user">
+                ${user.usrLogin}
+                ${user.usrPassword}
+                ${user.usrDateTimeChange}
+            </c:forEach>
+        </div>
+    </c:if>
+</div>
