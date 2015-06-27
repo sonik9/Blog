@@ -75,10 +75,6 @@
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-    <welcome-file-list>
-        <welcome-file>/views/home/home.jspx</welcome-file>
-    </welcome-file-list>
-
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>

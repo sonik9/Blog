@@ -4,21 +4,33 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import pl.upir.blog.entity.BlgUser;
+import pl.upir.blog.service.BlgUserService;
 
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * Created by Vitalii on 17.06.2015.
  */
 @Controller
-@RequestMapping(value = "/users")
+@RequestMapping(value = "/rest")
 public class BlgUsersController {
-    final Logger logger = LoggerFactory.getLogger(BlgUsersController.class);
+    private final Logger logger = LoggerFactory.getLogger(BlgUsersController.class);
 
-    /*@Autowired(required = false)
-    private BlgUsersService blgUsersService;
+    @Autowired(required = false)
+    private BlgUserService blgUserService;
+
+    @RequestMapping(value = "/userlist", method = RequestMethod.GET)
+    public @ResponseBody
+    List<BlgUser> listJson(Model model){
+        return blgUserService.findAll();
+    }
+
+    /*
 
     @RequestMapping(value = "/listdata", method = RequestMethod.GET)
     @ResponseBody

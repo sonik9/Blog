@@ -1,3 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
   Created by IntelliJ IDEA.
   User: Vitalii
@@ -5,9 +6,9 @@
   Time: 10:24
   To change this template use File | Settings | File Templates.
 -->
-<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page"
-          xmlns:spring="http://www.springframework.org/tags"
-          xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+<div id="header" class="navbar navbar-default navbar-fixed-top" xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0" xmlns:form="http://www.springframework.org/tags/form">
     <jsp:directive.page contentType="text/html; charset=utf-8"/>
     <jsp:output omit-xml-declaration="yes"/>
     <spring:message code="header_text" var="headerText"/>
@@ -15,36 +16,45 @@
     <spring:message code="label_ru_RU" var="labelRuRu"/>
 
     <spring:url value="/" var="homeUrl"/>
+    <spring:url value="/sign" var="showRegUrl"/>
 
-    <div id="header">
-        <nav class="navbar navbar-default navbar-fixed-top">
-            <div class="container">
-                <a href="${homeUrl}"> <h1>${headerText}</h1></a>
-                <nav class="collapse navbar-collapse" role="navigation">
-                    <ul class="nav navbar-nav">
-                        <li>
-                            <a href="#">Category</a>
-                        </li>
-                        <li>
-                            <a href="#">Category</a>
-                        </li>
-                        <li>
-                            <a href="#">Category</a>
-                        </li>
-                        <li>
-                            <a href="#">Category</a>
-                        </li>
-                    </ul>
-                    <ul class="nav navbar-right navbar-nav">
-                        <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
-                        <a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a>
-                    </ul>
-                </nav>
-
-
-
+        <div class="container">
+            <div class="navbar-header">
+                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                        data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
             </div>
-
-        </nav>
-    </div>
-</jsp:root>
+            <a href="${homeUrl}" class="navbar-brand">Home</a>
+            <nav class="collapse navbar-collapse" role="navigation">
+                <ul class="nav navbar-nav">
+                    <li>
+                        <a href="#">Category</a>
+                    </li>
+                    <li>
+                        <a href="#">Category</a>
+                    </li>
+                    <li>
+                        <a href="#">Category</a>
+                    </li>
+                    <li>
+                        <a href="#">Category</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-right navbar-nav">
+                    <li>
+                        <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
+                    </li>
+                    <li>
+                        <a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a>
+                    </li>
+                    <li>
+                                <a href="${showRegUrl}" >Sign up</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+</div>

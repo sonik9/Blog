@@ -7,4 +7,16 @@
     <definition extends="default" name="users/list">
         <put-attribute name="body" value="/WEB-INF/views/users/list.jspx"/>
     </definition>
-    </tiles-definitions>
+    <definition extends="default" name="users/show">
+        <put-attribute name="body" value="/WEB-INF/views/users/show.jsp"/>
+    </definition>
+    <definition extends="default" name="users/update">
+        <put-attribute name="body" value="/WEB-INF/views/users/edit.jspx"/>
+    </definition>
+    <definition extends="default" name="users/create">
+        <put-attribute name="body" value="/WEB-INF/views/users/edit.jspx"/>
+    </definition>
+    <definition extends="default" name="users/del">
+        <put-attribute name="body" value="/WEB-INF/views/users/list.jspx"/>
+    </definition>
+</tiles-definitions>

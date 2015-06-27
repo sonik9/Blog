@@ -15,7 +15,7 @@
     <!--  DispatcherServlet Context: defines this servlet's request-processing infrastructure-->
     <!--<aop:config proxy-target-class="true"/>-->
     <!--  Enables the Spring MVC @Controller programming model -->
-    <annotation-driven/>
+    <annotation-driven validator="validator"/>
     <!--  Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <resources mapping="/resources/**" location="public/"/>
     <default-servlet-handler/>
@@ -24,6 +24,10 @@
         <beans:property name="prefix" value="/WEB-INF/views/"/>
         <beans:property name="suffix" value=".jspx"/>
     </beans:bean>-->
+
+    <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <beans:property name="validationMessageSource" ref="messageSource"/>
+    </beans:bean>
 
     <!--Tiles configuration-->
     <beans:bean class="org.springframework.web.servlet.view.UrlBasedViewResolver" id="tilesViewResolver">
@@ -47,7 +51,7 @@
     </interceptors>
 
     <!-- Locale-->
-    <beans:bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource"
+    <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
                 p:fallbackToSystemLocale="false" p:basenames="/WEB-INF/i18n/application,WEB-INF/i18n/messages" p:defaultEncoding="UTF-8"/>
     <beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver"
                 p:cookieName="locale" p:defaultLocale="en"/>

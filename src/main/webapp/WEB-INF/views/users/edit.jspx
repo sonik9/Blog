@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Vitalii
+  Date: 23.06.2015
+  Time: 13:31
+  To change this template use File | Settings | File Templates.
+-->
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_blgUser_new" var="labelUserNew"/>
+    <spring:message code="label_blgUser_update" var="labelUserUpdate"/>
+    <!--<spring:message code="label_user_first_name" var="labeluserFirstName"/>
+    <spring:message code="label_user_last_name" var="labeluserLastName"/>
+    <spring:message code="label_user_birth_date" var="labeluserBirthDate"/>
+    <spring:message code="label_user_description" var="labeluserDescription"/>
+    <spring:message code="label_user_photo" var="labeluserPhoto"/>-->
+
+    <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
+    <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
+    <spring:message code="label_blgUsers_timeChange" var="labelUsersTimeChange"/>
+    <spring:message code="label_new" var="labelNew"/>
+    <spring:message code="label_update" var="labelUpdate"/>
+
+
+    <spring:eval expression="blgUser.usrId==null ? labelUserNew:labelUserUpdate" var="formTitleUser"/>
+    <spring:eval expression="blgUser.usrId==null ? labelNew:labelUpdate" var="formTitle"/>
+
+
+    <div id="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1>${formTitle}
+                        <p class="lead">${formTitleUser}</p>
+                    </h1>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form:form modelAttribute="blgUser" id="userUpdateForm" method="post">
+        <div class="container">
+
+
+            <c:if test="${not empty message}">
+                <div class="${message.type}" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                            aria-hidden="true">&amp;times</span></button>
+                    <strong>${message.firstWord}</strong> ${message.message}
+                </div>
+            </c:if>
+
+            <div id="row" class="row">
+                <div id="no-more-tables-vertical">
+
+                    <table class="col-md-12 table-bordered table-striped table-condensed cf">
+                        <tbody>
+
+                        <tr>
+                            <td data-title="${labelUsersLogin}"><form:input path="usrLogin"/><form:errors
+                                    path="usrLogin" cssClass="error"/></td>
+                            <td data-title="${labelUsersPass}"><form:input path="usrPassword"/><form:errors
+                                    path="usrPassword" cssClass="error"/></td>
+                            <!--<td data-title="${labelUsersTimeChange}"><form:input path="usrLogin"/><form:errors path="usrLogin" cssClass="error"/></td>-->
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
+        <form:hidden path="usrId"/>
+
+        <div class="row">
+            <button type="submit" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
+            <button type="reset" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-share-alt"></span> Reset </button>
+        </div>
+    </form:form>
+</div>

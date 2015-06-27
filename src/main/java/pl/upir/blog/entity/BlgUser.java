@@ -1,6 +1,9 @@
 package pl.upir.blog.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -11,12 +14,14 @@ import java.sql.Timestamp;
 @Table(name = "blg_user", schema = "", catalog = "java_blog")
 public class BlgUser implements Serializable {
     private int usrId;
+
     private String usrLogin;
     private String usrPassword;
     private Timestamp usrDateTimeChange;
 
     @Id
     @Column(name = "usr_id", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getUsrId() {
         return usrId;
     }
@@ -26,10 +31,13 @@ public class BlgUser implements Serializable {
     }
 
     @Basic
-    @Column(name = "usr_login", nullable = false, insertable = true, updatable = true, length = 20)
+    @Column(name = "usr_login", nullable = false, insertable = true, updatable = true, length = 30)
+    @Size(min = 4, max = 30, message = "{validation.usrlogin.Size.message}")
+    @NotEmpty(message = "{validation.usrlogin.NotEmpty.message}")
     public String getUsrLogin() {
         return usrLogin;
     }
+
 
     public void setUsrLogin(String usrLogin) {
         this.usrLogin = usrLogin;
@@ -37,6 +45,8 @@ public class BlgUser implements Serializable {
 
     @Basic
     @Column(name = "usr_password", nullable = false, insertable = true, updatable = true, length = 20)
+    @Size(min = 4, max = 20, message = "{validation.usrpassword.Size.message}")
+    @NotEmpty(message = "{validation.usrpassword.NotEmpty.message}")
     public String getUsrPassword() {
         return usrPassword;
     }

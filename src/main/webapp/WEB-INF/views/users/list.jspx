@@ -1,35 +1,101 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-
 <div xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:c="http://java.sun.com/jsp/jstl/core"
-     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:spring="http://www.springframework.org/tags" xmlns:form="http://www.springframework.org/tags/form"
      version="2.0">
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
 
     <spring:message code="label_blgUsers_list" var="labelUsersList"/>
+    <spring:message code="label_blgUsers_list_working" var="labelUsersListWorking"/>
     <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
     <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
     <spring:message code="label_blgUsers_timeChange" var="labelUsersTimeChange"/>
+    <spring:message code="label_edit" var="labelEdit"/>
+    <spring:message code="label_delete" var="labelDelete"/>
+    <spring:url value="/users" var="showUserUrl"/>
 
-
-
-    <h1>${labelUsersList}</h1>
-
-    <c:if test="${not empty blgUsers}">
-        <div>
-            <p>${labelUsersLogin}</p>
-
-            <p>${labelUsersPass}</p>
-
-            <p>${labelUsersTimeChange}</p>
+    <div id="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7">
+                    <h1>${labelUsersList}
+                        <p class="lead">${label_blgUsers_list_working}</p>
+                    </h1>
+                </div>
+            </div>
         </div>
-        <div>
-            <c:forEach items="${blgUsers}" var="user">
-                ${user.usrLogin}
-                ${user.usrPassword}
-                ${user.usrDateTimeChange}
-            </c:forEach>
+    </div>
+
+
+
+    <div class="container">
+        <c:if test="${not empty message}">
+            <div class="${message.type}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&amp;times</span></button>
+                <strong>${message.firstWord}</strong> ${message.message}
+            </div>
+        </c:if>
+        <div class="row">
+            <div id="no-more-tables">
+                <c:if test="${not empty blgUser}">
+                        <table class="col-md-12 table-bordered table-striped table-condensed cf">
+                            <thead class="cf">
+                            <tr>
+                                <th class="numeric">Id</th>
+                                <th>${labelUsersLogin}</th>
+                                <th>${labelUsersPass}</th>
+                                <th>${labelUsersTimeChange}</th>
+                                <th>${labelEdit}</th>
+                                <th>${labelDelete}</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <c:forEach items="${blgUser}" var="user">
+                                <tr>
+                                    <td data-title="Id" class="numeric">${user.usrId}</td>
+                                    <td data-title="${labelUsersLogin}"><a
+                                            href="${showUserUrl}/${user.usrId}">${user.usrLogin}</a></td>
+                                    <td data-title="${labelUsersPass}">${user.usrPassword}</td>
+                                    <td data-title="${labelUsersTimeChange}">${user.usrDateTimeChange}</td>
+                                    <td><a href="${showUserUrl}/${user.usrId}?form" class="btn btn-primary btn-warning"><span
+                                            class="glyphicon glyphicon-pencil"></span> </a></td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#confirm-delete"><span
+                                                class="glyphicon glyphicon-remove-circle"></span></button>
+                                    </td>
+
+                                </tr>
+
+                            </c:forEach>
+                            </tbody>
+                        </table>
+                </c:if>
+            </div>
         </div>
-    </c:if>
+    </div>
+
+<!--Modal win for acceptence-->
+    <div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    ...
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <a href="${showUserUrl}/del/${user.usrId}" class="btn btn-danger btn-ok">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('#confirm-delete').on('show.bs.modal', function(e) {
+            $(this).find('.btn-ok').attr('href', $(e.relatedTarget).data('href'));
+            //$('#udelete').attr('href', $(e.relatedTarget).data('href'));
+        });
+    </script>
 </div>

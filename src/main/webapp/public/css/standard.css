@@ -1,5 +1,61 @@
 @import url("bootstrap/css/bootstrap.min.css");
-@import url("//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css");
+@import url("font-awesome/css/font-awesome.min.css");
+@import url("no-more-table.css");
+@import url("no-more-table-vertical.css");
+
+.btn-windows {background-color:#4099FF;color:#fff;}
+.btn-facebook {background-color:#3B5998;color:#fff;}
+.btn-google-plus {background-color:#d34836;color:#fff;}
+.btn-github {background-color: #828282;color:#fff;}
+
+.btn-windows:hover {background-color:#3088FF;color:#62BBFF;}
+.btn-facebook:hover {background-color:#2A4998;color:#4C6BBA;}
+.btn-google-plus:hover {background-color:#C23836;color:#E45A58;}
+.btn-github:hover {background-color: #1a1717;color: #bfbbba;}
+
+
+.navbar-form input, .form-inline input {
+    width:auto;
+}
 body {
     padding-top:50px;
+}
+
+#masthead {
+    min-height:199px;
+}
+
+#masthead h1 {
+    font-size: 55px;
+    line-height: 1;
+    margin-top:50px;
+}
+
+#masthead .well {
+    margin-top:31px;
+    min-height:127px;
+}
+
+.navbar.affix {
+    position:fixed;
+    top:0;
+    width:100%;
+}
+
+.story-img {
+    margin-top:25%;
+    display:block;
+}
+
+@media screen and (min-width: 768px) {
+    #masthead h1 {
+        font-size: 80px;
+    }
+}
+
+#footer {
+    margin-top:40px;
+    padding-top:40px;
+    padding-bottom:40px;
+    background-color:#ededed;
 }

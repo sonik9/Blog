@@ -17,10 +17,15 @@ public class BlgHomeController {
     final Logger logger = LoggerFactory.getLogger(BlgHomeController.class);
 
     @RequestMapping(method = RequestMethod.GET)
-    public String list(Model model) {
+    public String home(Model model) {
         DateTime dateTime = new DateTime();
         model.addAttribute("dateTime",dateTime);
     return "home/home";
     }
 
+    @RequestMapping(value = "/sign", method = RequestMethod.GET)
+    public String registration(Model model) {
+
+        return "sign";
+    }
 }
