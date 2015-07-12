@@ -8,53 +8,81 @@
 -->
 <div id="header" class="navbar navbar-default navbar-fixed-top" xmlns:jsp="http://java.sun.com/JSP/Page"
      xmlns:spring="http://www.springframework.org/tags"
-     version="2.0" xmlns:form="http://www.springframework.org/tags/form">
+     xmlns:sec="http://www.springframework.org/security/tags"
+     version="2.0"
+     xmlns:form="http://www.springframework.org/tags/form"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:sql="http://java.sun.com/jsp/jstl/sql">
     <jsp:directive.page contentType="text/html; charset=utf-8"/>
     <jsp:output omit-xml-declaration="yes"/>
+
     <spring:message code="header_text" var="headerText"/>
     <spring:message code="label_en_US" var="labelEnUs"/>
     <spring:message code="label_ru_RU" var="labelRuRu"/>
 
+    <sec:authentication var="principal" property="principal"/>
+
     <spring:url value="/" var="homeUrl"/>
     <spring:url value="/sign" var="showRegUrl"/>
 
-        <div class="container">
-            <div class="navbar-header">
-                <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
-                        data-target=".navbar-collapse">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-            </div>
-            <a href="${homeUrl}" class="navbar-brand">Home</a>
-            <nav class="collapse navbar-collapse" role="navigation">
-                <ul class="nav navbar-nav">
-                    <li>
-                        <a href="#">Category</a>
-                    </li>
-                    <li>
-                        <a href="#">Category</a>
-                    </li>
-                    <li>
-                        <a href="#">Category</a>
-                    </li>
-                    <li>
-                        <a href="#">Category</a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-right navbar-nav">
-                    <li>
-                        <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
-                    </li>
-                    <li>
-                        <a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a>
-                    </li>
-                    <li>
-                                <a href="${showRegUrl}" >Sign up</a>
-                    </li>
-                </ul>
-            </nav>
+    <div class="container">
+        <div class="navbar-header">
+            <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
+                    data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
         </div>
+        <a href="${homeUrl}" class="navbar-brand">Home</a>
+        <nav class="collapse navbar-collapse" role="navigation">
+            <ul class="nav navbar-nav">
+                <li>
+                    <a href="${usersUrl}/sign/sign_json">SIGN JSON</a>
+                </li>
+                <li>
+                    <a href="#">Category</a>
+                </li>
+                <li>
+                    <a href="#">Category</a>
+                </li>
+                <li>
+                    <a href="#">Category</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-right navbar-nav">
+                <li>
+                    <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
+                </li>
+                <li>
+                    <a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a>
+                </li>
+                <sec:authorize access="isAnonymous()">
+                    <li>
+                        <a id="accountSignInText" href="${showRegUrl}"
+                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">Sign In</a>
+                        <a style="display: none" id="accountSignUpText" href="#"
+                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">Sign Up</a>
+                    </li>
+                </sec:authorize>
+                <sec:authorize access="isAuthenticated()">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="user" href="">${principal.getGetBlgUserDetail().getUsrDetFirstname()}
+                            <span class="caret"/> </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <!-- TODO i18n-->
+                            <li><a id="profileEdit" href="#">Edit profile</a></li>
+                            <li class="divider"></li>
+                            <li><a id="signOut" href="${rootUrl}j_spring_security_logout">Sign Out</a></li>
+                        </ul>
+                    </li>
+
+                </sec:authorize>
+            </ul>
+
+
+        </nav>
+    </div>
 </div>

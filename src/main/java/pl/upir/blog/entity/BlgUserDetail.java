@@ -11,17 +11,20 @@ import java.sql.Date;
 @Table(name = "blg_user_detail", schema = "", catalog = "java_blog")
 public class BlgUserDetail implements Serializable{
     private int usrDetId;
+    private BlgUser blgUser;
     private int usrId;
     private String usrDetFirstname;
     private String usrDetLastname;
     private Date usrDetBirthdate;
-    private int usrMailId;
     private int usrDetCountry;
     private int usrDetCity;
     private String usrDetAdres;
 
+
+
     @Id
     @Column(name = "usr_det_id", nullable = false, insertable = true, updatable = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     public int getUsrDetId() {
         return usrDetId;
     }
@@ -60,7 +63,7 @@ public class BlgUserDetail implements Serializable{
         this.usrDetLastname = usrDetLastname;
     }
 
-    @Basic
+   /* @Basic
     @Column(name = "usr_det_birthdate", nullable = true, insertable = true, updatable = true)
     public Date getUsrDetBirthdate() {
         return usrDetBirthdate;
@@ -70,18 +73,9 @@ public class BlgUserDetail implements Serializable{
         this.usrDetBirthdate = usrDetBirthdate;
     }
 
-    @Basic
-    @Column(name = "usr_mail_id", nullable = false, insertable = true, updatable = true)
-    public int getUsrMailId() {
-        return usrMailId;
-    }
-
-    public void setUsrMailId(int usrMailId) {
-        this.usrMailId = usrMailId;
-    }
 
     @Basic
-    @Column(name = "usr_det_country", nullable = false, insertable = true, updatable = true)
+    @Column(name = "usr_det_country", nullable = true, insertable = true, updatable = true)
     public int getUsrDetCountry() {
         return usrDetCountry;
     }
@@ -91,7 +85,7 @@ public class BlgUserDetail implements Serializable{
     }
 
     @Basic
-    @Column(name = "usr_det_city", nullable = false, insertable = true, updatable = true)
+    @Column(name = "usr_det_city", nullable = true, insertable = true, updatable = true)
     public int getUsrDetCity() {
         return usrDetCity;
     }
@@ -101,14 +95,14 @@ public class BlgUserDetail implements Serializable{
     }
 
     @Basic
-    @Column(name = "usr_det_adres", nullable = false, insertable = true, updatable = true, length = 100)
+    @Column(name = "usr_det_adres", nullable = true, insertable = true, updatable = true, length = 100)
     public String getUsrDetAdres() {
         return usrDetAdres;
     }
 
     public void setUsrDetAdres(String usrDetAdres) {
         this.usrDetAdres = usrDetAdres;
-    }
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -118,8 +112,7 @@ public class BlgUserDetail implements Serializable{
         BlgUserDetail that = (BlgUserDetail) o;
 
         if (usrDetId != that.usrDetId) return false;
-        if (usrId != that.usrId) return false;
-        if (usrMailId != that.usrMailId) return false;
+       // if (usrId != that.usrId) return false;
         if (usrDetCountry != that.usrDetCountry) return false;
         if (usrDetCity != that.usrDetCity) return false;
         if (usrDetFirstname != null ? !usrDetFirstname.equals(that.usrDetFirstname) : that.usrDetFirstname != null)
@@ -136,14 +129,33 @@ public class BlgUserDetail implements Serializable{
     @Override
     public int hashCode() {
         int result = usrDetId;
-        result = 31 * result + usrId;
+       // result = 31 * result + usrId;
         result = 31 * result + (usrDetFirstname != null ? usrDetFirstname.hashCode() : 0);
         result = 31 * result + (usrDetLastname != null ? usrDetLastname.hashCode() : 0);
         result = 31 * result + (usrDetBirthdate != null ? usrDetBirthdate.hashCode() : 0);
-        result = 31 * result + usrMailId;
         result = 31 * result + usrDetCountry;
         result = 31 * result + usrDetCity;
         result = 31 * result + (usrDetAdres != null ? usrDetAdres.hashCode() : 0);
         return result;
+    }
+
+
+    @OneToOne
+    @JoinColumn(name = "usr_id", insertable = false, updatable = false)
+    private BlgUser getBlgUser() {
+        return blgUser;
+    }
+
+    private void setBlgUser(BlgUser blgUser) {
+        this.blgUser = blgUser;
+    }
+
+    @Override
+    public String toString() {
+        return "BlgUserDetail{" +
+               // "blgUser=" + blgUser +
+                ", usrDetFirstname='" + usrDetFirstname + '\'' +
+                ", usrDetLastname='" + usrDetLastname + '\'' +
+                '}';
     }
 }

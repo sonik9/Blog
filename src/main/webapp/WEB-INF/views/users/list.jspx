@@ -38,7 +38,7 @@
         </c:if>
         <div class="row">
             <div id="no-more-tables">
-                <c:if test="${not empty blgUser}">
+                <c:if test="${not empty blgUserDetail}">
                         <table class="col-md-12 table-bordered table-striped table-condensed cf">
                             <thead class="cf">
                             <tr>
@@ -46,19 +46,23 @@
                                 <th>${labelUsersLogin}</th>
                                 <th>${labelUsersPass}</th>
                                 <th>${labelUsersTimeChange}</th>
+                                <th>FirstName</th>
+                                <th>LastName</th>
                                 <th>${labelEdit}</th>
                                 <th>${labelDelete}</th>
                             </tr>
                             </thead>
                             <tbody>
-                            <c:forEach items="${blgUser}" var="user">
+                            <c:forEach items="${blgUserDetail}" var="user">
                                 <tr>
-                                    <td data-title="Id" class="numeric">${user.usrId}</td>
+                                    <td data-title="Id" class="numeric">${user.blgUser.usrId}</td>
                                     <td data-title="${labelUsersLogin}"><a
-                                            href="${showUserUrl}/${user.usrId}">${user.usrLogin}</a></td>
-                                    <td data-title="${labelUsersPass}">${user.usrPassword}</td>
-                                    <td data-title="${labelUsersTimeChange}">${user.usrDateTimeChange}</td>
-                                    <td><a href="${showUserUrl}/${user.usrId}?form" class="btn btn-primary btn-warning"><span
+                                            href="${showUserUrl}/${user.blgUser.usrId}">${user.blgUser.usrLogin}</a></td>
+                                    <td data-title="${labelUsersPass}">${user.blgUser.usrPassword}</td>
+                                    <td data-title="${labelUsersTimeChange}">${user.blgUser.usrDateTimeChange}</td>
+                                    <td data-title="FirstName">${user.usrDetFirstname}</td>
+                                    <td data-title="LastName">${user.usrDetLastname}</td>
+                                    <td><a href="${showUserUrl}/${user.blgUser.usrId}?form" class="btn btn-primary btn-warning"><span
                                             class="glyphicon glyphicon-pencil"></span> </a></td>
                                     <td>
                                         <button type="button" class="btn btn-primary btn-danger" data-toggle="modal" data-target="#confirm-delete"><span

@@ -22,6 +22,8 @@
         <jdbc:script location="classpath:h2config/schema.sql"/>
         <jdbc:script location="classpath:h2config/test-data.sql"/>
     </jdbc:embedded-database>-->
+    <context:component-scan base-package="pl.upir.blog.service"/>
+    <!-- TODO spring.properties-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
           p:driverClassName="com.mysql.jdbc.Driver"
           p:url="jdbc:mysql://localhost:3306/java_blog"
@@ -42,6 +44,7 @@
         <property name="packagesToScan" value="pl.upir.blog.entity"/>
         <property name="jpaProperties">
             <props>
+                <!--<prop key="hibernate.hbm2ddl.auto">create</prop>-->
                 <prop key="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</prop>
                 <prop key="hibernate.max_fetch_depth">3</prop>
                 <prop key="hibernate.jdbc.fetch_size">50</prop>

@@ -14,15 +14,16 @@
 
 
     <import resource="hibernate-jpa-context.xml"/>
-    <import resource="web-security.xml"/>
-    <context:component-scan base-package="pl.upir.blog.service.jpa"/>
 
-    <bean id="message" class="java.lang.String" c:_0="Hello world annotation"/>
+
+    <!--<import resource="web-security.xml"/>--> <!--web.xml-->
+    <!--<bean id="message" class="java.lang.String" c:_0="Hello world annotation"/>-->
     <!--<bean id="propertiesClass" class="pl.upir.learn1.test.Properties"/>-->
+    <!--<context:component-scan base-package="pl.upir.blog.service.jpa"/>
     <bean name="blgUsersExporter" class="org.springframework.remoting.httpinvoker.HttpInvokerServiceExporter">
         <property name="service" ref="blgUserService"/>
         <property name="serviceInterface" value="pl.upir.blog.service.BlgUserService"/>
-    </bean>
+    </bean>-->
 
 
 

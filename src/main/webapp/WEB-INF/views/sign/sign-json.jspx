@@ -18,32 +18,6 @@
     <spring:url value="/users" var="showUserUrl"/>
     <c:url value='/sign/signin' var="authCheckUrl"/>
 
-    <div id="masthead">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-7" id="accountSignUpText" style="display: none">
-                    <!-- TODO i18n-->
-                    <h1>Account creating
-                        <p class="lead">
-                            <h4>Please Sign Up
-                                <small>It's free and always will be.</small>
-                            </h4>
-                        </p>
-                    </h1>
-                </div>
-                <div class="col-md-7" id="accountSignInText">
-                    <h1>Login to account
-                        <p class="lead">
-                            <h4>Please Sign In
-                                <small>If you don't have an account, press Sign Up.</small>
-                            </h4>
-                        </p>
-                    </h1>
-                </div>
-            </div>
-        </div>
-    </div>
-
 
     <div class="container">
         <c:if test="${not empty message}">
@@ -57,48 +31,48 @@
         <div id="signinbox">
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
-                    <form id="userSignInForm" method="post" action="${authCheckUrl}">
-                        <div class="btn-group">
-                            <a class="btn btn-facebook btn-lg" href="#"><span
-                                    class="fa fa-facebook"> </span> Facebook</a>
-                            <a class="btn btn-windows btn-lg" href="#"><span
-                                    class="fa fa-windows"> </span> Microsoft</a>
-                            <a class="btn btn-google-plus btn-lg" href="#"><span
-                                    class="fa fa-google"> </span> Google</a>
-                            <a class="btn btn-github btn-lg" href="#"><span class="fa fa-github"> </span> Github</a>
+                    <!--<form id="userSignInForm" method="post" action="${authCheckUrl}">-->
+                    <div class="btn-group">
+                        <a class="btn btn-facebook btn-lg" href="#"><span
+                                class="fa fa-facebook"> </span> Facebook</a>
+                        <a class="btn btn-windows btn-lg" href="#"><span
+                                class="fa fa-windows"> </span> Microsoft</a>
+                        <a class="btn btn-google-plus btn-lg" href="#"><span
+                                class="fa fa-google"> </span> Google</a>
+                        <a class="btn btn-github btn-lg" href="#"><span class="fa fa-github"> </span> Github</a>
+                    </div>
+                    <hr class="colorgraph"/>
+
+
+                    <div class="form-group">
+
+                        <input type="text" name="j_username" id="usrLogin" value=""
+                               class="form-control input-lg"
+                               placeholder="Email Address" tabindex="4"/>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" name="j_password" id="password" value=""
+                               class="form-control input-lg"
+                               placeholder="Password" tabindex="5"/>
+                    </div>
+
+                    <!--TODO i18n-->
+                    <hr class="colorgraph"/>
+                    <div class="row">
+                        <div class="col-xs-12 col-md-6">
+                            <input type="submit" value="Sign In"
+                                   class="btn btn-primary btn-block btn-lg" tabindex="7"/>
                         </div>
-                        <hr class="colorgraph"/>
-
-
-                        <div class="form-group">
-
-                            <input type="text" name="j_username" id="usrLogin" value=""
-                                        class="form-control input-lg"
-                                        placeholder="Email Address" tabindex="4"/>
+                        <div class="col-xs-12 col-md-6">
+                            <a href="#"
+                               onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()"
+                               class="btn btn-success btn-block btn-lg">Sign Up</a>
                         </div>
-                        <div class="form-group">
-                            <input type="password" name="j_password" id="password" value=""
-                                        class="form-control input-lg"
-                                        placeholder="Password" tabindex="5"/>
-                        </div>
-
-<!--TODO i18n-->
-                        <hr class="colorgraph"/>
-                        <div class="row">
-                            <div class="col-xs-12 col-md-6">
-                                <input type="submit" value="Sign In"
-                                        class="btn btn-primary btn-block btn-lg" tabindex="7"/>
-                            </div>
-                            <div class="col-xs-12 col-md-6">
-                                <a href="#"
-                                   onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()"
-                                   class="btn btn-success btn-block btn-lg">Sign Up</a>
-                            </div>
-                        </div>
+                    </div>
 
 
-                        <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
-                    </form>
+                    <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
+                    <!--</form>-->
                 </div>
 
 
@@ -110,7 +84,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-                    <form id="userSignUpForm" method="post" action="/sign/signup">
+                    <form id="userSignUpForm" method="post" action="">
                         <div class="btn-group">
                             <a class="btn btn-facebook btn-lg" href="#"><span
                                     class="fa fa-facebook"> </span> Facebook</a>
@@ -122,35 +96,27 @@
                         </div>
                         <hr class="colorgraph"/>
                         <div class="form-group">
-                            <spring:bind path="blgUserDetail.usrDetFirstname">
-                                <form:input type="text" name="first_name" id="first_name"
-                                            path="blgUserDetail.usrDetFirstname" class="form-control input-lg"
-                                            placeholder="First Name" tabindex="1"/>
-                            </spring:bind>
+                            <input type="text" name="first_name" id="first_name"
+                                   class="form-control input-lg"
+                                   placeholder="First Name" tabindex="1"/>
                         </div>
                         <div class="form-group">
-                            <spring:bind path="blgUserDetail.usrDetLastname">
-                                <form:input type="text" name="last_name" id="last_name"
-                                            path="blgUserDetail.usrDetLastname" class="form-control input-lg"
-                                            placeholder="Last Name" tabindex="2"/>
-                            </spring:bind>
+                            <input type="text" name="last_name" id="last_name"
+                                   class="form-control input-lg"
+                                   placeholder="Last Name" tabindex="2"/>
                         </div>
 
                         <div class="form-group">
-                            <spring:bind path="blgUser.usrLogin">
-                                <form:input type="email" name="email" id="email" path="blgUser.usrLogin"
-                                            class="form-control input-lg"
-                                            placeholder="Email Address" tabindex="4"/>
-                            </spring:bind>
+                            <input type="email" name="email" id="email"
+                                   class="form-control input-lg"
+                                   placeholder="Email Address" tabindex="4"/>
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <spring:bind path="blgUser.usrPassword">
-                                        <form:input type="password" name="password" id="password"
-                                                    path="blgUser.usrPassword" class="form-control input-lg"
-                                                    placeholder="Password" tabindex="5"/>
-                                    </spring:bind>
+                                    <input type="password" name="password" id="password_json"
+                                           class="form-control input-lg"
+                                           placeholder="Password" tabindex="5"/>
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -177,9 +143,9 @@
                         <hr class="colorgraph"/>
                         <div class="row">
                             <div class="col-xs-12 col-md-6">
-                                <button type="submit" value="Register"
-                                        class="btn btn-primary btn-block btn-lg" tabindex="7">Sign Up
-                                </button>
+                                <input type="button" value="Register" id="registerSubmit"
+                                       class="btn btn-primary btn-block btn-lg" tabindex="7">Sign Up
+                                </input>
                             </div>
                             <div class="col-xs-12 col-md-6"><a href="#"
                                                                onClick="$('#signupbox, #accountSignUpText').hide(); $('#signinbox, #accountSignInText').show()"
@@ -195,5 +161,35 @@
         </div>
     </div>
 
+    <script>
+        $(document).ready(function () {
+            $("#registerSubmit").click(function () {
+                var registartionForm = {
+                    blgUser: {
+                        usrLogin: $("#email").val(),
+                        usrPassword: $("#password_json").val()
+                    },
+                    blgUserDetail: {
+                        usrDetFirstname: $("#first_name").val(),
+                        usrDetLastname: $("#last_name").val()
+                    }
+                };
 
+                $.ajax({
+                    url: "signup_json",
+                    contentType: "application/json",
+                    data: JSON.stringify(registartionForm),
+                    type: 'POST',
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (xhr, status, errorThrown) {
+                        alert('adding user failed with status:' + status + '. ' + errorThrown);
+                    }
+                });
+            });
+        })
+        ;
+    </script>
 </div>
+

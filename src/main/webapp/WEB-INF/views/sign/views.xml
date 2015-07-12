@@ -4,7 +4,10 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition extends="default" name="sign">
+    <definition extends="default" name="/sign">
         <put-attribute name="body" value="/WEB-INF/views/sign/sign.jspx"/>
+    </definition>
+    <definition extends="default" name="/sign_json">
+        <put-attribute name="body" value="/WEB-INF/views/sign/sign-json.jspx"/>
     </definition>
 </tiles-definitions>

@@ -12,6 +12,8 @@
     <mapping class="pl.upir.blog.entity.BlgUser"/>
     <mapping class="pl.upir.blog.entity.BlgUserDetail"/>
     <mapping class="pl.upir.blog.entity.BlgUserMail"/>
+    <mapping class="pl.upir.blog.entity.BlgDicRole"/>
+    <mapping class="pl.upir.blog.entity.BlgUserRole"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

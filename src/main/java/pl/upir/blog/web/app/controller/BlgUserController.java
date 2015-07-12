@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.upir.blog.entity.BlgUser;
+import pl.upir.blog.entity.BlgUserDetail;
+import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.web.form.Message;
 import pl.upir.blog.web.util.UrlUtil;
@@ -35,6 +37,8 @@ public class BlgUserController {
 
     @Autowired
     private BlgUserService blgUserService;
+    @Autowired
+    private BlgUserDetailService blgUserDetailService;
 
     @Autowired
     private MessageSource messageSource;
@@ -44,7 +48,9 @@ public class BlgUserController {
 
         logger.info("Listing users");
         List<BlgUser> blgUserList = blgUserService.findAll();
+        List<BlgUserDetail> blgUserDetailList = blgUserDetailService.findAll();
         model.addAttribute("blgUser", blgUserList);
+        model.addAttribute("blgUserDetail", blgUserDetailList);
         logger.info("No. of users" + blgUserList.size());
         return "users/list";
     }

@@ -13,6 +13,7 @@ public class BlgUserMail implements Serializable{
     private int usrId;
     private String usrMail;
     private String usrMailDomain;
+    private BlgUser blgUser;
 
     @Id
     @Column(name = "usr_mail_id", nullable = false, insertable = true, updatable = true)
@@ -77,5 +78,15 @@ public class BlgUserMail implements Serializable{
         result = 31 * result + (usrMail != null ? usrMail.hashCode() : 0);
         result = 31 * result + (usrMailDomain != null ? usrMailDomain.hashCode() : 0);
         return result;
+    }
+
+    @ManyToOne()
+    @JoinColumn(name = "usr_id", insertable = false, updatable = false)
+    private BlgUser getBlgUser() {
+        return blgUser;
+    }
+
+    public void setBlgUser(BlgUser blgUser) {
+        this.blgUser = blgUser;
     }
 }

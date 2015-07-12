@@ -20,4 +20,8 @@
        <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
               <property name="mappingLocation" value="classpath:rest/oxm-mapping.xml"/>
        </bean>-->
+
+    <mvc:annotation-driven  />
+    <context:component-scan base-package="pl.upir.blog.web.restful.controller"/>
+
 </beans>

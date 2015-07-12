@@ -103,6 +103,11 @@
             <artifactId>spring-security-config</artifactId>
             <version>4.0.1.RELEASE</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-taglibs</artifactId>
+            <version>4.0.1.RELEASE</version>
+        </dependency>
 
         <dependency>
             <groupId>antlr</groupId>
@@ -305,7 +310,7 @@
             <artifactId>httpclient</artifactId>
             <version>4.4.1</version>
         </dependency>
-
+        <!--Tiles tepmlates-->
         <dependency>
             <groupId>org.apache.tiles</groupId>
             <artifactId>tiles-jsp</artifactId>
@@ -316,7 +321,18 @@
             <artifactId>tiles-core</artifactId>
             <version>3.0.5</version>
         </dependency>
-
+<!--oAuth 2-->
+        <!-- for OAuth 2.0 -->
+        <dependency>
+            <groupId>org.springframework.security.oauth</groupId>
+            <artifactId>spring-security-oauth2</artifactId>
+            <version>1.0.5.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>com.racquettrack</groupId>
+            <artifactId>spring-security-oauth2-client</artifactId>
+            <version>1.4</version>
+        </dependency>
 
 
     </dependencies>

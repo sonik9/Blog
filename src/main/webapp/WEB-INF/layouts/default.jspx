@@ -14,21 +14,23 @@
 <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compact"/>
 <jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:directive.page pageEncoding="UTF-8"/>
+<jsp:directive.page session="false"/>
 
 <head>
     <meta http-equiv="content-type" content="text/html" charset="UTF-8"/>
     <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
+    <c:url value='/' var="rootUrl"/>
     <spring:theme code="styleSheetApp" var="app_css"/>
-    <spring:url value="/${app_css}" var="app_css_url"/>
+    <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
     <!-- Jquery-->
-    <spring:url value="resources/js/jquery/jquery-1.10.2.js" var="jsJquery"/>
+    <spring:url value="${rootUrl}resources/js/jquery/jquery-1.10.2.js" var="jsJquery"/>
     <script src="${jsJquery}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
+    <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
     <script src="${jsBootstrap}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="resources/js/jquery/jquery.sidebar.js" var="jsSidebar"/>
+    <spring:url value="${rootUrl}resources/js/jquery/jquery.sidebar.js" var="jsSidebar"/>
     <script src="${jsSidebar}" type="text/javascript"><jsp:text/></script>
 
 
@@ -39,22 +41,16 @@
     <spring:message code="application_name" var="app_name" htmlEscape="false"/>
 
 
-    <title><spring:message code="welcome_h3" arguments="${app_name}"/></title>
+    <title><spring:message code="welcome_h3" arguments=""/>${app_name}</title>
 </head>
 
 <body>
 <!--<div id="headerWrapper">-->
 <tiles:insertAttribute name="header" ignore="true"/>
 <!--Wrapper-->
-
-
-
-
-        <tiles:insertAttribute name="body" ignore="true"/>
-
+<tiles:insertAttribute name="body"/>
+<!--Body Wrapper-->
 <tiles:insertAttribute name="footer" ignore="true"/>
-
-
 </body>
 
 </html>

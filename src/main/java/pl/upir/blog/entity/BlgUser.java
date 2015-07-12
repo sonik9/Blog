@@ -1,11 +1,15 @@
 package pl.upir.blog.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.access.annotation.Secured;
+import org.springframework.security.access.prepost.PostAuthorize;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Vitalii on 22.06.2015.
@@ -18,6 +22,11 @@ public class BlgUser implements Serializable {
     private String usrLogin;
     private String usrPassword;
     private Timestamp usrDateTimeChange;
+    private BlgUserDetail getBlgUserDetail;
+    private Set<BlgUserMail> blgUserMailSet;
+
+    private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
+
 
     @Id
     @Column(name = "usr_id", nullable = false, insertable = true, updatable = true)
@@ -44,8 +53,8 @@ public class BlgUser implements Serializable {
     }
 
     @Basic
-    @Column(name = "usr_password", nullable = false, insertable = true, updatable = true, length = 20)
-    @Size(min = 4, max = 20, message = "{validation.usrpassword.Size.message}")
+    @Column(name = "usr_password", nullable = false, insertable = true, updatable = true, length = 100)
+    //@Size(min = 4, max = 50, message = "{validation.usrpassword.Size.message}")
     @NotEmpty(message = "{validation.usrpassword.NotEmpty.message}")
     public String getUsrPassword() {
         return usrPassword;
@@ -56,7 +65,7 @@ public class BlgUser implements Serializable {
     }
 
     @Basic
-    @Column(name = "usr_dateTimeChange", nullable = false, insertable = true, updatable = true)
+    @Column(name = "usr_dateTimeChange", nullable = false, insertable = false, updatable = false)
     public Timestamp getUsrDateTimeChange() {
         return usrDateTimeChange;
     }
@@ -88,5 +97,34 @@ public class BlgUser implements Serializable {
         result = 31 * result + (usrPassword != null ? usrPassword.hashCode() : 0);
         result = 31 * result + (usrDateTimeChange != null ? usrDateTimeChange.hashCode() : 0);
         return result;
+    }
+
+    @OneToOne(mappedBy = "blgUser")
+    public BlgUserDetail getGetBlgUserDetail() {
+        return getBlgUserDetail;
+    }
+
+    public void setGetBlgUserDetail(BlgUserDetail getBlgUserDetail) {
+        this.getBlgUserDetail = getBlgUserDetail;
+    }
+
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "blgUser")
+    public Set<BlgUserMail> getBlgUserMailSet() {
+        return blgUserMailSet;
+    }
+
+    public void setBlgUserMailSet(Set<BlgUserMail> blgUserMailSet) {
+        this.blgUserMailSet = blgUserMailSet;
+    }
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "blg_user_role",
+               joinColumns = @JoinColumn(name = "usr_id"),
+               inverseJoinColumns = @JoinColumn(name = "role_id"))
+    public Set<BlgDicRole> getBlgDicRoleSet() {
+        return blgDicRoleSet;
+    }
+
+    public void setBlgDicRoleSet(Set<BlgDicRole> blgDicRoleSet) {
+        this.blgDicRoleSet = blgDicRoleSet;
     }
 }

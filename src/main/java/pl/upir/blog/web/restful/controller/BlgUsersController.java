@@ -3,31 +3,55 @@ package pl.upir.blog.web.restful.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.service.BlgUserService;
+import pl.upir.blog.wrapper.WrapperRegister;
 
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.net.URI;
+import java.security.Principal;
 import java.util.List;
 
 /**
  * Created by Vitalii on 17.06.2015.
  */
 @Controller
-@RequestMapping(value = "/rest")
+@RequestMapping(value = "/restful")
 public class BlgUsersController {
     private final Logger logger = LoggerFactory.getLogger(BlgUsersController.class);
 
     @Autowired(required = false)
     private BlgUserService blgUserService;
 
-    @RequestMapping(value = "/userlist", method = RequestMethod.GET)
-    public @ResponseBody
-    List<BlgUser> listJson(Model model){
-        return blgUserService.findAll();
+    @RequestMapping(method = RequestMethod.GET)
+    public @ResponseBody String getUser(Principal principal, HttpServletRequest httpServletRequest){
+        //principal.getName()
+
+        return "HALLO";
+    }
+
+    @RequestMapping(method = RequestMethod.POST)
+    public @ResponseBody String getString(){
+        return "good boy";
+    }
+
+    @RequestMapping(value = "/register")
+    public void register(){
+
+    }
+
+    @RequestMapping(value = "/api/getUser")
+    public RequestEntity<WrapperRegister> getUser(@RequestBody WrapperRegister wrapperRegister, HttpServletRequest httpServletRequest){
+
+
+        return new RequestEntity<WrapperRegister>(HttpMethod.POST, URI.create(httpServletRequest.getRequestURI()));
     }
 
     /*

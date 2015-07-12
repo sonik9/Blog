@@ -9,7 +9,8 @@
     <context-param>
         <param-name>contextConfigLocation</param-name>
         <param-value>
-            WEB-INF/spring/root-context.xml
+            WEB-INF/spring/root-context.xml,
+            WEB-INF/spring/web-security.xml
         </param-value>
     </context-param>
 
@@ -55,14 +56,14 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
-    <servlet>
+  <!--  <servlet>
         <servlet-name>blgUsersExporter</servlet-name>
         <servlet-class>org.springframework.web.context.support.HttpRequestHandlerServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>blgUsersExporter</servlet-name>
         <url-pattern>/blgUsersExporter</url-pattern>
-    </servlet-mapping>
+    </servlet-mapping>-->
 
     <!-- Processes application requests -->
     <servlet>
@@ -93,6 +94,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>restful</servlet-name>
+        <url-pattern>/rest/*</url-pattern>
+        <url-pattern>/rest</url-pattern>
         <url-pattern>/restful/*</url-pattern>
     </servlet-mapping>
 
@@ -103,9 +106,19 @@
 
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
-        <url-pattern>/restful/*</url-pattern>
+        <url-pattern>/*</url-pattern>
+        <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>
     </filter-mapping>
 
+    <!-- Encoding utility -->
+    <jsp-config>
+        <jsp-property-group>
+            <url-pattern>*.jspx</url-pattern>
+            <page-encoding>UTF-8</page-encoding>
+            <trim-directive-whitespaces>true</trim-directive-whitespaces>
+        </jsp-property-group>
+    </jsp-config>
 
 
 </web-app>

@@ -9,6 +9,6 @@ import java.util.List;
  * Created by Vitalii on 23.06.2015.
  */
 public interface BlgUserRepository extends CrudRepository<BlgUser, Integer> {
-    public List<BlgUser> findByusrLogin(String usrLogin);
+    public BlgUser findByUsrLogin(String usrLogin);
 
 }
