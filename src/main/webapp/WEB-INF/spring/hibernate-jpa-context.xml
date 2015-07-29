@@ -17,7 +17,7 @@
 			http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 			">
 
-    <!--<context:property-placeholder location="spring.properties"/>-->
+    <context:property-placeholder location="classpath:spring.properties"/>
     <!--<jdbc:embedded-database id="dataSource" type="H2">
         <jdbc:script location="classpath:h2config/schema.sql"/>
         <jdbc:script location="classpath:h2config/test-data.sql"/>
@@ -25,10 +25,10 @@
     <context:component-scan base-package="pl.upir.blog.service"/>
     <!-- TODO spring.properties-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource"
-          p:driverClassName="com.mysql.jdbc.Driver"
-          p:url="jdbc:mysql://localhost:3306/java_blog"
-          p:username="root"
-          p:password="password"/>
+          p:driverClassName="${app.jdbc.driverClassName}"
+          p:url="${app.jdbc.url}"
+          p:username="${app.jdbc.username}"
+          p:password="${app.jdbc.password}"/>
 
     <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="emf"/>

@@ -98,6 +98,7 @@
         <url-pattern>/restful/test</url-pattern>
         <url-pattern>/restful/api/signup</url-pattern>
         <url-pattern>/restful/api/currentuser</url-pattern>
+        <url-pattern>/restful/api/updatecurrentuser</url-pattern>
     </servlet-mapping>
 
     <filter>
