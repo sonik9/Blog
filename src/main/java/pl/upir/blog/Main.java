@@ -9,8 +9,6 @@ import pl.upir.blog.entity.BlgUserRole;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 
-import java.util.function.Consumer;
-
 /**
  * Created by Vitalii on 23.06.2015.
  */
