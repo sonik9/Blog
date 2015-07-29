@@ -57,7 +57,7 @@ public class BlgDicRole implements Serializable {
         result = 31 * result + (roleName != null ? roleName.hashCode() : 0);
         return result;
     }
-    @ManyToMany(mappedBy = "blgDicRoleSet", cascade = CascadeType.ALL)
+    @ManyToMany( mappedBy = "blgUserRoleSet", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<BlgUser> getBlgUserSet() {
         return blgUserSet;
     }

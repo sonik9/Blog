@@ -15,9 +15,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
 import pl.upir.blog.security.BlgUserSecurity;
+import pl.upir.blog.service.BlgDicRoleService;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.web.form.Message;
@@ -47,6 +49,8 @@ public class BlgSignController {
     private BlgUserDetailService blgUserDetailService;
     @Autowired
     private MessageSource messageSource;
+    @Autowired
+    private BlgDicRoleService blgDicRoleService;
 
     @RequestMapping
     public String signin(Model model) {
@@ -81,10 +85,12 @@ public class BlgSignController {
         }
         model.asMap().clear();
         redirectAttributes.addFlashAttribute("message", new Message("alert alert-success", "Well done!", messageSource.getMessage("save_success", new Object[]{}, locale)));
-
         //BCryptPasswordEncoder md5Encoder = new BCryptPasswordEncoder();
-
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+
+        BlgDicRole blgDicRole =blgDicRoleService.findById(2);
+        blgUser.getBlgUserRoleSet().add(blgDicRole);
+
         blgUser = blgUserService.save(blgUser);
         blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);
@@ -103,6 +109,9 @@ public class BlgSignController {
         BlgUserDetail blgUserDetail = wrapperRegister.getBlgUserDetail();
 
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+
+
+
         blgUser = blgUserService.save(blgUser);
         blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);

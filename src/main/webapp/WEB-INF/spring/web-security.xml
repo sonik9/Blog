@@ -23,11 +23,14 @@
         <security:http-basic/>
     </security:http>
 
-    <security:http pattern="/restful" create-session="stateless" use-expressions="false"
-                   entry-point-ref="oauthAuthEntryPoint" access-decision-manager-ref="accessDecisionManager">
+    <security:http pattern="/restful/**" use-expressions="true" create-session="never" entry-point-ref="oauthAuthEntryPoint"
+                   access-decision-manager-ref="accessDecisionManager" >
         <security:csrf disabled="true"/>
+        <security:intercept-url pattern="/restful/api/currentuser" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+        <security:intercept-url pattern="/restful/test" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+
+
         <security:anonymous enabled="false"/>
-        <security:intercept-url pattern="/restful" access="ROLE_ADMIN"/>
         <security:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER"/>
         <security:access-denied-handler ref="oauthAccessDeniedHandler"/>
         <security:http-basic/>
@@ -53,8 +56,11 @@
     <bean id="accessDecisionManager" class="org.springframework.security.access.vote.UnanimousBased">
         <constructor-arg>
             <list>
+                <bean class="org.springframework.security.web.access.expression.WebExpressionVoter"/>
                 <bean class="org.springframework.security.oauth2.provider.vote.ScopeVoter"/>
-                <bean class="org.springframework.security.access.vote.RoleVoter"/>
+                <bean class="org.springframework.security.access.vote.RoleVoter">
+                    <property name="rolePrefix" value=""/>
+                        </bean>
                 <bean class="org.springframework.security.access.vote.AuthenticatedVoter"/>
             </list>
         </constructor-arg>
@@ -83,14 +89,20 @@
 
     <!-- Client Definition-->
     <oauth:client-details-service id="clientDetails">
-        <oauth:client client-id="rest"
+        <oauth:client client-id="rest_user"
+                      authorized-grant-types="password,refresh_token,authorization_code,implicit"
+                      authorities="ROLE_USER"
+                      scope="read,write,trust"
+                      access-token-validity="600"
+                      refresh-token-validity="600"/>
+
+        <oauth:client client-id="rest_admin"
                       authorized-grant-types="password,refresh_token,authorization_code,implicit"
                       redirect-uri="/web"
                       authorities="ROLE_ADMIN"
                       scope="read,write,trust"
-                      access-token-validity="30"
+                      access-token-validity="600"
                       refresh-token-validity="600"/>
-
     </oauth:client-details-service>
 
     <!--Token management-->
@@ -98,7 +110,7 @@
                               user-approval-handler-ref="userApprovalHandler">
         <oauth:authorization-code/>
         <oauth:implicit/>
-        <oauth:refresh-token/>
+        <oauth:refresh-token />
         <oauth:client-credentials/>
         <oauth:password/>
     </oauth:authorization-server>
@@ -120,6 +132,7 @@
     <bean id="userApprovalHandler"
           class="org.springframework.security.oauth2.provider.approval.TokenServicesUserApprovalHandler">
         <property name="tokenServices" ref="tokenService"/>
+
     </bean>
 
 
@@ -130,8 +143,8 @@
                                      proxy-target-class="true">
         <security:expression-handler ref="oauthExpressionHandler"/>
     </security:global-method-security>
-    <oauth:expression-handler id="oauthExpressionHandler"/>
-    <oauth:web-expression-handler id="oauthWebExpressionHandler"/>
+    <oauth:expression-handler id="oauthExpressionHandler" />
+    <oauth:web-expression-handler id="oauthWebExpressionHandler" />
 
     <security:http pattern="public/**" security="none"/>
     <!--<security:http pattern="/sign/signout" authentication-manager-ref="authenticationManager">
@@ -153,7 +166,8 @@
 
         <security:intercept-url pattern="/sign/signout" access="permitAll()"/>
         <security:intercept-url pattern="/" access="permitAll"/>
-        <security:intercept-url pattern="\A/users.*\Z" access="hasRole('ADMIN')"/>
+        <!--<security:intercept-url pattern="\A/users.*\Z" access="hasRole('ADMIN')"/>-->
+        <security:intercept-url pattern="\A/users/detail.*\Z" access="hasRole('ROLE_USER')"/>
         <!--<security:intercept-url pattern="\A/rest.*\Z" access="hasRole('USER')"/>-->
         <security:intercept-url pattern="/j_spring_security_logout" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
         <security:anonymous enabled="true"/>

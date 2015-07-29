@@ -140,7 +140,7 @@ public class BlgUserDetail implements Serializable{
     }
 
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usr_id", insertable = false, updatable = false)
     private BlgUser getBlgUser() {
         return blgUser;

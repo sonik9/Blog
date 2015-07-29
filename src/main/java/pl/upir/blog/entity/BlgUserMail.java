@@ -80,7 +80,7 @@ public class BlgUserMail implements Serializable{
         return result;
     }
 
-    @ManyToOne()
+   /* @ManyToOne()
     @JoinColumn(name = "usr_id", insertable = false, updatable = false)
     private BlgUser getBlgUser() {
         return blgUser;
@@ -88,5 +88,5 @@ public class BlgUserMail implements Serializable{
 
     public void setBlgUser(BlgUser blgUser) {
         this.blgUser = blgUser;
-    }
+    }*/
 }

@@ -32,7 +32,7 @@ public class BlgUserSecurity extends BlgUser implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<SimpleGrantedAuthority> result = new ArrayList<SimpleGrantedAuthority>();
-        Set<BlgDicRole> blgDicRoleSet = this.getBlgDicRoleSet();
+        Set<BlgDicRole> blgDicRoleSet = this.getBlgUserRoleSet();
         for (BlgDicRole blgDicRole : blgDicRoleSet) {
           result.add(new SimpleGrantedAuthority(blgDicRole.getRoleName()));
         }

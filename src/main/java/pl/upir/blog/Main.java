@@ -34,7 +34,7 @@ public class Main {
                 "FirstName:"+blgUser.getGetBlgUserDetail().getUsrDetFirstname()+"\n"+
                 "LastName:"+blgUser.getGetBlgUserDetail().getUsrDetLastname()+"\n"+
                 "Role:");
-        for(BlgDicRole blgDicRole: blgUser.getBlgDicRoleSet()){
+        for(BlgDicRole blgDicRole: blgUser.getBlgUserRoleSet()){
             System.out.print(blgDicRole.getRoleName()+" ");
         }
 

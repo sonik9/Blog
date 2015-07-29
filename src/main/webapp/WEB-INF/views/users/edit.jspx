@@ -23,6 +23,8 @@
 
     <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
     <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
+    <spring:message code="label_blgUsers_firstName" var="labelUsersFirstName"/>
+    <spring:message code="label_blgUsers_lastName" var="labelUsersLastName"/>
     <spring:message code="label_blgUsers_timeChange" var="labelUsersTimeChange"/>
     <spring:message code="label_new" var="labelNew"/>
     <spring:message code="label_update" var="labelUpdate"/>
@@ -43,7 +45,7 @@
             </div>
         </div>
     </div>
-    <form:form modelAttribute="blgUser" id="userUpdateForm" method="post">
+    <form:form modelAttribute="blgUser" id="userUpdateForm" method="post" action="/users/save" methodParam="form">
         <div class="container">
 
 
@@ -59,27 +61,38 @@
                 <div id="no-more-tables-vertical">
 
                     <table class="col-md-12 table-bordered table-striped table-condensed cf">
-                        <tbody>
 
                         <tr>
+                            <td data-title="${labelUsersFirstName}"><form:input
+                                    path="getBlgUserDetail.usrDetFirstname"/><form:errors
+                                    path="getBlgUserDetail.usrDetFirstname" cssClass="error"/></td>
+                            <td data-title="${labelUsersLastName}"><form:input
+                                    path="getBlgUserDetail.usrDetLastname"/><form:errors
+                                    path="getBlgUserDetail.usrDetLastname" cssClass="error"/></td>
                             <td data-title="${labelUsersLogin}"><form:input path="usrLogin"/><form:errors
                                     path="usrLogin" cssClass="error"/></td>
                             <td data-title="${labelUsersPass}"><form:input path="usrPassword"/><form:errors
                                     path="usrPassword" cssClass="error"/></td>
-                            <!--<td data-title="${labelUsersTimeChange}"><form:input path="usrLogin"/><form:errors path="usrLogin" cssClass="error"/></td>-->
+
                         </tr>
-                        </tbody>
                     </table>
                 </div>
             </div>
 
-
+            <hr class="colorgraph"/>
+            <div class="row">
+                <div class="col-xs-12 col-md-6">
+                    <button type="submit" class="btn btn-primary btn-lg"><span
+                            class=""></span> Save
+                    </button>
+                    </div>
+                <div class="col-xs-12 col-md-6">
+                    <button type="reset" class="btn btn-primary btn-lg btn-info"><span
+                            class=""></span> Reset
+                    </button>
+                </div>
+            </div>
         </div>
-        <form:hidden path="usrId"/>
-
-        <div class="row">
-            <button type="submit" class="btn btn-primary btn-primary"><span class="glyphicon glyphicon-floppy-disk"></span> Save </button>
-            <button type="reset" class="btn btn-primary btn-info"><span class="glyphicon glyphicon-share-alt"></span> Reset </button>
-        </div>
+        <!--<form:hidden path="usrId"/>-->
     </form:form>
 </div>

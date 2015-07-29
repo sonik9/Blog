@@ -26,6 +26,7 @@ public class BlgUser implements Serializable {
     private Set<BlgUserMail> blgUserMailSet;
 
     private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
+    private BlgUserRole blgUserRole;
 
 
     @Id
@@ -54,7 +55,7 @@ public class BlgUser implements Serializable {
 
     @Basic
     @Column(name = "usr_password", nullable = false, insertable = true, updatable = true, length = 100)
-    //@Size(min = 4, max = 50, message = "{validation.usrpassword.Size.message}")
+    @Size(min = 4, message = "{validation.usrpassword.Size.message}")
     @NotEmpty(message = "{validation.usrpassword.NotEmpty.message}")
     public String getUsrPassword() {
         return usrPassword;
@@ -99,7 +100,7 @@ public class BlgUser implements Serializable {
         return result;
     }
 
-    @OneToOne(mappedBy = "blgUser")
+    @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL)
     public BlgUserDetail getGetBlgUserDetail() {
         return getBlgUserDetail;
     }
@@ -108,23 +109,38 @@ public class BlgUser implements Serializable {
         this.getBlgUserDetail = getBlgUserDetail;
     }
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true,mappedBy = "blgUser")
+    /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "blgUser")
     public Set<BlgUserMail> getBlgUserMailSet() {
         return blgUserMailSet;
     }
 
     public void setBlgUserMailSet(Set<BlgUserMail> blgUserMailSet) {
         this.blgUserMailSet = blgUserMailSet;
-    }
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    }*/
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     @JoinTable(name = "blg_user_role",
-               joinColumns = @JoinColumn(name = "usr_id"),
-               inverseJoinColumns = @JoinColumn(name = "role_id"))
-    public Set<BlgDicRole> getBlgDicRoleSet() {
+            joinColumns = {
+                    @JoinColumn(name = "usr_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "role_id")
+            })
+    public Set<BlgDicRole> getBlgUserRoleSet() {
         return blgDicRoleSet;
     }
 
-    public void setBlgDicRoleSet(Set<BlgDicRole> blgDicRoleSet) {
+    public void setBlgUserRoleSet(Set<BlgDicRole> blgDicRoleSet) {
         this.blgDicRoleSet = blgDicRoleSet;
     }
+
+   /* @OneToOne(mappedBy = "blgUser")
+    public BlgUserRole getBlgUserRole(){
+        return blgUserRole;
+    }
+
+    public void setBlgUserRole(BlgUserRole blgUserRole){
+        this.blgUserRole = blgUserRole;
+    }*/
+
 }

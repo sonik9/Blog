@@ -90,13 +90,14 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/spring/appServlet/restful-context.xml</param-value>
         </init-param>
-        <load-on-startup>1</load-on-startup>
+        <load-on-startup>2</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>restful</servlet-name>
-        <url-pattern>/rest/*</url-pattern>
-        <url-pattern>/rest</url-pattern>
-        <url-pattern>/restful/*</url-pattern>
+        <url-pattern>/rest/test</url-pattern>
+        <url-pattern>/restful/test</url-pattern>
+        <url-pattern>/restful/api/signup</url-pattern>
+        <url-pattern>/restful/api/currentuser</url-pattern>
     </servlet-mapping>
 
     <filter>
@@ -107,8 +108,17 @@
     <filter-mapping>
         <filter-name>springSecurityFilterChain</filter-name>
         <url-pattern>/*</url-pattern>
-        <dispatcher>ERROR</dispatcher>
-        <dispatcher>REQUEST</dispatcher>
+       <!-- <dispatcher>ERROR</dispatcher>
+        <dispatcher>REQUEST</dispatcher>-->
+    </filter-mapping>
+
+<filter>
+    <filter-name>CORSFilter</filter-name>
+    <filter-class>pl.upir.blog.web.filter.CORSFilter</filter-class>
+</filter>
+    <filter-mapping>
+        <filter-name>CORSFilter</filter-name>
+        <url-pattern>/restful/api/*</url-pattern>
     </filter-mapping>
 
     <!-- Encoding utility -->

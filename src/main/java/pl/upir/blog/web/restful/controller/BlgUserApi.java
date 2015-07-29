@@ -34,7 +34,12 @@ public class BlgUserApi {
     @Autowired
     BlgUserService blgUserService;
 
-    @RequestMapping(method = RequestMethod.GET)
+    @RequestMapping("/1")
+    public @ResponseBody String getStr(){
+        return "fuck";
+    }
+
+    @RequestMapping(value = "/test",method = RequestMethod.GET)
     public @ResponseBody
     WrapperUserDetailJson getUser(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse){
 

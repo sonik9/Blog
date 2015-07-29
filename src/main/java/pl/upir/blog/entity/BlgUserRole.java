@@ -13,14 +13,16 @@ import java.util.Set;
 public class BlgUserRole implements Serializable {
 
     @Id
+    private Integer id;
+    /*@Id
     @Column(name = "usr_role_id", nullable = false, insertable = false, updatable = false)
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int usrRoleId;
-
+*/
     private int usrId;
     private int roleId;
     //@ManyToMany(mappedBy = "blgUserRoleSet")
-    //private Set<BlgUser> blgUserSet = new HashSet<BlgUser>();
+    private BlgUser blgUser;
     //private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
 
 
@@ -45,13 +47,13 @@ public class BlgUserRole implements Serializable {
         this.roleId = roleId;
     }
 
-    public int getUsrRoleId() {
-        return usrRoleId;
-    }
-
-    public void setUsrRoleId(int usrRoleId) {
+    /*public void setUsrRoleId(int usrRoleId) {
         this.usrRoleId = usrRoleId;
     }
+
+    public int getUsrRoleId() {
+        return usrRoleId;
+    }*/
 
     @Override
     public boolean equals(Object o) {
@@ -74,13 +76,14 @@ public class BlgUserRole implements Serializable {
     }
 
 
-    /*@ManyToMany(mappedBy = "blgUserRoleSet")
-    public Set<BlgUser> getBlgUserSet() {
-        return blgUserSet;
+   /* @OneToOne
+    @JoinColumn(name = "usr_id", insertable = false, updatable = false)
+    public BlgUser getBlgUser() {
+        return blgUser;
     }
 
-    public void setBlgUserSet(Set<BlgUser> blgUserSet) {
-        this.blgUserSet = blgUserSet;
+    public void setBlgUser(BlgUser blgUser) {
+        this.blgUser = blgUser;
     }*/
 
 //    @ManyToMany(mappedBy = "roleName")

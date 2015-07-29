@@ -73,7 +73,7 @@
                             <span class="caret"/> </a>
                         <ul class="dropdown-menu" role="menu">
                             <!-- TODO i18n-->
-                            <li><a id="profileEdit" href="#">Edit profile</a></li>
+                            <li><a id="profileEdit" href="${usersUrl}/users/detail">Edit profile</a></li>
                             <li class="divider"></li>
                             <li><a id="signOut" href="${rootUrl}j_spring_security_logout">Sign Out</a></li>
                         </ul>

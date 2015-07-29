@@ -4,6 +4,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -86,11 +89,12 @@ public class BlgUserController {
         return "users/update";
     }
 
-    @RequestMapping(method = RequestMethod.POST, params = "form")
-    public String create(@Valid @ModelAttribute("blgUser") BlgUser blgUser, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest,
+    @RequestMapping(value = "/save",method = RequestMethod.POST)
+    public String create(@Valid @ModelAttribute("blgUser") BlgUser blgUser, BindingResult bindingUser,
+                         BlgUserDetail blgUserDetail, Model model, HttpServletRequest httpServletRequest,
                          RedirectAttributes redirectAttributes, Locale locale){
         logger.info("Create user");
-        if(bindingResult.hasErrors()){
+        if(bindingUser.hasErrors()){
             model.addAttribute("message",new Message("alert alert-danger","Oh snap!",messageSource.getMessage("save_fail", new Object[]{},locale)));
             model.addAttribute("blgUser",blgUser);
             return "users/create";
@@ -98,9 +102,17 @@ public class BlgUserController {
         model.asMap().clear();
         redirectAttributes.addFlashAttribute("message", new Message("alert alert-success","Well done!", messageSource.getMessage("save_success",new Object[]{},locale)));
         logger.info("User id:"+blgUser.getUsrId());
-        blgUserService.save(blgUser);
-        return "redirect:/users/"+blgUser.getUsrId();
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        blgUser.setUsrId(((BlgUser) principal).getUsrId());
+        blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+        blgUser = blgUserService.save(blgUser);
+        blgUserDetail=blgUser.getGetBlgUserDetail();
+        /*blgUserDetail.setUsrId(blgUser.getUsrId());
+        blgUserDetailService.save(blgUserDetail);*/
+
+        return "redirect:/";
     }
+
     @RequestMapping(method = RequestMethod.GET, params = "form")
     public String createForm(Model model){
         BlgUser blgUser = new BlgUser();
@@ -122,6 +134,15 @@ public class BlgUserController {
         redirectAttributes.addFlashAttribute("message", new Message("alert alert-success","Well done!", messageSource.getMessage("delete_success",new Object[]{},locale)));
         blgUserService.delete(blgUser);
         return "redirect:/users/";
+    }
+
+    @RequestMapping(value = "/detail", method = RequestMethod.GET)
+    public String showUserDetail(Model model){
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        ((BlgUser)principal).setUsrPassword("");
+        model.addAttribute("blgUser", ((BlgUser)principal));
+        model.addAttribute("blgUserDetail", ((BlgUser)principal).getGetBlgUserDetail());
+        return "users/update";
     }
 
 

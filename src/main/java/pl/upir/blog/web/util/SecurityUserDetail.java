@@ -22,14 +22,14 @@ public class SecurityUserDetail extends BlgUser implements UserDetails {
             this.setUsrLogin(blgUser.getUsrLogin());
             this.setUsrPassword(blgUser.getUsrPassword());
             this.setGetBlgUserDetail(blgUser.getGetBlgUserDetail());
-            this.setBlgDicRoleSet(blgUser.getBlgDicRoleSet());
+            this.setBlgUserRoleSet(blgUser.getBlgUserRoleSet());
         }
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<GrantedAuthority> authorities = new ArrayDeque<GrantedAuthority>();
-        Set<BlgDicRole> roles = this.getBlgDicRoleSet();
+        Set<BlgDicRole> roles = this.getBlgUserRoleSet();
         if(roles!=null){
             for(BlgDicRole blgDicRole:roles){
                 SimpleGrantedAuthority authority = new SimpleGrantedAuthority(blgDicRole.getRoleName());

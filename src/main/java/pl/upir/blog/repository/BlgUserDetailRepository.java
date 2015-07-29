@@ -2,6 +2,7 @@ package pl.upir.blog.repository;
 
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUserDetail;
 
 /**

@@ -22,6 +22,8 @@
        </bean>-->
 
     <mvc:annotation-driven  />
+
     <context:component-scan base-package="pl.upir.blog.web.restful.controller"/>
+
 
 </beans>
