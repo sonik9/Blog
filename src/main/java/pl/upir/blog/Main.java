@@ -5,7 +5,6 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
-import pl.upir.blog.entity.BlgUserRole;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 
@@ -29,12 +28,15 @@ public class Main {
         System.out.println("Login:"+blgUser.getUsrLogin()+"\n"+
                 "Password:"+blgUser.getUsrPassword()+"\n"+
                 "TimeChanged:"+blgUser.getUsrDateTimeChange()+"\n"+
-                "FirstName:"+blgUser.getGetBlgUserDetail().getUsrDetFirstname()+"\n"+
-                "LastName:"+blgUser.getGetBlgUserDetail().getUsrDetLastname()+"\n"+
+                "FirstName:"+blgUser.getBlgUserDetail().getUsrDetFirstname()+"\n"+
+                "LastName:"+blgUser.getBlgUserDetail().getUsrDetLastname()+"\n"+
                 "Role:");
         for(BlgDicRole blgDicRole: blgUser.getBlgUserRoleSet()){
             System.out.print(blgDicRole.getRoleName()+" ");
         }
+
+        //BlgUserDetail blgUserDetail = blgUserDetailService.findByUsrId(1);
+        //System.out.print(blgUserDetail.getUsrDetFirstname()+" "+blgUserDetail.getUsrDetLastname());
 
 
 

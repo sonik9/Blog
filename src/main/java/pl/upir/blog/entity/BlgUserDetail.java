@@ -1,5 +1,8 @@
 package pl.upir.blog.entity;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
@@ -12,7 +15,8 @@ import java.sql.Date;
 public class BlgUserDetail implements Serializable{
     private int usrDetId;
     private BlgUser blgUser;
-    private int usrId;
+
+    //private int usrId;
     private String usrDetFirstname;
     private String usrDetLastname;
     private Date usrDetBirthdate;
@@ -33,14 +37,16 @@ public class BlgUserDetail implements Serializable{
         this.usrDetId = usrDetId;
     }
 
-    @Basic
-    @Column(name = "usr_id", nullable = false, insertable = true, updatable = true)
-    public int getUsrId() {
-        return usrId;
+  /*  @GenericGenerator(name = "generator", strategy = "foreign", parameters = @Parameter(name = "property", value = "blgUser"))
+    @GeneratedValue(generator = "generator")*/
+    @OneToOne
+    @JoinColumn(name = "usr_id", nullable = false, insertable = true, updatable = true)
+    public BlgUser getBlgUser() {
+        return blgUser;
     }
 
-    public void setUsrId(int usrId) {
-        this.usrId = usrId;
+    public void setBlgUser(BlgUser blgUser) {
+        this.blgUser = blgUser;
     }
 
     @Basic
@@ -140,15 +146,6 @@ public class BlgUserDetail implements Serializable{
     }
 
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usr_id", insertable = false, updatable = false)
-    private BlgUser getBlgUser() {
-        return blgUser;
-    }
-
-    private void setBlgUser(BlgUser blgUser) {
-        this.blgUser = blgUser;
-    }
 
     @Override
     public String toString() {

@@ -64,14 +64,14 @@
 
                         <tr>
                             <td data-title="${labelUsersFirstName}"><form:input
-                                    path="getBlgUserDetail.usrDetFirstname"/><form:errors
-                                    path="getBlgUserDetail.usrDetFirstname" cssClass="error"/></td>
+                                    path="blgUserDetail.usrDetFirstname"/><form:errors
+                                    path="blgUserDetail.usrDetFirstname" cssClass="error"/></td>
                             <td data-title="${labelUsersLastName}"><form:input
-                                    path="getBlgUserDetail.usrDetLastname"/><form:errors
-                                    path="getBlgUserDetail.usrDetLastname" cssClass="error"/></td>
+                                    path="blgUserDetail.usrDetLastname"/><form:errors
+                                    path="blgUserDetail.usrDetLastname" cssClass="error"/></td>
                             <td data-title="${labelUsersLogin}"><form:input path="usrLogin"/><form:errors
                                     path="usrLogin" cssClass="error"/></td>
-                            <td data-title="${labelUsersPass}"><form:input path="usrPassword"/><form:errors
+                            <td data-title="${labelUsersPass}"><form:input type="password" path="usrPassword"/><form:errors
                                     path="usrPassword" cssClass="error"/></td>
 
                         </tr>

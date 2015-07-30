@@ -1,5 +1,6 @@
 package pl.upir.blog.service;
 
+import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
 
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  */
 public interface BlgUserDetailService {
     public BlgUserDetail findById(int id);
+    //public BlgUserDetail findByUsrId(BlgUser blgUser);
     public List<BlgUserDetail> findAll();
     public BlgUserDetail save(BlgUserDetail blgUsersDetail);
     public void delete(BlgUserDetail blgUsersDetail);

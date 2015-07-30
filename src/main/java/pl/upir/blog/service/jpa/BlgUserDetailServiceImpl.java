@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
 import pl.upir.blog.repository.BlgUserDetailRepository;
 import pl.upir.blog.service.BlgUserDetailService;
@@ -27,6 +28,12 @@ public class BlgUserDetailServiceImpl implements BlgUserDetailService {
     public BlgUserDetail findById(int id) {
         return blgUserDetailRepository.findOne(id);
     }
+
+    /*@Override
+    public BlgUserDetail findByUsrId(BlgUser blgUser) {
+        return blgUserDetailRepository.findByUsrId(blgUser);
+    }*/
+
 
     @Override
     public List<BlgUserDetail> findAll() {

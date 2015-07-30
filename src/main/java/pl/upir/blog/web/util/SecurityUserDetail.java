@@ -5,7 +5,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
-import pl.upir.blog.entity.BlgUserDetail;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -21,7 +20,7 @@ public class SecurityUserDetail extends BlgUser implements UserDetails {
             this.setUsrId(blgUser.getUsrId());
             this.setUsrLogin(blgUser.getUsrLogin());
             this.setUsrPassword(blgUser.getUsrPassword());
-            this.setGetBlgUserDetail(blgUser.getGetBlgUserDetail());
+            this.setBlgUserDetail(blgUser.getBlgUserDetail());
             this.setBlgUserRoleSet(blgUser.getBlgUserRoleSet());
         }
     }
@@ -41,7 +40,7 @@ public class SecurityUserDetail extends BlgUser implements UserDetails {
 
     public String getFirstname(){
 
-        return getGetBlgUserDetail().getUsrDetFirstname();
+        return getBlgUserDetail().getUsrDetFirstname();
     }
 
     @Override

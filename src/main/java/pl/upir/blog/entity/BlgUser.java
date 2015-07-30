@@ -1,10 +1,11 @@
 package pl.upir.blog.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PostAuthorize;
 
 import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -22,7 +23,7 @@ public class BlgUser implements Serializable {
     private String usrLogin;
     private String usrPassword;
     private Timestamp usrDateTimeChange;
-    private BlgUserDetail getBlgUserDetail;
+    private BlgUserDetail blgUserDetail;
     private Set<BlgUserMail> blgUserMailSet;
 
     private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
@@ -101,12 +102,12 @@ public class BlgUser implements Serializable {
     }
 
     @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL)
-    public BlgUserDetail getGetBlgUserDetail() {
-        return getBlgUserDetail;
+    public BlgUserDetail getBlgUserDetail() {
+        return blgUserDetail;
     }
 
-    public void setGetBlgUserDetail(BlgUserDetail getBlgUserDetail) {
-        this.getBlgUserDetail = getBlgUserDetail;
+    public void setBlgUserDetail(BlgUserDetail getBlgUserDetail) {
+        this.blgUserDetail = getBlgUserDetail;
     }
 
     /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "blgUser")
@@ -118,7 +119,7 @@ public class BlgUser implements Serializable {
         this.blgUserMailSet = blgUserMailSet;
     }*/
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "blg_user_role",
             joinColumns = {
                     @JoinColumn(name = "usr_id")

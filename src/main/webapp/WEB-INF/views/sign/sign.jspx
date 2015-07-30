@@ -110,7 +110,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
 
-                    <form id="userSignUpForm" method="post" action="/sign/signup">
+                    <form:form modelAttribute="blgUser" id="userSignUpForm" method="post" action="/sign/signup">
                         <div class="btn-group">
                             <a class="btn btn-facebook btn-lg" href="#"><span
                                     class="fa fa-facebook"> </span> Facebook</a>
@@ -122,35 +122,35 @@
                         </div>
                         <hr class="colorgraph"/>
                         <div class="form-group">
-                            <spring:bind path="blgUserDetail.usrDetFirstname">
+                            <!--<spring:bind path="blgUserDetail.usrDetFirstname">-->
                                 <form:input type="text" name="first_name" id="first_name"
                                             path="blgUserDetail.usrDetFirstname" class="form-control input-lg"
                                             placeholder="First Name" tabindex="1"/>
-                            </spring:bind>
+                            <!--</spring:bind>-->
                         </div>
                         <div class="form-group">
-                            <spring:bind path="blgUserDetail.usrDetLastname">
+                            <!--<spring:bind path="blgUserDetail.usrDetLastname">-->
                                 <form:input type="text" name="last_name" id="last_name"
                                             path="blgUserDetail.usrDetLastname" class="form-control input-lg"
                                             placeholder="Last Name" tabindex="2"/>
-                            </spring:bind>
+                            <!--</spring:bind>-->
                         </div>
 
                         <div class="form-group">
-                            <spring:bind path="blgUser.usrLogin">
-                                <form:input type="email" name="email" id="email" path="blgUser.usrLogin"
+                            <!--<spring:bind path="blgUser.usrLogin">-->
+                                <form:input type="email" name="email" id="email" path="usrLogin"
                                             class="form-control input-lg"
                                             placeholder="Email Address" tabindex="4"/>
-                            </spring:bind>
+                            <!--</spring:bind>-->
                         </div>
                         <div class="row">
                             <div class="col-xs-12 col-sm-6 col-md-6">
                                 <div class="form-group">
-                                    <spring:bind path="blgUser.usrPassword">
+                                    <!--<spring:bind path="blgUser.usrPassword">-->
                                         <form:input type="password" name="password" id="password"
-                                                    path="blgUser.usrPassword" class="form-control input-lg"
+                                                    path="usrPassword" class="form-control input-lg"
                                                     placeholder="Password" tabindex="5"/>
-                                    </spring:bind>
+                                    <!--</spring:bind>-->
                                 </div>
                             </div>
                             <div class="col-xs-12 col-sm-6 col-md-6">
@@ -187,7 +187,7 @@
                             </div>
                         </div>
                         <!--<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>-->
-                    </form>
+                    </form:form>
                 </div>
 
 

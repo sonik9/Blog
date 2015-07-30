@@ -9,11 +9,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
+import pl.upir.blog.service.BlgDicRoleService;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.wrapper.WrapperRegister;
@@ -38,6 +38,9 @@ public class BlgUsersApiRestController {
 
     @Autowired
     private BlgUserDetailService blgUserDetailService;
+
+    @Autowired
+    private BlgDicRoleService blgDicRoleService;
 
     @RequestMapping(method = RequestMethod.GET)
     public
@@ -65,12 +68,13 @@ public class BlgUsersApiRestController {
     @RequestMapping(value = "/api/signup", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<WrapperRegister> registerJson(@RequestBody WrapperRegister wrapperRegister) throws NoSuchAlgorithmException {
         BlgUser blgUser = wrapperRegister.getBlgUser();
-        BlgUserDetail blgUserDetail = wrapperRegister.getBlgUserDetail();
+        blgUser.setBlgUserDetail(wrapperRegister.getBlgUserDetail());
 
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
-        blgUser = blgUserService.save(blgUser);
-        blgUserDetail.setUsrId(blgUser.getUsrId());
-        blgUserDetailService.save(blgUserDetail);
+        BlgDicRole blgDicRole =blgDicRoleService.findById(2);
+        blgUser.getBlgUserRoleSet().add(blgDicRole);
+        blgUser.getBlgUserDetail().setBlgUser(blgUser);
+        blgUserService.save(blgUser);
         return new ResponseEntity<WrapperRegister>(wrapperRegister, HttpStatus.OK);
     }
 
@@ -85,8 +89,8 @@ public class BlgUsersApiRestController {
             // httpServletResponse.addHeader("ContentType","application/json");
 
             wrapperUserDetailJson.setLogin(blgUser.getUsrLogin());
-            wrapperUserDetailJson.setFirstname(blgUser.getGetBlgUserDetail().getUsrDetFirstname());
-            wrapperUserDetailJson.setLastname(blgUser.getGetBlgUserDetail().getUsrDetLastname());
+            wrapperUserDetailJson.setFirstname(blgUser.getBlgUserDetail().getUsrDetFirstname());
+            wrapperUserDetailJson.setLastname(blgUser.getBlgUserDetail().getUsrDetLastname());
         }
         return wrapperUserDetailJson;
     }
@@ -96,12 +100,22 @@ public class BlgUsersApiRestController {
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 
-
         BlgUser blgUser = wrapperRegister.getBlgUser();
-        blgUser.setUsrId(((BlgUser) principal).getUsrId());
+
+        BlgUser blgUserUpdate=blgUserService.findById(((BlgUser) principal).getUsrId());
+        blgUserUpdate.setUsrLogin(blgUser.getUsrLogin());
+        blgUserUpdate.getBlgUserDetail().setUsrDetFirstname(blgUser.getBlgUserDetail().getUsrDetFirstname());
+        blgUserUpdate.getBlgUserDetail().setUsrDetLastname(blgUser.getBlgUserDetail().getUsrDetLastname());
+        blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+        blgUserUpdate.setUsrPassword(blgUser.getUsrPassword());
+
+        blgUserService.save(blgUserUpdate);
+
+
+       /* blgUser.setUsrId(((BlgUser) principal).getUsrId());
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
         blgUser = blgUserService.save(blgUser);
-        BlgUserDetail blgUserDetail = wrapperRegister.getBlgUserDetail();
+        BlgUserDetail blgUserDetail = wrapperRegister.getBlgUserDetail();*/
 
         /*blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);*/

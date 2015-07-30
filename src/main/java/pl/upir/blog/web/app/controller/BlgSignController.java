@@ -90,10 +90,8 @@ public class BlgSignController {
 
         BlgDicRole blgDicRole =blgDicRoleService.findById(2);
         blgUser.getBlgUserRoleSet().add(blgDicRole);
-
-        blgUser = blgUserService.save(blgUser);
-        blgUserDetail.setUsrId(blgUser.getUsrId());
-        blgUserDetailService.save(blgUserDetail);
+        blgUser.getBlgUserDetail().setBlgUser(blgUser);
+        blgUserService.save(blgUser);
         return "redirect:/sign";
     }
 
@@ -113,7 +111,7 @@ public class BlgSignController {
 
 
         blgUser = blgUserService.save(blgUser);
-        blgUserDetail.setUsrId(blgUser.getUsrId());
+        //blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);
         return new ResponseEntity<WrapperRegister>(wrapperRegister, HttpStatus.OK);
     }

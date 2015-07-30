@@ -4,7 +4,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.stereotype.Controller;
@@ -20,7 +19,6 @@ import pl.upir.blog.entity.BlgUserDetail;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.web.form.Message;
-import pl.upir.blog.web.util.UrlUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -89,6 +87,7 @@ public class BlgUserController {
         return "users/update";
     }
 
+    /*Add or update*/
     @RequestMapping(value = "/save",method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("blgUser") BlgUser blgUser, BindingResult bindingUser,
                          BlgUserDetail blgUserDetail, Model model, HttpServletRequest httpServletRequest,
@@ -102,13 +101,17 @@ public class BlgUserController {
         model.asMap().clear();
         redirectAttributes.addFlashAttribute("message", new Message("alert alert-success","Well done!", messageSource.getMessage("save_success",new Object[]{},locale)));
         logger.info("User id:"+blgUser.getUsrId());
+
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        blgUser.setUsrId(((BlgUser) principal).getUsrId());
-        blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
-        blgUser = blgUserService.save(blgUser);
-        blgUserDetail=blgUser.getGetBlgUserDetail();
-        /*blgUserDetail.setUsrId(blgUser.getUsrId());
-        blgUserDetailService.save(blgUserDetail);*/
+        BlgUser blgUserUpdate=blgUserService.findById(((BlgUser) principal).getUsrId());
+
+        blgUserUpdate.setUsrLogin(blgUser.getUsrLogin());
+        blgUserUpdate.getBlgUserDetail().setUsrDetFirstname(blgUser.getBlgUserDetail().getUsrDetFirstname());
+        blgUserUpdate.getBlgUserDetail().setUsrDetLastname(blgUser.getBlgUserDetail().getUsrDetLastname());
+         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+        blgUserUpdate.setUsrPassword(blgUser.getUsrPassword());
+
+        blgUserService.save(blgUserUpdate);
 
         return "redirect:/";
     }
@@ -141,7 +144,7 @@ public class BlgUserController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         ((BlgUser)principal).setUsrPassword("");
         model.addAttribute("blgUser", ((BlgUser)principal));
-        model.addAttribute("blgUserDetail", ((BlgUser)principal).getGetBlgUserDetail());
+        model.addAttribute("blgUserDetail", ((BlgUser)principal).getBlgUserDetail());
         return "users/update";
     }
 
