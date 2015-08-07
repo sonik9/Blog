@@ -55,14 +55,14 @@
 
     <!-- Locale-->
     <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-                p:fallbackToSystemLocale="false"
-                p:defaultEncoding="UTF-8">
-        <beans:property name="basenames">
+                p:defaultEncoding="UTF-8"
+            p:basenames="classpath:messages,classpath:application">
+       <!-- <beans:property name="basenames">
             <beans:list>
                 <beans:value>classpath:/i18n/messages</beans:value>
                 <beans:value>classpath:/i18n/application</beans:value>
             </beans:list>
-        </beans:property>
+        </beans:property>-->
     </beans:bean>
     <!-- /WEB-INF/i18n/application,WEB-INF/i18n/messages   p:basenames="classpath:i18n/messages,classpath:i18n/application"-->
     <beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver"
