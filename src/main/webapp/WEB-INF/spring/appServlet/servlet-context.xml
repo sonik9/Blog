@@ -22,10 +22,10 @@
     <resources mapping="/resources/**" location="public/"/>
     <default-servlet-handler/>
     <!--  Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
-<!--    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
-        <beans:property name="prefix" value="/WEB-INF/views/"/>
-        <beans:property name="suffix" value=".jspx"/>
-    </beans:bean>-->
+    <!--    <beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+            <beans:property name="prefix" value="/WEB-INF/views/"/>
+            <beans:property name="suffix" value=".jspx"/>
+        </beans:bean>-->
     <!--<beans:import resource="../web-security.xml"/>-->
 
     <beans:bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
@@ -48,8 +48,6 @@
     </beans:bean>
 
 
-
-
     <interceptors>
         <beans:bean class="org.springframework.web.servlet.theme.ThemeChangeInterceptor"/>
         <beans:bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="lang"/>
@@ -57,8 +55,16 @@
 
     <!-- Locale-->
     <beans:bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-                p:fallbackToSystemLocale="false" p:basenames="classpath:messages,classpath:application" p:defaultEncoding="UTF-8"/>
-   <!-- /WEB-INF/i18n/application,WEB-INF/i18n/messages-->
+                p:fallbackToSystemLocale="false"
+                p:defaultEncoding="UTF-8">
+        <beans:property name="basenames">
+            <beans:list>
+                <beans:value>classpath:/i18n/messages</beans:value>
+                <beans:value>classpath:/i18n/application</beans:value>
+            </beans:list>
+        </beans:property>
+    </beans:bean>
+    <!-- /WEB-INF/i18n/application,WEB-INF/i18n/messages   p:basenames="classpath:i18n/messages,classpath:i18n/application"-->
     <beans:bean class="org.springframework.web.servlet.i18n.CookieLocaleResolver" id="localeResolver"
                 p:cookieName="locale" p:defaultLocale="en"/>
 
