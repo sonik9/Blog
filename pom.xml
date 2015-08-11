@@ -15,7 +15,7 @@
         <org.hibernate-version>3.6.1</org.hibernate-version>-->
     </properties>
     <!--Repositories hand add-->
-    <repositories>
+   <!-- <repositories>
         <repository>
             <id>glassfish-repository</id>
             <url>http://download.java.net/maven/glassfish</url>
@@ -23,7 +23,7 @@
                 <updatePolicy>never</updatePolicy>
             </snapshots>
         </repository>
-    </repositories>
+    </repositories>-->
 
     <dependencies>
         <!-- Spring -->
@@ -286,11 +286,11 @@
             <artifactId>spring-oxm</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
-        <dependency>
+       <!-- <dependency>
             <groupId>org.codehaus.jackson</groupId>
             <artifactId>jackson-mapper-asl</artifactId>
             <version>1.9.13</version>
-        </dependency>
+        </dependency>-->
         <dependency>
             <groupId>org.codehaus.castor</groupId>
             <artifactId>castor-xml</artifactId>
@@ -309,7 +309,7 @@
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
             <artifactId>httpclient</artifactId>
-            <version>4.4.1</version>
+            <version>4.5</version>
         </dependency>
         <!--Tiles tepmlates-->
         <dependency>
@@ -336,10 +336,16 @@
         </dependency>
 
 
+
     </dependencies>
 
     <build>
         <plugins>
+            <plugin>
+                <artifactId>tomcat7-maven-plugin</artifactId>
+                <groupId>org.apache.tomcat.maven</groupId>
+                <version>2.2</version>
+            </plugin>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
                 <version>2.9</version>
@@ -369,7 +375,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
-                <version>1.2.1</version>
+                <version>1.4.0</version>
                 <configuration>
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
