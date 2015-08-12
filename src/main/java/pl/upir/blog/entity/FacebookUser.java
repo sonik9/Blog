@@ -3,11 +3,13 @@ package pl.upir.blog.entity;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.io.Serializable;
+
 /**
  * Created by Vitalii on 11.08.2015.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FacebookUser {
+public class FacebookUser implements Serializable{
     public enum Gender {male,female};
    /* public static class Name {
         private String first, last;

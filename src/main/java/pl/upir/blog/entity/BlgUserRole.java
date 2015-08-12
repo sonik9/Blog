@@ -22,7 +22,7 @@ public class BlgUserRole implements Serializable {
     private int usrId;
     private int roleId;
     //@ManyToMany(mappedBy = "blgUserRoleSet")
-    private BlgUser blgUser;
+    //private BlgUser blgUser;
     //private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
 
 
