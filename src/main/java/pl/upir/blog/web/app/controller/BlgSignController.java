@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCrypt;
+import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -101,7 +102,7 @@ public class BlgSignController {
     public static String FACEBOOK_URL="https://www.facebook.com/dialog/oauth";
     public static String FACEBOOK_API_KEY="777058695740737";
     final public static String FACEBOOK_API_SECRET ="2e270ccbeb947b9596b5a9c8a63c17f2";
-    public static String FACEBOOK_URL_CALLBACK_REGISTRATION="http://localhost:8080/sign/facebook/register";
+    public static String FACEBOOK_URL_CALLBACK_REGISTRATION="http://46.101.231.222:8080/sign/facebook/register";
     final public static String FACEBOOK_URL_ACCESS_TOKEN = "https://graph.facebook.com/oauth/access_token";
     final public static String FACEBOOK_URL_ME = "https://graph.facebook.com/me";
     final public static String FACEBOOK_URL_ME_AVATAR="https://graph.facebook.com/me/picture";
