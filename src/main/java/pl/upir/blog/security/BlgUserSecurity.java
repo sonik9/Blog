@@ -7,10 +7,7 @@ import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserRole;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Vitalii on 01.07.2015.
@@ -22,22 +19,28 @@ public class BlgUserSecurity extends BlgUser implements UserDetails {
             this.setUsrId(blgUser.getUsrId());
             this.setUsrLogin(blgUser.getUsrLogin());
             this.setUsrPassword(blgUser.getUsrPassword());
+            this.setBlgUserDetail(blgUser.getBlgUserDetail());
+            this.setBlgUserRoleSet(blgUser.getBlgUserRoleSet());
         }
     }
-
-    public BlgUserSecurity() {
-
-    }
+    public BlgUserSecurity(){}
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<SimpleGrantedAuthority> result = new ArrayList<SimpleGrantedAuthority>();
-        Set<BlgDicRole> blgDicRoleSet = this.getBlgUserRoleSet();
-        for (BlgDicRole blgDicRole : blgDicRoleSet) {
-          result.add(new SimpleGrantedAuthority(blgDicRole.getRoleName()));
+        Collection<GrantedAuthority> authorities = new ArrayDeque<GrantedAuthority>();
+        Set<BlgDicRole> roles = this.getBlgUserRoleSet();
+        if(roles!=null){
+            for(BlgDicRole blgDicRole:roles){
+                SimpleGrantedAuthority authority = new SimpleGrantedAuthority(blgDicRole.getRoleName());
+                authorities.add(authority);
+            }
         }
-        return result;
+        return authorities;
     }
+
+
+
+
 
     @Override
     public String getPassword() {

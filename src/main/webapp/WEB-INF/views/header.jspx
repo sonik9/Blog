@@ -21,8 +21,13 @@
     <spring:message code="label_en_US" var="labelEnUs"/>
     <spring:message code="label_ru_RU" var="labelRuRu"/>
 
-    <sec:authentication var="principal" property="principal"/>
-
+    <sec:authorize access="isAuthenticated()">
+        <sec:authentication var="principal" property="principal"/>
+        <!--<sec:authentication property="firstname" var="firstname"/>
+        <sec:authentication property="lastname" var="lastname"/>-->
+        <c:set var="firstname" value="${principal.getBlgUserDetail().getUsrDetFirstname()}"/>
+        <c:set var="lastname" value="${principal.getBlgUserDetail().getUsrDetLastname()}"/>
+    </sec:authorize>
     <spring:url value="/" var="homeUrl"/>
     <spring:url value="/sign" var="showRegUrl"/>
 
@@ -61,6 +66,7 @@
                 </li>
                 <sec:authorize access="isAnonymous()">
                     <li>
+
                         <a id="accountSignInText" href="${showRegUrl}"
                            onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">Sign In</a>
                         <a style="display: none" id="accountSignUpText" href="#"
@@ -68,17 +74,32 @@
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
+                    <li>
+
+                    </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" id="user" href="">${principal.getBlgUserDetail().getUsrDetFirstname()}
-                            <span class="caret"/> </a>
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="user" style="padding-bottom: 0; padding-top: 10px;"
+                           href="">
+                            <c:choose>
+                                <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
+                                    <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
+                                         style="width:30px;height:30px" class="img-rounded"/>
+                                </c:when>
+                                <c:otherwise>
+                                    <img src="//placehold.it/30" style="width:30px;height:30px" class="img-rounded"/>
+                                </c:otherwise>
+                            </c:choose>
+                            <![CDATA[&nbsp;]]>
+                            ${principal.getBlgUserDetail().getUsrDetFirstname()}
+                            <span class="caret"/>
+                        </a>
                         <ul class="dropdown-menu" role="menu">
                             <!-- TODO i18n-->
-                            <li><a id="profileEdit" href="${usersUrl}/users/detail">Edit profile</a></li>
+                            <li><a id="profileEdit" href="${homeUrl}${firstname}.${lastname}">Show profile</a></li>
                             <li class="divider"></li>
-                            <li><a id="signOut" href="${rootUrl}j_spring_security_logout">Sign Out</a></li>
+                            <li><a id="signOut" href="${homeUrl}j_spring_security_logout">Sign Out</a></li>
                         </ul>
                     </li>
-
                 </sec:authorize>
             </ul>
 

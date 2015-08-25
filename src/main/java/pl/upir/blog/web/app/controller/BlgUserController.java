@@ -55,16 +55,16 @@ public class BlgUserController {
         logger.info("No. of users" + blgUserList.size());
         return "users/list";
     }
-
+/*
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String show(@PathVariable("id") int id, Model model) {
-        /*TODO log*/
+        *//*TODO log*//*
         logger.info("Listing users");
         BlgUser blgUser = blgUserService.findById(id);
         model.addAttribute("blgUser", blgUser);
         //logger.info("No. of users" + blgUser.size());
         return "users/show";
-    }
+    }*/
 
     @RequestMapping(value = "/{id}", method = RequestMethod.POST, params = "form")
     public String update(@Valid @ModelAttribute("blgUser") BlgUser blgUser, BindingResult bindingResult, Model model, HttpServletRequest httpServletRequest,
@@ -138,6 +138,9 @@ public class BlgUserController {
         blgUserService.delete(blgUser);
         return "redirect:/users/";
     }
+
+
+
 
     @RequestMapping(value = "/detail", method = RequestMethod.GET)
     public String showUserDetail(Model model){

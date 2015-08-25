@@ -9,31 +9,13 @@ import java.io.Serializable;
  * Created by Vitalii on 11.08.2015.
  */
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class FacebookUser implements Serializable{
+public class FacebookUser extends BlgUser implements Serializable{
     public enum Gender {male,female};
-   /* public static class Name {
-        private String first, last;
 
-        public String getFirst() {
-            return first;
-        }
-
-        public void setFirst(String first) {
-            this.first = first;
-        }
-
-        public String getLast() {
-            return last;
-        }
-
-        public void setLast(String last) {
-            this.last = last;
-        }
-    }*/
     @JsonProperty("id")
     private long id;
-    @JsonProperty("email")
-    private String email;
+    /*@JsonProperty("email")
+    private String email;*/
     @JsonProperty("gender")
     private Gender gender;
     //private Name name;
@@ -45,9 +27,9 @@ public class FacebookUser implements Serializable{
     private boolean isVerified;
     private byte[] userImage;
 //getters
-    public String getEmail() {
+    /*public String getEmail() {
         return email;
-    }
+    }*/
 
     public Gender getGender() {
         return gender;
@@ -66,9 +48,9 @@ public class FacebookUser implements Serializable{
         this.gender = gender;
     }
 //setters
-    public void setEmail(String email) {
+    /*public void setEmail(String email) {
         this.email = email;
-    }
+    }*/
 
 
     public void setIsVerified(boolean isVerified) {

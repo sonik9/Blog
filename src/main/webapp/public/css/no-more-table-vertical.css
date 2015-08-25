@@ -15,12 +15,12 @@
         left: -9999px;
     }
     #no-more-tables-vertical table{width: 60%}
-    #no-more-tables-vertical tr { border: 1px solid #ccc; }
+    /*#no-more-tables-vertical tr { border: 1px solid #ccc; }*/
 
     #no-more-tables-vertical td {
         /* Behave  like a "row" */
         border: none;
-        border-bottom: 1px solid #eee;
+        /*border-bottom: 1px solid #eee;*/
         position: relative;
         padding-left: 50%;
         white-space: normal;

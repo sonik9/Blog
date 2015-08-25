@@ -1,29 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
        xmlns:context="http://www.springframework.org/schema/context"
-             xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       xmlns:security="http://www.springframework.org/schema/security"
+       xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
              http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+             http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
 
-<!--<mvc:annotation-driven>
-       <mvc:message-converters>
-              <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
-              <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
-                     <property name="marshaller" ref="castorMarshaller"/>
-                     <property name="unmarshaller" ref="castorMarshaller"/>
-              </bean>
-       </mvc:message-converters>
-</mvc:annotation-driven>
-       <context:component-scan base-package="pl.upir.blog.web.restful.controller"/>
-       <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
-              <property name="mappingLocation" value="classpath:rest/oxm-mapping.xml"/>
-       </bean>-->
+    <!--<mvc:annotation-driven>
+           <mvc:message-converters>
+                  <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter"/>
+                  <bean class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                         <property name="marshaller" ref="castorMarshaller"/>
+                         <property name="unmarshaller" ref="castorMarshaller"/>
+                  </bean>
+           </mvc:message-converters>
+    </mvc:annotation-driven>
+           <context:component-scan base-package="pl.upir.blog.web.restful.controller"/>
+           <bean id="castorMarshaller" class="org.springframework.oxm.castor.CastorMarshaller">
+                  <property name="mappingLocation" value="classpath:rest/oxm-mapping.xml"/>
+           </bean>-->
 
-    <mvc:annotation-driven  />
+    <mvc:annotation-driven validator="validator"/>
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" proxy-target-class="true"/>
 
     <context:component-scan base-package="pl.upir.blog.web.restful.controller"/>
+
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="validationMessageSource" ref="messageSource"/>
+    </bean>
+
+    <!-- Locale-->
+    <bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
+          p:defaultEncoding="UTF-8"
+          p:basenames="classpath:messages">
+        <!-- <beans:property name="basenames">
+             <beans:list>
+                 <beans:value>classpath:/i18n/messages</beans:value>
+                 <beans:value>classpath:/i18n/application</beans:value>
+             </beans:list>
+         </beans:property>-->
+    </bean>
 
 
 </beans>

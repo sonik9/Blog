@@ -90,7 +90,10 @@
             <param-name>contextConfigLocation</param-name>
             <param-value>/WEB-INF/spring/appServlet/restful-context.xml</param-value>
         </init-param>
-        <load-on-startup>2</load-on-startup>
+        <load-on-startup>1</load-on-startup>
+        <multipart-config>
+            <max-file-size>2000000</max-file-size>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>restful</servlet-name>
@@ -119,6 +122,7 @@
 </filter>
     <filter-mapping>
         <filter-name>CORSFilter</filter-name>
+        <url-pattern>/oauth/token/*</url-pattern>
         <url-pattern>/restful/api/*</url-pattern>
     </filter-mapping>
 
@@ -130,6 +134,10 @@
             <trim-directive-whitespaces>true</trim-directive-whitespaces>
         </jsp-property-group>
     </jsp-config>
-
+    <!-- Mimetype needed for tomcat to serve favicon images -->
+    <mime-mapping>
+        <extension>png</extension>
+        <mime-type>image/x-icon</mime-type>
+    </mime-mapping>
 
 </web-app>

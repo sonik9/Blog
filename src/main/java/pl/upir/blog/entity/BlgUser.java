@@ -24,6 +24,7 @@ public class BlgUser implements Serializable {
     private String usrPassword;
     private Timestamp usrDateTimeChange;
     private BlgUserDetail blgUserDetail;
+    private BlgUserFacebook blgUserFacebook;
     private Set<BlgUserMail> blgUserMailSet;
 
     private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
@@ -101,13 +102,22 @@ public class BlgUser implements Serializable {
         return result;
     }
 
-    @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public BlgUserDetail getBlgUserDetail() {
         return blgUserDetail;
     }
 
     public void setBlgUserDetail(BlgUserDetail getBlgUserDetail) {
         this.blgUserDetail = getBlgUserDetail;
+    }
+
+    @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    public BlgUserFacebook getBlgUserFacebook() {
+        return blgUserFacebook;
+    }
+
+    public void setBlgUserFacebook(BlgUserFacebook blgUserFacebook) {
+        this.blgUserFacebook = blgUserFacebook;
     }
 
     /*@OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "blgUser")

@@ -3,27 +3,41 @@ package pl.upir.blog.web.restful.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.ui.Model;
+import org.springframework.util.MultiValueMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.upir.blog.entity.BlgDicRole;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.BlgUserDetail;
+import pl.upir.blog.entity.Gender;
 import pl.upir.blog.service.BlgDicRoleService;
 import pl.upir.blog.service.BlgUserDetailService;
 import pl.upir.blog.service.BlgUserService;
+import pl.upir.blog.web.form.Message;
+import pl.upir.blog.web.util.MD5Encoder;
 import pl.upir.blog.wrapper.WrapperRegister;
 import pl.upir.blog.wrapper.WrapperUserDetailJson;
+import pl.upir.blog.wrapper.WrapperUserDetailJsonValidator;
 
 
 import javax.naming.AuthenticationException;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
 
 /**
  * Created by Vitalii on 17.06.2015.
@@ -37,7 +51,8 @@ public class BlgUsersApiRestController {
     private BlgUserService blgUserService;
 
     @Autowired
-    private BlgUserDetailService blgUserDetailService;
+    private MessageSource messageSource;
+
 
     @Autowired
     private BlgDicRoleService blgDicRoleService;
@@ -71,7 +86,7 @@ public class BlgUsersApiRestController {
         blgUser.setBlgUserDetail(wrapperRegister.getBlgUserDetail());
 
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
-        BlgDicRole blgDicRole =blgDicRoleService.findById(2);
+        BlgDicRole blgDicRole = blgDicRoleService.findById(2);
         blgUser.getBlgUserRoleSet().add(blgDicRole);
         blgUser.getBlgUserDetail().setBlgUser(blgUser);
         blgUserService.save(blgUser);
@@ -80,7 +95,8 @@ public class BlgUsersApiRestController {
 
 
     @RequestMapping(value = "/api/currentuser", method = RequestMethod.POST)
-    public WrapperUserDetailJson getUser(Principal principal) throws AuthenticationException{
+    @PreAuthorize("isFullyAuthenticated()")
+    public WrapperUserDetailJson getUser(Principal principal) throws AuthenticationException {
         Authentication auth = (Authentication) principal;
         WrapperUserDetailJson wrapperUserDetailJson = new WrapperUserDetailJson();
         if (auth instanceof OAuth2Authentication) {
@@ -91,26 +107,38 @@ public class BlgUsersApiRestController {
             wrapperUserDetailJson.setLogin(blgUser.getUsrLogin());
             wrapperUserDetailJson.setFirstname(blgUser.getBlgUserDetail().getUsrDetFirstname());
             wrapperUserDetailJson.setLastname(blgUser.getBlgUserDetail().getUsrDetLastname());
+            wrapperUserDetailJson.setGender(blgUser.getBlgUserDetail().getUsrGender().getValue());
+            wrapperUserDetailJson.setPhotoLink(blgUser.getBlgUserDetail().getUsrPhotoLink());
         }
         return wrapperUserDetailJson;
     }
-    /*{"blgUser":{"usrLogin":"test@test","usrPassword":"test"},"blgUserDetail":{"usrDetFirstname":"test","usrDetLastname":"test"}}*/
+
+   /* @InitBinder
+    protected void initBinder(WebDataBinder binder) {
+        binder.setValidator(new WrapperUserDetailJsonValidator());
+    }*/
+    /*{"login":"test@test", "password":"test", "firstname":"test", "lastname":"test", "gender":"Female", "photoLink":"null"}*/
     @RequestMapping(value = "/api/updatecurrentuser", method = RequestMethod.POST)
-    public ResponseEntity<WrapperRegister> updateUser(@RequestBody WrapperRegister wrapperRegister) throws AuthenticationException{
+    @PreAuthorize("isFullyAuthenticated()")
+    @ResponseBody
+    public ResponseEntity updateUser( @Valid @RequestBody WrapperUserDetailJson wrapperUserDetailJson, BindingResult bindingResult, Map map) throws AuthenticationException {
+        /*Validation filed through Validator*/
+        //new WrapperUserDetailJsonValidator().validate(wrapperUserDetailJson,bindingResult);
+
+        if(bindingResult.hasErrors()){
+            return new  ResponseEntity(new Message("","Error",bindingResult.getAllErrors().toString()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-
-        BlgUser blgUser = wrapperRegister.getBlgUser();
-
-        BlgUser blgUserUpdate=blgUserService.findById(((BlgUser) principal).getUsrId());
-        blgUserUpdate.setUsrLogin(blgUser.getUsrLogin());
-        blgUserUpdate.getBlgUserDetail().setUsrDetFirstname(blgUser.getBlgUserDetail().getUsrDetFirstname());
-        blgUserUpdate.getBlgUserDetail().setUsrDetLastname(blgUser.getBlgUserDetail().getUsrDetLastname());
-        blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
-        blgUserUpdate.setUsrPassword(blgUser.getUsrPassword());
-
-        blgUserService.save(blgUserUpdate);
-
+        BlgUser blgUserUpdate = blgUserService.findById(((BlgUser) principal).getUsrId());
+        if (new MD5Encoder().matches(wrapperUserDetailJson.getPassword(), blgUserUpdate.getUsrPassword())) {
+            blgUserUpdate.setUsrLogin(wrapperUserDetailJson.getLogin());
+            blgUserUpdate.getBlgUserDetail().setUsrDetFirstname(wrapperUserDetailJson.getFirstname());
+            blgUserUpdate.getBlgUserDetail().setUsrDetLastname(wrapperUserDetailJson.getLastname());
+            blgUserUpdate.getBlgUserDetail().setUsrGender(Gender.valueOf(wrapperUserDetailJson.getGender()));
+            //blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
+            //blgUserUpdate.setUsrPassword(blgUser.getUsrPassword());
+            blgUserService.save(blgUserUpdate);
 
        /* blgUser.setUsrId(((BlgUser) principal).getUsrId());
         blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
@@ -119,7 +147,10 @@ public class BlgUsersApiRestController {
 
         /*blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);*/
-        return new ResponseEntity<WrapperRegister>(wrapperRegister, HttpStatus.OK);
+            return new ResponseEntity(wrapperUserDetailJson, HttpStatus.OK);
+        } else {
+            return new ResponseEntity("Wrong password", HttpStatus.FORBIDDEN);
+        }
     }
 
     /*

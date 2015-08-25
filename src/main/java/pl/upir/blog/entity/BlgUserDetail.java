@@ -23,6 +23,8 @@ public class BlgUserDetail implements Serializable{
     private int usrDetCountry;
     private int usrDetCity;
     private String usrDetAdres;
+    private String usrPhotoLink;
+    private Gender usrGender;
 
 
 
@@ -109,6 +111,25 @@ public class BlgUserDetail implements Serializable{
     public void setUsrDetAdres(String usrDetAdres) {
         this.usrDetAdres = usrDetAdres;
     }*/
+   @Basic
+   @Column(name = "usr_photo_link", nullable = true, insertable = true, updatable = true)
+    public String getUsrPhotoLink() {
+        return usrPhotoLink;
+    }
+
+    public void setUsrPhotoLink(String usrPhotoLink) {
+        this.usrPhotoLink = usrPhotoLink;
+    }
+
+    @Basic
+    @Column(name = "usr_gender", nullable = true, insertable = true, updatable = true, length = 7)
+    public Gender getUsrGender() {
+        return usrGender;
+    }
+
+    public void setUsrGender(Gender usrGender) {
+        this.usrGender = usrGender;
+    }
 
     @Override
     public boolean equals(Object o) {

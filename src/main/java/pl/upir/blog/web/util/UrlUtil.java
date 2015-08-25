@@ -130,5 +130,10 @@ public class UrlUtil {
         }
         return result;
     }
+
+    public static String sourcePathFile(HttpServletRequest request, String filePath){
+
+        return request.getScheme() + "://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath()+filePath;
+    }
 	
 }

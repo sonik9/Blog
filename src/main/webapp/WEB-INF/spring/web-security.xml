@@ -12,6 +12,14 @@
        http://www.springframework.org/schema/security/spring-security.xsd
        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
+                                     proxy-target-class="true">
+        <security:expression-handler ref="oauthExpressionHandler"/>
+    </security:global-method-security>
+    <oauth:expression-handler id="oauthExpressionHandler" />
+    <oauth:web-expression-handler id="oauthWebExpressionHandler" />
+
+
     <security:http pattern="/oauth/token" create-session="stateless" use-expressions="true"
                    authentication-manager-ref="clientAuthenticationManager">
         <security:csrf disabled="true"/>
@@ -75,17 +83,22 @@
         <constructor-arg ref="clientDetails"/>
     </bean>
 
+   <!-- <security:authentication-manager alias="customAuthenticationManager">
+        <security:authentication-provider ref="authenticationProvider"/>
+    </security:authentication-manager>
+    <bean id="authenticationProvider" class="pl.upir.blog.security.CustomAuthenticationProvider"/>-->
+
     <security:authentication-manager alias="authenticationManager">
-       <!-- <security:authentication-provider>
-            <security:user-service id="userDetailService">
-                <security:user name="admin" authorities="ROLE_ADMIN" password="admin" />
-            </security:user-service>
-        </security:authentication-provider>-->
+        <!-- <security:authentication-provider>
+             <security:user-service id="userDetailService">
+                 <security:user name="admin" authorities="ROLE_ADMIN" password="admin" />
+             </security:user-service>
+         </security:authentication-provider>-->
+        <!--<security:authentication-provider user-service-ref="blgUserSecurityService">-->
         <security:authentication-provider user-service-ref="blgUserSecurityService">
             <security:password-encoder ref="mD5Encoder"/>
         </security:authentication-provider>
     </security:authentication-manager>
-
 
     <!-- Client Definition-->
     <oauth:client-details-service id="clientDetails">
@@ -94,7 +107,7 @@
                       authorities="ROLE_USER"
                       scope="read,write,trust"
                       access-token-validity="600"
-                      refresh-token-validity="600"/>
+                      refresh-token-validity="#{12*60*60}"/>
 
         <oauth:client client-id="rest_admin"
                       authorized-grant-types="password,refresh_token,authorization_code,implicit"
@@ -102,7 +115,7 @@
                       authorities="ROLE_ADMIN"
                       scope="read,write,trust"
                       access-token-validity="600"
-                      refresh-token-validity="600"/>
+                      refresh-token-validity="#{12*60*60}"/>
     </oauth:client-details-service>
 
     <!--Token management-->
@@ -137,19 +150,7 @@
 
 
 
-
-
-    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled"
-                                     proxy-target-class="true">
-        <security:expression-handler ref="oauthExpressionHandler"/>
-    </security:global-method-security>
-    <oauth:expression-handler id="oauthExpressionHandler" />
-    <oauth:web-expression-handler id="oauthWebExpressionHandler" />
-
     <security:http pattern="public/**" security="none"/>
-    <!--<security:http pattern="/sign/signout" authentication-manager-ref="authenticationManager">
-        <security:logout logout-url="/sign/signout" delete-cookies="SESSION" invalidate-session="true" logout-success-url="/sign/signout?signout"/>
-    </security:http>-->
 
     <security:http auto-config="true" use-expressions="true" authentication-manager-ref="authenticationManager"
                    request-matcher="regex">
@@ -163,12 +164,10 @@
 
         <security:access-denied-handler error-page="/?error=access_denied"/>
         <security:intercept-url pattern="/sign" access="isAnonymous()"/>
-
         <security:intercept-url pattern="/sign/signout" access="permitAll()"/>
         <security:intercept-url pattern="/" access="permitAll"/>
-        <!--<security:intercept-url pattern="\A/users.*\Z" access="hasRole('ADMIN')"/>-->
-        <security:intercept-url pattern="\A/users/detail.*\Z" access="hasAnyRole('ROLE_ADMIN,ROLE_USER')"/>
-        <!--<security:intercept-url pattern="\A/rest.*\Z" access="hasRole('USER')"/>-->
+        <security:intercept-url pattern="\A/users.*\Z" access="hasRole('ADMIN')"/>
+        <security:intercept-url pattern="\A/users/detail.*\Z" access="hasAnyRole('ROLE_ADMIN')"/>
         <security:intercept-url pattern="/j_spring_security_logout" access="hasAnyRole('ROLE_USER','ROLE_ADMIN')"/>
         <security:anonymous enabled="true"/>
 

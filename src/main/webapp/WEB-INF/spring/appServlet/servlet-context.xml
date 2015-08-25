@@ -3,6 +3,7 @@
              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
              xmlns:beans="http://www.springframework.org/schema/beans"
              xmlns:context="http://www.springframework.org/schema/context"
+             xmlns:security="http://www.springframework.org/schema/security"
              xmlns:aop="http://www.springframework.org/schema/aop"
              xmlns:p="http://www.springframework.org/schema/p"
              xsi:schemaLocation="http://www.springframework.org/schema/mvc
@@ -11,13 +12,16 @@
              http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
              http://www.springframework.org/schema/context
              http://www.springframework.org/schema/context/spring-context-4.1.xsd
-             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd">
+             http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+             http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     <!--  DispatcherServlet Context: defines this servlet's request-processing infrastructure-->
-    <!--<aop:config proxy-target-class="true"/>-->
+    <aop:config proxy-target-class="true"/>
+    <security:global-method-security secured-annotations="enabled" pre-post-annotations="enabled" proxy-target-class="true"/>
     <!--  Enables the Spring MVC @Controller programming model -->
+    <context:property-placeholder location="classpath:spring.properties"/>
     <annotation-driven validator="validator"/>
     <context:component-scan base-package="pl.upir.blog.web.app.controller"/>
-    <context:component-scan base-package="pl.upir.blog.config"/>
+    <!--<context:component-scan base-package="pl.upir.blog.config"/>-->
     <!--  Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
     <resources mapping="/resources/**" location="public/"/>
     <default-servlet-handler/>
@@ -73,5 +77,8 @@
 
     <beans:bean class="org.springframework.web.servlet.theme.CookieThemeResolver" id="themeResolver"
                 p:cookieName="theme" p:defaultThemeName="standard"/>
+
+    <beans:bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver" p:maxUploadSize="2000000" />
 
 </beans:beans>

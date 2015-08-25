@@ -6,13 +6,14 @@
   <session-factory>
     <property name="connection.url">jdbc:mysql://localhost:3306/java_blog</property>
     <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-      <mapping class="pl.upir.blog.entity.BlgCity"/>
+    <mapping class="pl.upir.blog.entity.BlgCity"/>
       <mapping class="pl.upir.blog.entity.BlgCountry"/>
     <mapping class="pl.upir.blog.entity.BlgUser"/>
     <mapping class="pl.upir.blog.entity.BlgUserDetail"/>
     <mapping class="pl.upir.blog.entity.BlgUserMail"/>
     <mapping class="pl.upir.blog.entity.BlgDicRole"/>
     <mapping class="pl.upir.blog.entity.BlgUserRole"/>
+    <mapping class="pl.upir.blog.entity.BlgUserFacebook"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

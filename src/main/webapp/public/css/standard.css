@@ -2,6 +2,7 @@
 @import url("font-awesome/css/font-awesome.min.css");
 @import url("no-more-table.css");
 @import url("no-more-table-vertical.css");
+@import url("nprogress/nprogress.css");
 
 .btn-windows {background-color:#4099FF;color:#fff;}
 .btn-facebook {background-color:#3B5998;color:#fff;}
@@ -59,3 +60,125 @@ body {
     padding-bottom:40px;
     background-color:#ededed;
 }
+
+.user-details .user-info-block {width: 100%; position: absolute; top: 55px; background: rgb(255, 255, 255); z-index: 0; padding-top: 0px;}
+.user-info-block .user-heading {width: 100%; text-align: center; margin: 20px 0 0;}
+.user-info-block .navigation {float: left; width: 100%; padding: 0; list-style: none;}
+.navigation li {float: left; margin: 0; padding: 0; border-radius:6px}
+.navigation li a {padding: 20px 40px; float: left; background: #ededed;}
+.navigation li.active a {background: #428BCA; color: #fff;}
+.user-info-block .user-body {float: left; padding: 5%; width: 90%;}
+.user-body .tab-content > div {float: left; width: 100%;}
+.user-body .tab-content h4 {width: 100%; margin: 0px 0; color: #333;}
+
+
+.user-row {
+    margin-bottom: 14px;
+}
+
+.user-row:last-child {
+    margin-bottom: 0;
+}
+
+.dropdown-user {
+    margin: 13px 0;
+    padding: 5px;
+    height: 100%;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
+}
+
+.table-user-information > tbody > tr {
+    border-top: 1px solid rgb(221, 221, 221);
+}
+
+.table-user-information > tbody > tr:first-child {
+    border-top: 0;
+}
+
+
+.table-user-information > tbody > tr > td {
+    border-top: 0;
+}
+
+.table-user-information  tbody > tr > td:first-child {
+    font-weight: bold;
+    content: attr(data-title);
+}
+
+.toppad
+{margin-top:20px;
+}
+
+/*hide class for editable form*/
+.edit1{
+}
+.show1{
+}
+
+/*Upload profile photo*/
+#resizable { width: 150px; height: 150px; padding: 0; position:absolute ; border: 1px solid #ff151c; opacity: .5; background:white;}
+.ui-resizable-helper { border: 2px  #00F; z-index: 100000 !important;}
+
+
+.ui-resizable-handle {
+    position: absolute;
+    font-size: 0.1px;
+    z-index: 99999;
+    display: block;
+}
+.ui-resizable-disabled .ui-resizable-handle,
+.ui-resizable-autohide .ui-resizable-handle {
+    display: none;
+}
+.ui-resizable-n { /* верхняя граница */
+    cursor: n-resize;
+    /*display: none;*/
+}
+.ui-resizable-s { /* нижняя граница */
+    cursor: s-resize;
+    /*display: none;*/
+}
+.ui-resizable-e { /* правая граница */
+    cursor: e-resize;
+    display: block;
+}
+.ui-resizable-w { /* левая граница */
+    cursor: w-resize;
+    display: block;
+}
+.ui-resizable-se { /* правый нижний уголок */
+    cursor: se-resize;
+    width: 7px;
+    height: 7px;
+    right: 1px;
+    bottom: 1px;
+    background: blue; /* углам и границам можно задать любой фон */
+}
+.ui-resizable-sw { /* левый нижний уголок */
+    cursor: sw-resize;
+    width: 7px;
+    height: 7px;
+    left: 1px;
+    bottom: 1px;
+    background: blue;
+}
+.ui-resizable-nw { /* левый верхний уголок */
+    cursor: nw-resize;
+    width: 7px;
+    height: 7px;
+    left: 1px;
+    top: 1px;
+    background: blue;
+}
+.ui-resizable-ne { /* правый верхний уголок */
+    cursor: ne-resize;
+    width: 7px;
+    height: 7px;
+    right: 1px;
+    top: 1px;
+    background: blue;
+}
+
