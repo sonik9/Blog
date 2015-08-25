@@ -14,6 +14,8 @@ import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.ui.Model;
 import org.springframework.util.MultiValueMap;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import pl.upir.blog.entity.BlgDicRole;
@@ -36,6 +38,7 @@ import javax.validation.Valid;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -79,18 +82,33 @@ public class BlgUsersApiRestController {
     /*TODO Log & comments*/
 
     /*{"blgUser":{"usrLogin":"test@test","usrPassword":"test"},"blgUserDetail":{"usrDetFirstname":"test","usrDetLastname":"test"}}*/
-
     @RequestMapping(value = "/api/signup", method = RequestMethod.POST, consumes = "application/json")
-    public ResponseEntity<WrapperRegister> registerJson(@RequestBody WrapperRegister wrapperRegister) throws NoSuchAlgorithmException {
-        BlgUser blgUser = wrapperRegister.getBlgUser();
-        blgUser.setBlgUserDetail(wrapperRegister.getBlgUserDetail());
+    @ResponseBody
+    public ResponseEntity registerJson(@Valid @RequestBody WrapperUserDetailJson wrapperUserDetailJson, BindingResult bindingResult) throws NoSuchAlgorithmException {
 
-        blgUser.setUsrPassword(BCrypt.hashpw(blgUser.getUsrPassword(), BCrypt.gensalt()));
-        BlgDicRole blgDicRole = blgDicRoleService.findById(2);
-        blgUser.getBlgUserRoleSet().add(blgDicRole);
-        blgUser.getBlgUserDetail().setBlgUser(blgUser);
-        blgUserService.save(blgUser);
-        return new ResponseEntity<WrapperRegister>(wrapperRegister, HttpStatus.OK);
+        if(bindingResult.hasErrors()){
+            Map<String,Map<String,String>> mapError= new HashMap<>();
+            Map<String,String> map = new HashMap<>();
+            bindingResult.getFieldErrors().forEach(f -> map.put(f.getField(),f.getDefaultMessage()));
+            mapError.put("Error",map);
+            return new  ResponseEntity(mapError, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if(blgUserService.findByUsrLogin(wrapperUserDetailJson.getLogin())==null) {
+
+            BlgUser blgUser = new BlgUser();
+            blgUser.setUsrLogin(wrapperUserDetailJson.getLogin());
+            blgUser.setUsrPassword(BCrypt.hashpw(wrapperUserDetailJson.getPassword(), BCrypt.gensalt()));
+            BlgUserDetail blgUserDetail = new BlgUserDetail();
+            blgUser.setBlgUserDetail(blgUserDetail);
+            blgUser.getBlgUserDetail().setUsrDetFirstname(wrapperUserDetailJson.getFirstname());
+            blgUser.getBlgUserDetail().setUsrDetLastname(wrapperUserDetailJson.getLastname());
+            BlgDicRole blgDicRole = blgDicRoleService.findById(2);
+            blgUser.getBlgUserRoleSet().add(blgDicRole);
+            blgUser.getBlgUserDetail().setBlgUser(blgUser);
+            blgUserService.save(blgUser);
+            return new ResponseEntity(wrapperUserDetailJson, HttpStatus.OK);
+        }else return new ResponseEntity("Login: "+wrapperUserDetailJson.getLogin()+", is already exist!", HttpStatus.FORBIDDEN);
     }
 
 
@@ -121,7 +139,7 @@ public class BlgUsersApiRestController {
     @RequestMapping(value = "/api/updatecurrentuser", method = RequestMethod.POST)
     @PreAuthorize("isFullyAuthenticated()")
     @ResponseBody
-    public ResponseEntity updateUser( @Valid @RequestBody WrapperUserDetailJson wrapperUserDetailJson, BindingResult bindingResult, Map map) throws AuthenticationException {
+    public ResponseEntity updateUser( @Valid @RequestBody WrapperUserDetailJson wrapperUserDetailJson, BindingResult bindingResult) throws AuthenticationException {
         /*Validation filed through Validator*/
         //new WrapperUserDetailJsonValidator().validate(wrapperUserDetailJson,bindingResult);
 

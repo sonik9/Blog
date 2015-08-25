@@ -1,5 +1,6 @@
 package pl.upir.blog.wrapper;
 
+import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Autowired;
 import pl.upir.blog.entity.Gender;
@@ -33,6 +34,7 @@ public class WrapperUserDetailJson {
     private String photoLink;
 
     @NotEmpty(message = "Empty field")
+    @Email(message = "Email have pattern name@host.")
     public String getLogin() {
         return login;
     }
@@ -73,6 +75,9 @@ public class WrapperUserDetailJson {
         this.photoLink = usrPhotoLink;
     }
 
+    @NotEmpty
+    @NotNull
+    @Size(min = 4,max = 10)
     public String getPassword() {
         return password;
     }

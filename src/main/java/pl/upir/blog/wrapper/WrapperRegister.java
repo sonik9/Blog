@@ -6,9 +6,9 @@ import pl.upir.blog.entity.BlgUserDetail;
 /**
  * Created by Vitalii on 09.07.2015.
  */
-public class WrapperRegister {
+public class WrapperRegister extends BlgUser{
 
-    BlgUser blgUser;
+    /*BlgUser blgUser;
     BlgUserDetail blgUserDetail;
 
     public BlgUser getBlgUser() {
@@ -25,5 +25,5 @@ public class WrapperRegister {
 
     public void setBlgUserDetail(BlgUserDetail blgUserDetail) {
         this.blgUserDetail = blgUserDetail;
-    }
+    }*/
 }

@@ -179,7 +179,7 @@ public class BlgSignController {
         return "/sign_json";
     }
 
-    @RequestMapping(value = "/signup_json", method = RequestMethod.POST, consumes = "application/json")
+    /*@RequestMapping(value = "/signup_json", method = RequestMethod.POST, consumes = "application/json")
     public ResponseEntity<WrapperRegister> registerJson(@RequestBody WrapperRegister wrapperRegister) throws NoSuchAlgorithmException {
         //logger.info("Update user");
         BlgUser blgUser = wrapperRegister.getBlgUser();
@@ -193,7 +193,7 @@ public class BlgSignController {
         //blgUserDetail.setUsrId(blgUser.getUsrId());
         blgUserDetailService.save(blgUserDetail);
         return new ResponseEntity<WrapperRegister>(wrapperRegister, HttpStatus.OK);
-    }
+    }*/
 
 
 
