@@ -86,8 +86,7 @@
                     <li>
                         <a  href="${homeUrl}${firstname}.${lastname}/post/create"
                            style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
-                            <span class="fa fa-bold fa-2x"></span>
-                            posts
+                            <span class="fa fa-pencil-square fa-2x">
                         </a>
                     </li>
                 </ul>

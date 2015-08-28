@@ -37,6 +37,9 @@
     <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
     <script src="${jsNprogress}" type="text/javascript"><jsp:text/></script>
 
+    <spring:url value="${rootUrl}resources/js/tinymce/tinymce.min.js" var="jsEditor"/>
+    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js" type="text/javascript"><jsp:text/></script>
+
     <c:set var="userLocale">
         <c:set var="plocale">${pageContext.response.locale}</c:set>
         <c:out value="${fn:replace(plocale, '_','-' )}" default="en"/>
