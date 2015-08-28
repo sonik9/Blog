@@ -1,6 +1,8 @@
 package pl.upir.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
@@ -32,6 +34,7 @@ public class BlgUserFacebook  implements Serializable{
 
     private BlgUser blgUser;
 
+    @JsonManagedReference("fb")
     @OneToOne
     @JoinColumn(name = "usr_id", nullable = false, insertable = true, updatable = true)
     public BlgUser getBlgUser() {

@@ -35,7 +35,7 @@
                    access-decision-manager-ref="accessDecisionManager" >
         <security:csrf disabled="true"/>
         <security:intercept-url pattern="/restful/api/currentuser" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
-        <security:intercept-url pattern="/restful/test" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
+        <security:intercept-url pattern="/restful/api/*" access="hasAnyRole('ROLE_ADMIN', 'ROLE_USER')"/>
 
 
         <security:anonymous enabled="false"/>

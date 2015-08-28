@@ -68,23 +68,23 @@
             <div class="user-info-block">
                 <ul class="navigation">
                     <li class="active">
-                        <a data-toggle="tab" href="#information"
+                        <a  href="#information"
                            style="border-top-left-radius:6px;border-bottom-left-radius:6px;">
                             <span class="fa fa-user fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#settings">
+                        <a  href="#settings">
                             <span class="fa fa-cog fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#email">
+                        <a  href="#email">
                             <span class="fa fa-envelope fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a data-toggle="tab" href="#events"
+                        <a  href="${homeUrl}${firstname}.${lastname}/post/create"
                            style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
                             <span class="fa fa-bold fa-2x"></span>
                             posts
@@ -98,7 +98,7 @@
                     <div id="information" class="tab-pane active">
                         <form:form autocomplete="off" modelAttribute="blgUser" id="userUpdateForm" method="post"
                                    action="${homeUrl}${firstname}.${lastname}/save">
-                            <div class="panel panel-info">
+                            <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h2 class="panel-title">${labelUserInfo}</h2>
                                 </div>

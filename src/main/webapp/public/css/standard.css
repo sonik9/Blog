@@ -182,3 +182,23 @@ body {
     background: blue;
 }
 
+
+
+a,a:hover {
+    color:#223344;
+    text-decoration:none;
+}
+.panel {
+    border-color:transparent;
+    border-radius:0;
+}
+.txt-container {
+    overflow:hidden;
+    height:100px;
+}
+
+.panel .lead {
+    overflow:hidden;
+    height:90px;
+}
+

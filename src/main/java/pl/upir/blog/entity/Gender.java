@@ -4,7 +4,7 @@ package pl.upir.blog.entity;
  * Created by Vitalii on 12.08.2015.
  */
 public enum Gender {
-    Male("Мужской"),Female("Женский");
+    male("Мужской"),female("Женский");
 
     private final String rus;
 

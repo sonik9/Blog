@@ -14,6 +14,10 @@
     <mapping class="pl.upir.blog.entity.BlgDicRole"/>
     <mapping class="pl.upir.blog.entity.BlgUserRole"/>
     <mapping class="pl.upir.blog.entity.BlgUserFacebook"/>
+    <mapping class="pl.upir.blog.entity.BlgComment"/>
+    <mapping class="pl.upir.blog.entity.BlgDicTag"/>
+    <mapping class="pl.upir.blog.entity.BlgPost"/>
+    <mapping class="pl.upir.blog.entity.BlgPostCategories"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

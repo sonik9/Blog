@@ -1,5 +1,7 @@
 package pl.upir.blog.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -18,6 +20,7 @@ import java.util.Set;
 @Entity
 @Table(name = "blg_user", schema = "", catalog = "java_blog")
 public class BlgUser implements Serializable {
+    private static final long serialVersionUID=1L;
     private int usrId;
 
     private String usrLogin;
@@ -28,7 +31,9 @@ public class BlgUser implements Serializable {
     private Set<BlgUserMail> blgUserMailSet;
 
     private Set<BlgDicRole> blgDicRoleSet = new HashSet<BlgDicRole>();
-    private BlgUserRole blgUserRole;
+    //private BlgUserRole blgUserRole;
+
+    private Set<BlgPost> blgPostSet;
 
 
     @Id
@@ -101,7 +106,7 @@ public class BlgUser implements Serializable {
         result = 31 * result + (usrDateTimeChange != null ? usrDateTimeChange.hashCode() : 0);
         return result;
     }
-
+    @JsonBackReference(value = "detail")
     @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public BlgUserDetail getBlgUserDetail() {
         return blgUserDetail;
@@ -110,7 +115,8 @@ public class BlgUser implements Serializable {
     public void setBlgUserDetail(BlgUserDetail getBlgUserDetail) {
         this.blgUserDetail = getBlgUserDetail;
     }
-
+    //@JsonManagedReference(value="user")
+    @JsonBackReference(value = "fb")
     @OneToOne(mappedBy = "blgUser", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     public BlgUserFacebook getBlgUserFacebook() {
         return blgUserFacebook;
@@ -128,7 +134,7 @@ public class BlgUser implements Serializable {
     public void setBlgUserMailSet(Set<BlgUserMail> blgUserMailSet) {
         this.blgUserMailSet = blgUserMailSet;
     }*/
-
+    @JsonBackReference(value = "role")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "blg_user_role",
             joinColumns = {
@@ -145,13 +151,13 @@ public class BlgUser implements Serializable {
         this.blgDicRoleSet = blgDicRoleSet;
     }
 
-   /* @OneToOne(mappedBy = "blgUser")
-    public BlgUserRole getBlgUserRole(){
-        return blgUserRole;
+    @JsonManagedReference(value = "post")
+    @OneToMany(mappedBy = "blgUser")
+    public Set<BlgPost> getBlgPostSet() {
+        return blgPostSet;
     }
 
-    public void setBlgUserRole(BlgUserRole blgUserRole){
-        this.blgUserRole = blgUserRole;
-    }*/
-
+    public void setBlgPostSet(Set<BlgPost> blgPostSet) {
+        this.blgPostSet = blgPostSet;
+    }
 }

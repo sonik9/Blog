@@ -1,0 +1,151 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: Vitalii
+  Date: 28/08/2015
+  Time: 9:57 AM
+  To change this template use File | Settings | File Templates.
+-->
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:form="http://www.springframework.org/tags/form"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:sec="http://www.springframework.org/security/tags"
+     xmlns:spring="http://www.springframework.org/tags"
+     version="2.0">
+
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+    <spring:url value="/" var="homeUrl"/>
+    <spring:message code="label_blgUser_info" var="labelUserInfo"/>
+    <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
+    <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
+    <spring:message code="label_blgUsers_timeChange" var="labelUsersTimeChange"/>
+    <spring:message code="label_blgUsers_firstName" var="labelUsersFirstName"/>
+    <spring:message code="label_blgUsers_lastName" var="labelUsersLastName"/>
+
+
+    <div>
+            <c:set var="firstname" value="${principal.getBlgUserDetail().getUsrDetFirstname()}"/>
+            <c:set var="lastname" value="${principal.getBlgUserDetail().getUsrDetLastname()})"/>
+
+            <div id="masthead">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-7">
+                            <h1>${user.blgUserDetail.usrDetFirstname} ${user.blgUserDetail.usrDetLastname}
+                                <p class="lead">${labelUserInfo}</p>
+                            </h1>
+                        </div>
+                        <!--<form:form id="formFileUpload" method="post"
+                                      action="${homeUrl}${firstname}.${lastname}/uploadphoto" enctype="multipart/form-data">-->
+                        <div class="col-xs-5" style="top: 45px;">
+                            <c:choose>
+                                <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
+                                    <a href="#"><img name="userpic" alt="User Pic"
+                                                     src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
+                                                     style="width:200px;height:200px" class="img-rounded"></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#"> <img name="userpic" src="//placehold.it/200"
+                                                      style="width:200px;height:200px"
+                                                      class="img-rounded"/></a>
+                                </c:otherwise>
+                            </c:choose>
+                            <input type="file" name="image" id="image" style="display: none;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <!--TODO comments -->
+            <div class="container">
+
+                <c:if test="${not empty message}">
+                    <div class="${message.type}" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                aria-hidden="true">&amp;times</span></button>
+                        <strong>${message.firstWord}</strong> ${message.message}
+                    </div>
+                </c:if>
+
+                <div class="row">
+                    <div class="user-info-block">
+                        <ul class="navigation">
+                            <li >
+                                <a href="${homeUrl}${firstname}.${lastname}"
+                                   style="border-top-left-radius:6px;border-bottom-left-radius:6px;">
+                                    <span class="fa fa-user fa-2x"></span>
+                                </a>
+                            </li>
+                            <li >
+                                <a href="#settings">
+                                    <span class="fa fa-cog fa-2x"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#email">
+                                    <span class="fa fa-envelope fa-2x"></span>
+                                </a>
+                            </li>
+                            <li class="active">
+                                <a href="#events"
+                                   style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
+                                    <span class="fa fa-bold fa-2x"></span>
+                                    posts
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="user-body">
+                        <div class="tab-content">
+                            <div id="post" class="tab-pane active">
+                                <form:form autocomplete="off" modelAttribute="blgUser" id="userUpdateForm" method="post"
+                                           action="${homeUrl}${firstname}.${lastname}/save">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h2 class="panel-title">${labelUserInfo}</h2>
+                                        </div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <c:if test="${not empty test}">
+                                                    ${test}
+                                                </c:if>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="panel-footer">
+                                            <a data-original-title="Broadcast Message" data-toggle="tooltip"
+                                               type="button"
+                                               class="btn btn-sm btn-primary"><i
+                                                    class="glyphicon glyphicon-envelope"></i></a>
+                                        <span class="pull-right">
+                                            <a data-original-title="Edit this user" id="edit"
+                                               data-toggle="tooltip" type="button"
+                                               class="btn btn-primary btn-warning"><span
+                                                    class="fa fa-pencil"></span></a>
+                                            <button data-original-title="Edit this user" id="save"
+                                                    style="display: none;"
+                                                    data-toggle="tooltip" type="submit"
+                                                    class="btn btn-primary btn-success edit1"><span
+                                                    class="-floppy-o"></span>Save
+                                            </button>
+                                            <a data-original-title="Remove this user" data-toggle="tooltip"
+                                               style="display: none;"
+                                               type="button" class="btn btn-primary btn-danger edit1"><span
+                                                    class="fa fa-user-times"></span></a>
+                                        </span>
+                                        </div>
+                                    </div>
+                                </form:form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </c:if>
+    </div>
+</div>

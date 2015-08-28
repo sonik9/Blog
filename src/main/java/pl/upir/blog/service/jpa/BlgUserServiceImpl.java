@@ -48,7 +48,7 @@ public class BlgUserServiceImpl implements BlgUserService{
 
     @Override
     public BlgUser findByUsrLogin(String usrLogin) {
-        return blgUserRepository.findByUsrLogin(usrLogin);
+        return blgUserRepository.findByUsrLoginContains(usrLogin);
     }
 
     @Override

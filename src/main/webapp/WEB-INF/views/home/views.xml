@@ -7,7 +7,10 @@
     <definition extends="default" name="home">
         <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
     </definition>
-   <!-- <definition extends="default" name="home/me">
-        <put-attribute name="body" value="/WEB-INF/views/home/me.jspx"/>
-    </definition>-->
+    <definition extends="default" name="post/create">
+        <put-attribute name="body" value="/WEB-INF/views/home/post-creating.jspx"/>
+    </definition>
+    <definition extends="default" name="settings">
+        <put-attribute name="body" value="/WEB-INF/views/home/settings.jspx"/>
+    </definition>
 </tiles-definitions>

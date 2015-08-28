@@ -105,6 +105,7 @@
         <url-pattern>/restful/api/signup</url-pattern>
         <url-pattern>/restful/api/currentuser</url-pattern>
         <url-pattern>/restful/api/updatecurrentuser</url-pattern>
+        <url-pattern>/restful/api/post</url-pattern>
     </servlet-mapping>
 
     <filter>
