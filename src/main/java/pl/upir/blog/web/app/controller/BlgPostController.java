@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import pl.upir.blog.entity.BlgDicTag;
 import pl.upir.blog.entity.BlgPost;
 import pl.upir.blog.entity.BlgPostCategories;
+import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.service.BlgDicTagService;
 import pl.upir.blog.service.BlgPostCategoriesService;
 import pl.upir.blog.service.BlgPostService;

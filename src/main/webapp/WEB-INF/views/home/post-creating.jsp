@@ -124,7 +124,7 @@ To change this template use File | Settings | File Templates.
                                     <div class="row">
                                         <div class="form-group">
                                             <label for="category">${labelCategoryPost}</label>
-                                                <form:select cssClass="form-control" path="getBlgPostCategories().getPstCatName()"
+                                                <form:select cssClass="form-control" path="blgPostCategories.pstCatName"
                                                              items="${blgPostCatList}" id="category"/>
                                             <p class="help-block">${labelCategoryPostDesc}</p>
                                         </div>
