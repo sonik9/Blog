@@ -86,7 +86,7 @@ public class BlgUsersApiRestController {
     /*TODO Log & comments*/
 
     /*{"blgUser":{"usrLogin":"test@test","usrPassword":"test"},"blgUserDetail":{"usrDetFirstname":"test","usrDetLastname":"test"}}*/
-    @RequestMapping(value = "/signup", method = RequestMethod.POST, consumes = "application/json")
+    @RequestMapping(value = "/api/signup", method = RequestMethod.POST, consumes = "application/json")
     @ResponseBody
     public ResponseEntity registerJson(@Valid @RequestBody WrapperUserDetailJson wrapperUserDetailJson, BindingResult bindingResult) throws NoSuchAlgorithmException {
 
