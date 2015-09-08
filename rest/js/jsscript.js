@@ -1,15 +1,17 @@
 (function(){
 	// ---------------- general data----------------------------
 		//---------------------------- url for reqeust ---------------------------------
-	var url = 'http://46.101.231.222:8080';
+	var url = 'http://localhost:8080';
 	var urlAuth = url + '/oauth/token';			// ----------- receipt token -------------
 	var urlCurrentUser = url + '/restful/api/currentuser';	//---------- receipt info about current user -----------
 	var urlUpdateCurrentUser = url + '/restful/api/updatecurrentuser';	//--------- update info about current user -----------
 	var urlSignUp = url + '/restful/api/signup';	//--------------- sign up ---------------------------
+	var urlPost = url + '/restful/api/post';  //-------------------- post --------------------------
 
 	var dataReffreshToken = {};
 	var refreshToken;
 	var accessToken;
+	var currentUserLogin =  {};
 
 	function organizationDataReffreshToken(dataText){
 		dataReffreshToken.client_id = 'rest_user';
@@ -18,7 +20,7 @@
 		dataReffreshToken.refresh_token = refreshToken;
 	}
 	
-	function organizationAccessToken(dataText){
+	function organizationAccessTokenNewUser(dataText){
 		jQuery.ajax({
 			url: urlAuth,
 			dataType: 'json',
@@ -64,6 +66,9 @@
 			var helloMsg = 'Hello, ' + dataUser.firstname + ' ' + dataUser.lastname  + '! ' + '(' +  dataUser.login + ')';
 			jQuery('.login_user > span').text(helloMsg);
 			jQuery('.login_user').css({'visibility' : 'visible'});
+			for (var i in dataUser){
+				currentUserLogin[i] = dataUser[i];
+			}
 		}
 
 		function getCurrentUser(){
@@ -89,11 +94,11 @@
 			setCookie('is_user_login', refreshToken, 'secure');
 		}
 
+		var currentUser = {};
 		if (getCookie('is_user_login')){
-			var currentUser = {}
 			currentUser.refresh_token = getCookie('is_user_login');
 			organizationDataReffreshToken(currentUser);
-			organizationAccessToken(currentUser);
+			organizationAccessTokenNewUser(currentUser);
 		}
 
 		jQuery(document).on('click', '.wrap_button > input', function(){
@@ -111,7 +116,7 @@
 					if (data.status === 400 ){
 						alert('Incorrect login or password! Try again!');
 					}else if(data.status === 200){
-						organizationAccessToken(data);
+						organizationAccessTokenNewUser(data);
 						saveLoginStatus();
 					}
 				}
@@ -158,6 +163,7 @@
 		jQuery(document).on('click', '.new_customer_background, .new_account_btn_cancel', function(){
 			jQuery('.new_customer_background').hide();
 			jQuery('.new_customer').hide();
+			jQuery('.edit_current_user').hide();
 		});
 	
 		//------------------ ajax request for create customer -------------------------
@@ -233,6 +239,119 @@
 				});	
 			}
 			
+		});
+
+		//-------------------------- edit current user data--------------------------
+
+		var leftEditWindow = (jQuery(window).innerWidth() - parseInt(jQuery('.edit_current_user').css('width')))/2;
+		jQuery('.edit_current_user').css('left', leftEditWindow + 'px');
+
+		jQuery(document).on('click', '.edit_current_user_cancel', function(){
+			jQuery('.new_customer_background').hide();
+			jQuery('.edit_current_user').hide();
+		});
+		
+		jQuery(document).on('click', '.edit_user_data', function(e){
+			e.preventDefault();
+
+			jQuery('.edit_login > input').val(currentUserLogin.login);
+			jQuery('.edit_firstname > input').val(currentUserLogin.firstname);
+			jQuery('.edit_lastname > input').val(currentUserLogin.lastname);
+			jQuery('.edit_photolink > img').attr('src', currentUserLogin.photoLink);
+			jQuery('.edit_gender > select').val(currentUserLogin.gender);
+
+			jQuery('.edit_current_user').show();
+			jQuery('.new_customer_background').show();
+		});
+
+
+		function organizationAccessTokenForEditUser(dataText){
+			jQuery.ajax({
+				url: urlAuth,
+				dataType: 'json',
+				type: 'POST',
+				data: dataReffreshToken,
+				success: function(data, textStatus){
+					accessToken = data.access_token;
+				},
+				complete: function(){
+					editUserData(dataText);
+				}
+			});
+		}
+
+		function editUserData(editUser){
+			jQuery.ajax({
+				url: urlUpdateCurrentUser + '?access_token=' + accessToken,
+				dataType: 'json',
+				contentType: 'application/json; cherset=utf-8',
+				type: 'POST',
+				data: JSON.stringify(editUser),
+				success: function(data, textStatus){
+					displayUserInfo(data);
+					jQuery('.new_customer_background').hide();
+					jQuery('.edit_current_user').hide();
+				},
+				error: function(data){
+					alert(data.responseJSON.message);
+				}
+			});
+		}
+
+		jQuery(document).on('click', '.edit_current_user_submit > input', function(){
+			var editUser = {};
+			editUser.login = jQuery('.edit_login > input').val();
+			editUser.firstname = jQuery('.edit_firstname > input').val();
+			editUser.lastname = jQuery('.edit_lastname > input').val();
+			editUser.gender = jQuery('.edit_gender > select').val();
+			editUser.password = jQuery('.edit_apply_password > input').val();
+
+			currentUser.refresh_token = getCookie('is_user_login');
+
+			organizationDataReffreshToken(currentUser);
+			organizationAccessTokenForEditUser(editUser);
+
+		});
+
+		//------------------ show posts -------------------------------
+		function createPost(post){
+			
+			function smallDescr(elem){
+				var smallDescr = [];
+				var allDescr = jQuery(elem).text().split(' ');	
+				for (var i=0; i<70; i+=1){
+					smallDescr.push(allDescr[i]);
+				}
+
+				return smallDescr.join(' ');
+			}
+
+			jQuery(post).each(function(){
+				var newPostTitle = jQuery('<div class="post_title"></div>').text(this.pstTitle);
+				var newPostImg = jQuery('<img class="post_image">').attr('src', this.pstTitle);
+				//var newPostDescription = jQuery('<div class="post_descr"></div>').append(jQuery.parseHTML(this.pstDocument));
+				var textsmallDecsr = smallDescr(jQuery.parseHTML(this.pstDocument));
+				var newPostDescription = jQuery('<div class="post_descr"></div>').text(textsmallDecsr);
+				var newPostFirstName = jQuery('<div class="post_firstname"></div>').text('Posted by: ' + this.firstname);
+				var newPostLastName = jQuery('<div class="post_lastname"></div>').text(this.lastname);
+
+				var newWrapPost = jQuery('<div class="wrap_one_post"></div>');
+				newWrapPost.append(newPostTitle).append(newPostDescription).append(newPostFirstName).append(newPostLastName);
+
+				jQuery('.wrap_post').append(newWrapPost);	
+			});
+		}
+
+		jQuery.ajax({
+			url: urlPost + '?rows=99&page=0',
+			dataType: 'json',
+			type: 'GET',
+			success: function(data, dataText){
+				createPost(data);
+			},
+			error: function(data, dataText){
+				
+			}
 		});
 
 })();

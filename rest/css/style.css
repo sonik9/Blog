@@ -73,7 +73,6 @@ body{
 
 .body_wrap{
 	width: 900px;
-	height: 100%;
 	display: block;
 	margin: 0 auto;
 }
@@ -311,6 +310,7 @@ body{
 }
 
 .edit_current_user{
+  display: none;
   z-index: 10001;
   position: fixed;
   top: 100px;
@@ -318,5 +318,131 @@ body{
   width: 900px;
   height: 300px;
   border: 1px solid #000000;
-  background-color: #636363;
+  background-color: #ffffff;
 }
+
+.edit_user_title{
+  height: 35px;
+  text-align: center;
+  text-transform: uppercase;
+  line-height: 35px;
+}
+
+.edit_photolink > img{
+  width: 120px;
+  margin-left: 160px;
+}
+
+.edit_photolink > span{
+  display: block;
+}
+
+.edit_photolink > input{
+  display:block;
+  margin-top: 10px;
+  height: 30px;
+  margin-left: 160px;
+  width: 120px;
+}
+
+.edit_data{
+  width: 49%;
+  float: left;
+  margin-top: 20px;
+  border: 1px solid grey;
+  height: 200px;
+  margin-left: 5px;
+}
+
+.edit_photolink{
+  width: 49%;
+  float: right;
+  margin-top: 20px;
+  border: 1px solid grey;
+  height: 200px;
+  margin-right: 5px;
+}
+
+.edit_firstname, .edit_lastname, .edit_login, .edit_gender{
+  margin-top: 10px;
+  display: inline-block;
+  width: 100%;
+}
+
+.edit_login > span, .edit_firstname > span, .edit_lastname > span, .edit_apply_password > span, .edit_gender > span{
+  text-transform: uppercase;
+  margin-left: 10px;
+  float: left;
+}
+
+.edit_login > input, .edit_firstname > input, .edit_lastname > input, .edit_apply_password > input, .edit_gender > select{
+  margin-right: 55px;
+  float: right;
+}
+
+.edit_gender > select{
+  width: 173px;
+}
+
+.edit_apply_password{
+  padding-top: 10px;
+  border-top: 1px solid gray;
+  margin-top: 10px;
+}
+
+.edit_current_user_submit > input{
+  margin-left: 10px;
+  margin-top: 7px;
+  width: 340px;
+  height: 25px;
+}
+
+.edit_current_user_cancel > input{    
+  margin-top: 5px;
+  margin-left: 350px;
+  width: 200px;
+  height: 33px;
+}
+
+.edit_photolink > span{
+  text-align: center;
+  text-transform: uppercase;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.wrap_one_post{
+  margin-top: 20px;
+  border-bottom: 1px solid grey;
+  margin-bottom: 10px;
+}
+
+.wrap_one_post > .post_title{
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 23px;
+  font-weight: bold;
+}
+
+.wrap_one_post .post_image{
+  width: 400px;
+  margin: 0 auto;
+  display: block;
+  margin-top: 20px;
+}
+
+.wrap_one_post .post_descr{
+  margin-top: 10px;
+}
+
+.post_firstname{
+  margin-top: 10px;
+  display: inline-block;
+}
+
+.post_lastname{
+  margin-top: 10px;
+  display: inline-block;
+  margin-left: 5px;
+}
+

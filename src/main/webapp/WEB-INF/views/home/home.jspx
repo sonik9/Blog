@@ -70,7 +70,7 @@
                                                          style="width:70px;height:70px" class="img-rounded"/>
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="//placehold.it/70" style="width:30px;height:30px" class="img-rounded"/>
+                                                    <img src="//placehold.it/70" style="width:70px;height:70px" class="img-rounded"/>
                                                 </c:otherwise>
                                             </c:choose>
                                         </a>
