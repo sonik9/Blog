@@ -336,7 +336,7 @@
 				var newPostLastName = jQuery('<div class="post_lastname"></div>').text(this.lastname);
 
 				var newWrapPost = jQuery('<div class="wrap_one_post"></div>');
-				newWrapPost.append(newPostTitle).append(newPostDescription).append(newPostFirstName).append(newPostLastName);
+				newWrapPost.append(newPostTitle).append(newPostImg).append(newPostDescription).append(newPostFirstName).append(newPostLastName);
 
 				jQuery('.wrap_post').append(newWrapPost);	
 			});
