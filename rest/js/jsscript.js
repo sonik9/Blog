@@ -1,7 +1,7 @@
 (function(){
 	// ---------------- general data----------------------------
 		//---------------------------- url for reqeust ---------------------------------
-	var url = 'http://localhost:8080';
+	var url = 'http://46.101.231.222:8080';
 	var urlAuth = url + '/oauth/token';			// ----------- receipt token -------------
 	var urlCurrentUser = url + '/restful/api/currentuser';	//---------- receipt info about current user -----------
 	var urlUpdateCurrentUser = url + '/restful/api/updatecurrentuser';	//--------- update info about current user -----------
@@ -336,7 +336,7 @@
 				var newPostLastName = jQuery('<div class="post_lastname"></div>').text(this.lastname);
 
 				var newWrapPost = jQuery('<div class="wrap_one_post"></div>');
-				newWrapPost.append(newPostTitle).append(newPostImg).append(newPostDescription).append(newPostFirstName).append(newPostLastName);
+				newWrapPost.append(newPostTitle).append(newPostDescription).append(newPostFirstName).append(newPostLastName);
 
 				jQuery('.wrap_post').append(newWrapPost);	
 			});
