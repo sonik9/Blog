@@ -21,6 +21,7 @@ To change this template use File | Settings | File Templates.
     <spring:message code="label_blgUsers_firstName" var="labelUsersFirstName"/>
     <spring:message code="label_blgUsers_lastName" var="labelUsersLastName"/>
     <spring:message code="labele_blgPost_postCreate" var="labelPostCreate"/>
+    <spring:message code="labele_blgPost_post" var="labelPost"/>
 
     <spring:message code="labele_blgPost_postCategory" var="labelCategoryPost"/>
     <spring:message code="labele_blgPost_postCategoryDesc" var="labelCategoryPostDesc"/>
@@ -46,27 +47,11 @@ To change this template use File | Settings | File Templates.
         <div class="container">
             <div class="row">
                 <div class="col-xs-7">
-                    <h1>${firstname} <![CDATA[&nbsp;]]> ${lastname}
+                    <h1>${labelPost}
                         <p class="lead">${labelPostCreate}</p>
                     </h1>
                 </div>
-                <div class="col-xs-5" style="top: 45px;">
-                    <c:choose>
-                        <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
-                            <a href="#">
-                                <img name="userpic" alt="User Pic"
-                                     src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
-                                     style="width:200px;height:200px" class="img-rounded"/>
-                            </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a href="#"> <img name="userpic" src="//placehold.it/200"
-                                              style="width:200px;height:200px"
-                                              class="img-rounded"/></a>
-                        </c:otherwise>
-                    </c:choose>
-                    <input type="file" name="image" id="image" style="display: none;"/>
-                </div>
+
             </div>
         </div>
     </div>
@@ -84,98 +69,94 @@ To change this template use File | Settings | File Templates.
         </c:if>
 
         <div class="row">
-            <div class="user-info-block">
-                <ul class="navigation">
-                    <li>
-                        <a href="${homeUrl}${firstname}.${lastname}"
-                           style="border-top-left-radius:6px;border-bottom-left-radius:6px;">
-                            <span class="fa fa-user fa-2x"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#settings">
-                            <span class="fa fa-cog fa-2x"></span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#email">
-                            <span class="fa fa-envelope fa-2x"></span>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="#events"
-                           style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
-                            <span class="fa fa-pencil-square fa-2x"></span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="user-body">
-                <div class="tab-content">
-                    <div id="post" class="tab-pane active">
-                        <form:form autocomplete="off" commandName="blgPost" method="post"
-                                   action="">
-                            <div class="panel panel-default">
-                                <div class="panel-heading">
-                                    <h2 class="panel-title">${labelPostCreate}</h2>
-                                </div>
-                                <div class="panel-body">
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label for="category">${labelCategoryPost}</label>
-                                                <form:select cssClass="form-control" path="blgPostCategories.pstCatName"
-                                                             items="${blgPostCatList}" id="category"/>
-                                            <p class="help-block">${labelCategoryPostDesc}</p>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="title">${labelTitlePost}</label>
-                                            <input class="form-control" type="text" id="title" style="width: 100%;"/>
-
-                                            <p class="help-block">${labelTitlePostDesc}</p>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="file">${labelImagePost}</label>
-                                            <input class="form-control" type="file" id="file" style="width: 100%;"/>
-
-                                            <p class="help-block">${labelImegePostDesc}</p>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="content">${labelTextPost}</label>
-                                            <textarea id="content" name="content" style="width:100%; height: 100%;"
-                                                      placeholder="Describe yourself here...">
-                                            &nbsp;
-                                            </textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <label for="tag">${labelTitlePost}</label>
-                                            <input class="form-control" type="tag" id="tag" style="width: 100%;"/>
-
-                                            <p class="help-block">${labelTagPostDesc}</p>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="panel-footer">
-                                    <a data-original-title="Broadcast Message" data-toggle="tooltip"
-                                       type="button"
-                                       class="btn btn-sm btn-primary">
-                                        <span class="glyphicon glyphicon-envelope"></span>
-                                    </a>
-                                </div>
+            <div id="post" class="tab-pane active">
+                <form:form autocomplete="off" commandName="blgPost" method="post"
+                           action="${homeUrl}${firstname}.${lastname}/post/create" enctype="multipart/form-data">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h2 class="panel-title">${labelPostCreate}</h2>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="form-group">
+                                <label for="category">${labelCategoryPost}<span style="color: red;">*</span></label>
+                                <form:select cssClass="form-control" path="blgDicCategorySet" id="category" multiple="false">
+                                    <c:forEach items="${blgPostCatList}" var="listCat">
+                                        <form:option value="${listCat.dicCatName}"/>
+                                    </c:forEach>
+                                </form:select>
+                                <p class="help-block">${labelCategoryPostDesc}</p>
                             </div>
-                        </form:form>
+
+                            <div class="form-group">
+                                <label for="title">${labelTitlePost}<span
+                                        style="color: red;">*</span></label>
+                                <form:input value="TitleBlogPost" path="pstTitle" cssClass="form-control"
+                                            type="text" id="title" style="width: 100%;"/>
+                                <form:errors path="pstTitle"/>
+                                <p class="help-block">${labelTitlePostDesc}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="titleImageFile">${labelImagePost}<span
+                                        style="color: red;">*</span></label>
+                                <form:input path="file" cssClass="form-control" type="file"
+                                            id="titleImageFile"  style="width: 100%;"/>
+                                <form:errors path="pstTitleImage"/>
+
+                                <p class="help-block">${labelImegePostDesc}</p>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="content">${labelTextPost}<span
+                                        style="color: red;">*</span></label>
+                                <form:textarea path="pstDocument" id="content" name="content"
+                                               style="width:100%; height: 100%;"
+                                               value="text"></form:textarea>
+                            </div>
+                            <for class="form-group">
+                                <label for="listTag">${labelTagPost}<span
+                                        style="color: red;">*</span></label>
+                                <form:select path="blgDicTagSet" items="${tagCache}" itemLabel="dicTagName" name="dicTagName" itemValue="dicTagName" id="listTag" cssClass="form-control" multiple="true">
+                                    <%--<input  type="hidden" value="${tagCache.dicTagName}"/>--%>
+                                    <%--<c:forEach items="${blgPostTagList}" var="listTag">
+                                        <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}"/>
+                                    </c:forEach>--%>
+                                    <%--<form:options items="${blgPostTagList}" itemLabel="${blgPostTagList.dicTagName}" itemValue="${blgPostTagList.dicTagId}"/>--%>
+                                </form:select>
+                                    <%-- <form:select path="blgDicTagSet"  id="listTag"
+                                                  cssClass="form-control" multiple="true">
+                                         <c:forEach items="${blgPostTagList}" var="listTag">
+                                             <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}">
+                                             <form:input path="blgDicTagSet" type="hidden" value="${listTag.dicTagName}"/>
+                                             </form:option>
+                                         </c:forEach>
+
+                                     </form:select>--%>
+
+                                <p class="help-block">${labelTagPostDesc}</p>
+                        </div>
                     </div>
                 </div>
+                <div class="panel-footer">
+                    <button data-original-title="Broadcast Message" data-toggle="tooltip"
+                            type="submit"
+                            class="btn btn btn-primary">
+                        <span class="fa fa-floppy-o"></span>
+                        Save
+                    </button>
+                </div>
             </div>
+            </form:form>
+        </div>
         </div>
     </div>
 
 </div>
 
 <script>
+
+
     tinymce.init({
         selector: "textarea#content",
         theme: "modern",
@@ -185,5 +166,11 @@ To change this template use File | Settings | File Templates.
             "insertdatetime media table contextmenu paste"
         ],
         toolbar: "insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image"
+    });
+
+    $("#listTag").multiselect({
+        enableFiltering: true,
+        buttonWidth: '100%',
+        maxHeight: 200
     });
 </script>

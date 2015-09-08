@@ -58,7 +58,7 @@ public class WrapperUserDetailJson {
     public void setLastname(String lastname) {
         this.lastname = lastname;
     }
-    @Pattern(regexp = "^[F-M].*$", message = "{validation.gender.regexp}")
+    @Pattern(regexp = "^[f-m].*$", message = "{validation.gender.regexp}")
     public String getGender() {
         return gender;
     }

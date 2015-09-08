@@ -151,8 +151,8 @@ public class BlgUser implements Serializable {
         this.blgDicRoleSet = blgDicRoleSet;
     }
 
-    @JsonManagedReference(value = "post")
-    @OneToMany(mappedBy = "blgUser")
+    @JsonBackReference(value = "usr")
+    @ManyToMany( mappedBy = "blgUserSet")
     public Set<BlgPost> getBlgPostSet() {
         return blgPostSet;
     }

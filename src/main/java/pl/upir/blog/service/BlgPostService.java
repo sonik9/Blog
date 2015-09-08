@@ -21,6 +21,7 @@ public interface BlgPostService {
     public BlgPost findById(int id);
     public List<BlgPost> findAllByDate(String date);
     public ArrayList<BlgPost> findByTitle(String title);
+    public int getNextAutoincrement();
 
 
     public ArrayList<BlgPost> findAllByUserId(int id);

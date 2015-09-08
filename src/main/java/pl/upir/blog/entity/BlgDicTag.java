@@ -18,6 +18,13 @@ public class BlgDicTag {
 
     private Set<BlgPost> blgPostSet;
 
+    public BlgDicTag( String dicTagName) {
+        this.dicTagName = dicTagName;
+    }
+
+    public BlgDicTag() {
+    }
+
     @Id
     @Column(name = "dic_tag_id", nullable = false, insertable = true, updatable = true)
     public int getDicTagId() {
@@ -58,17 +65,10 @@ public class BlgDicTag {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return Objects.toStringHelper(this)
-                .add("dicTagId", dicTagId)
-                .add("dicTagName", dicTagName)
-                .add("blgPostSet", blgPostSet)
-                .toString();
-    }
+
 
     @JsonBackReference(value = "tag")
-    @ManyToMany( mappedBy = "blgDicTagSet")
+    @ManyToMany( mappedBy = "blgDicTagSet",cascade = CascadeType.MERGE)
     public Set<BlgPost> getBlgPostSet() {
         return blgPostSet;
     }

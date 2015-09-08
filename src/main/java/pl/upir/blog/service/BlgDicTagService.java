@@ -9,6 +9,7 @@ import java.util.List;
  */
 public interface BlgDicTagService {
     public BlgDicTag findById(int id);
+    public BlgDicTag finByDicTagName(String dicTagName);
     public List<BlgDicTag> findAll();
     public BlgDicTag save(BlgDicTag blgDicTag);
     public void delete(BlgDicTag blgDicTag);

@@ -1,0 +1,322 @@
+body{
+	margin: 0;
+}
+
+.main_head{
+	display: block;
+	height: 65px;
+	background-color: #1d1d1d;
+	min-width: 1024px;
+}
+
+.main_head_logo{
+	float: left;
+	height: 100%;
+	width: 200px;
+}
+
+.main_head_right{
+	float: right;
+}
+
+.main_head_logo, .main_head_right{
+	font-family: 'proxima_novalight', 'Arial', 'Calibri', 'Helvetica';
+}
+
+.main_head_logo{
+	color: rgb(227, 220, 255);
+}
+
+.main_head_right{
+	color: #b4b4b4;
+}
+
+.main_head_logo > span{
+	font-size: 30px;
+  	text-transform: uppercase;
+  	margin-top: 15px;
+  	display: inline-block;
+  	margin-left: 35px;
+}
+
+.main_head_right{
+	width: 600px;
+}
+
+.main_head_right > div{
+	display: inline-block;
+	float: left;
+	width: 119px;
+	height: 100%;
+	border-left: 1px solid;
+	transition: all 0.2s linear;
+}
+
+.main_head_right > div:hover{
+	background-color: #3c948b;
+	cursor: pointer;
+	color: #1d1d1d;
+}
+
+.main_head_right > div > span{
+	font-size: 15px;
+  	text-transform: uppercase;
+  	margin-top: 25px;
+  	display: block;
+  	text-align: center;
+}
+
+.main_body{
+	width: 100%;
+	min-height: 1000px;
+}
+
+.body_wrap{
+	width: 900px;
+	height: 100%;
+	display: block;
+	margin: 0 auto;
+}
+
+.body_title{
+	margin-top: 10px;
+}
+
+.body_title > span{
+	margin: 0 auto;
+  	display: block;
+  	text-align: center;
+  	text-transform: uppercase;
+  	font-family: Arial;
+  	font-size: 30px;
+}
+
+.wrap_post{
+	margin-top: 30px;
+  	border-top: 1px solid rgb(194, 194, 194);
+}
+
+.post_first_row > div{
+	display: inline-block;
+  	width: 400px;
+ 	height: 200px;
+  	margin-top: 40px;
+  	border: 1px solid rgb(194, 194, 194);
+}
+
+.post_first_row > div:nth-child(1){
+	float: left;
+}
+
+.post_first_row > div:nth-child(2){
+	float: right;
+}
+
+.post_first_row > div > img{
+	width: 245px;
+  	margin-top: 5px;
+  	margin-left: 85px;
+}
+
+.wrap_post > div:hover{
+	cursor: pointer;
+}
+
+.icon_logon{
+	position: fixed;
+  	width: 220px;
+  	height: 190px;
+  	background-color: #1d1d1d;
+  	top: 179px;
+  	left: -220px;
+  	-webkit-border-bottom-right-radius: 10px;
+  	-moz-border-radius-bottomright: 10px;
+  	border-bottom-right-radius: 10px;
+  	transition: all 0.8s linear;
+}
+
+.icon_logon > div{
+	margin-top: 25px;
+}
+
+.icon_logon > div > input{
+	width: 200px;
+  	margin-left: 8px;
+  	height: 30px;
+  	padding-left: 10px;
+}
+
+.wrap_button > input{
+	background-color: #3c948b;
+  	cursor: pointer;
+  	border: none;
+  	border-radius: 2px;
+  	font-size: 14px;
+  	transition: all 0.2s linear;
+  	color: #fff;
+}
+
+.wrap_button > input:hover{
+	opacity: 0.75;
+}
+
+.icon_logon:before{
+	content: '';
+  	width: 35px;
+  	height: 35px;
+  	position: absolute;
+  	margin-left: 220px;
+  	background-image: url(login.png);
+  	background-color: #fafafa;
+  	display: inline-block;
+  	-webkit-border-bottom-right-radius: 5px;
+  	-webkit-border-top-right-radius: 5px;
+  	-moz-border-radius-bottomright: 5px;
+  	-moz-border-radius-topright: 5px;
+  	border-bottom-right-radius: 5px;
+  	border-top-right-radius: 5px;
+  	background-size: contain;
+}
+
+.icon_logon:hover{
+	left: 0;
+}
+
+.main_footer{
+	width: 100%;
+	height: 65px;
+	background-color: rgb(174, 174, 174);
+}
+
+.login_user{
+  margin-top: 20px;
+  visibility: hidden;
+}
+
+.login_user > span{
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: #3c948b;
+}
+
+.icon_logon .create_account{
+  margin-top: 5px;
+}
+
+.icon_logon .wrap_button{
+  margin-top: 10px;
+}
+
+.create_account > span{
+  margin-left: 8px;
+  color: #ffffff;
+  text-transform: capitalize;
+  font-size: 13px;
+  text-decoration: underline;
+}
+
+.create_account > span:hover{
+  cursor: pointer;
+  color: #E3DCFF;
+}
+
+.new_customer_background{
+  display: none;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: #000000;
+  top: 0;
+  left: 0;
+  opacity: 0.65;
+}
+
+.new_customer{
+  display: none;
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background-color: #004244;
+  border: 1px solid #ffffff;
+  border-radius: 15px;
+  z-index: 10001;
+  top: 0;
+  left: 0;
+}
+
+.new_account_title{
+  text-align: center;
+  color: #ffffff;
+  text-transform: uppercase;
+  font-size: 20px;
+  margin-top: 25px;
+}
+
+.new_account_login, .new_account_password, .new_account_firstname, .new_account_lastname{
+  margin: 30px 10px 0 10px;
+  height: 35px;
+  border: 1px solid #ffffff;
+  border-radius: 15px;
+}
+
+.new_account_btn{
+  margin: 25px 20px 0 20px;
+}
+
+.new_account_btn > input{
+  height: 35px;
+  width: 150px;
+  border-radius: 15px;
+  background-color: #ffffff;
+  font-weight: bold;
+}
+
+.new_account_btn > input:hover{
+  color: #ffffff;
+  background-color: #000000;
+  cursor: pointer;
+}
+
+.new_account_btn_create{
+  float: left;
+}
+
+.new_account_btn_cancel{
+  float: right;
+}
+
+.new_account_login > span, .new_account_password> span, .new_account_firstname > span, .new_account_lastname > span{
+  float: left;
+  margin-left: 30px;
+  margin-top: 8px;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+.new_account_login > input, .new_account_password> input, .new_account_firstname > input, .new_account_lastname > input{
+  float: right;
+  margin-top: 2px;
+  margin-right: 3px;
+  height: 30px;
+  border-radius: 0 12px 12px 0;
+  padding-left: 5px;
+
+}
+
+.login_user > div{
+  text-align: center;
+}
+
+.edit_current_user{
+  z-index: 10001;
+  position: fixed;
+  top: 100px;
+  left: 224px;
+  width: 900px;
+  height: 300px;
+  border: 1px solid #000000;
+  background-color: #636363;
+}

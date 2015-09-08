@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vitalii on 24/08/2015.
@@ -24,6 +26,19 @@ public class ImageCropper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public static Map<String,Integer> getSize(File file){
+        Map<String,Integer> size= new HashMap<>();
+        try {
+            BufferedImage originalImgage = ImageIO.read(file);
+
+            size.put("height",originalImgage.getHeight());
+            size.put("width",originalImgage.getWidth());
+        }catch (IOException ex) {
+            ex.printStackTrace();
+        }
+        return size;
     }
 
     public static void resizeImage(File file, int height, int width,String typeOfFile){

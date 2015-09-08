@@ -17,7 +17,8 @@
     <mapping class="pl.upir.blog.entity.BlgComment"/>
     <mapping class="pl.upir.blog.entity.BlgDicTag"/>
     <mapping class="pl.upir.blog.entity.BlgPost"/>
-    <mapping class="pl.upir.blog.entity.BlgPostCategories"/>
+    <mapping class="pl.upir.blog.entity.BlgPostCategory"/>
+    <mapping class="pl.upir.blog.entity.BlgDicCategory"/>
     <!-- DB schema will be updated if needed -->
     <!-- <property name="hbm2ddl.auto">update</property> -->
   </session-factory>

@@ -3,6 +3,7 @@
 @import url("no-more-table.css");
 @import url("no-more-table-vertical.css");
 @import url("nprogress/nprogress.css");
+@import url("bootstrap/bootstrap-multiselect.css");
 
 .btn-windows {background-color:#4099FF;color:#fff;}
 .btn-facebook {background-color:#3B5998;color:#fff;}
@@ -201,4 +202,8 @@ a,a:hover {
     overflow:hidden;
     height:90px;
 }
+
+/*div.panel-body .col-xs-9 img {
+    width: 800px;
+}*/
 

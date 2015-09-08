@@ -21,13 +21,15 @@ public interface BlgPostRepository extends PagingAndSortingRepository<BlgPost, I
     public ArrayList<BlgPost> findAllByPstTimeCreate(@Param("date")String date);
     //@Query(value = "SELECT * FROM blg_post WHERE pst_title LIKE %:title%", nativeQuery = true)
     public ArrayList<BlgPost> findByPstTitleContaining(@Param("title")String title);
+    @Query(value = "SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'blg_post' AND table_schema = DATABASE()", nativeQuery = true)
+    public int getNextAutoincrement();
 
-    public ArrayList<BlgPost> findAllByBlgUser_UsrId(int usrId);
+    /*public ArrayList<BlgPost> findAllByBlgUser_UsrId(int usrId);
     public ArrayList<BlgPost> findAllByBlgUser(BlgUser blgUser);
 
     @Query(value = "SELECT * FROM blg_post p JOIN blg_user u ON(p.usr_id=u.usr_id) WHERE u.usr_login=?1", nativeQuery = true)
     public ArrayList<BlgPost> findAllByBlgUser_UsrLogin(String usrLogin);
 
     public ArrayList<BlgPost> findAllByBlgUser_BlgUserDetail_UsrDetFirstnameContains(String firstname);
-    public ArrayList<BlgPost> findAllByBlgUser_BlgUserDetail_UsrDetLastnameContains(String lastname);
+    public ArrayList<BlgPost> findAllByBlgUser_BlgUserDetail_UsrDetLastnameContains(String lastname);*/
 }

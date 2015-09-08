@@ -33,11 +33,7 @@ import javax.validation.Valid;
 import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.Principal;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
+import java.util.*;
 
 /**
  * Created by Vitalii on 17.06.2015.
@@ -63,7 +59,7 @@ public class BlgUsersApiRestController {
     BlgPostService blgPostService;
 
     @Autowired
-    BlgPostCategoriesService blgPostCategoriesService;
+    BlgDicCategoryService blgDicCategoryService;
 
     @RequestMapping(method = RequestMethod.GET)
     @ResponseBody
@@ -244,11 +240,12 @@ public class BlgUsersApiRestController {
             //BlgPost blgPost = blgPostService.findById(1);
 
             WrapperPost wrapperPost = new WrapperPost();
-            wrapperPost.setFirstname(blgPost.getBlgUser().getBlgUserDetail().getUsrDetFirstname());
-            wrapperPost.setLastname(blgPost.getBlgUser().getBlgUserDetail().getUsrDetLastname());
-            wrapperPost.setPhotoLink(blgPost.getBlgUser().getBlgUserDetail().getUsrPhotoLink());
+            List<BlgUser> blgUserSet = Lists.newArrayList(blgPost.getBlgUserSet());
+            wrapperPost.setFirstname(blgUserSet.iterator().next().getBlgUserDetail().getUsrDetFirstname());
+            wrapperPost.setLastname(blgUserSet.iterator().next().getBlgUserDetail().getUsrDetLastname());
+            wrapperPost.setPhotoLink(blgUserSet.iterator().next().getBlgUserDetail().getUsrPhotoLink());
             wrapperPost.setBlgDicTags(Lists.newArrayList(blgPost.getBlgDicTagSet()));
-            wrapperPost.setBlgPostCategories(blgPost.getBlgPostCategories());
+            wrapperPost.setBlgDicCategorySet(blgPost.getBlgDicCategorySet());
             wrapperPost.setPstTitle(blgPost.getPstTitle());
             wrapperPost.setPstTitleImage(blgPost.getPstTitleImage());
             wrapperPost.setPstUrl(blgPost.getPstUrl());

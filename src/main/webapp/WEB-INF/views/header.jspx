@@ -44,6 +44,7 @@
         <a href="${homeUrl}" class="navbar-brand">Home</a>
         <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
+
                 <li>
                     <a href="${usersUrl}/sign/sign_json">SIGN JSON</a>
                 </li>
@@ -53,11 +54,14 @@
                 <li>
                     <a href="#">Category</a>
                 </li>
-                <li>
-                    <a href="#">Category</a>
-                </li>
+
             </ul>
             <ul class="nav navbar-right navbar-nav">
+                <sec:authorize access="isAuthenticated()">
+                <li>
+                    <a href="${homeUrl}${firstname}.${lastname}/post/create">Post create <span class="fa fa-pencil"/></a>
+                </li>
+                </sec:authorize>
                 <li>
                     <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
                 </li>

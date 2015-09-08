@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.google.common.base.Objects;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+import java.io.File;
 import java.sql.Timestamp;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Vitalii on 26/08/2015.
@@ -20,6 +23,7 @@ public class BlgPost {
     private int pstId;
     private String pstTitle;
     private String pstDocument;
+    private String pstDocumentShort;
     private String pstTitleImage;
     private Timestamp pstTimeCreate;
     private Timestamp pstTimeModify;
@@ -29,12 +33,14 @@ public class BlgPost {
     private int pstCountComm;
     private String pstUrl;
 
+    private Set<BlgDicCategory> blgDicCategorySet=new HashSet<>();
 
-    private BlgPostCategories blgPostCategories;
-
-    private BlgUser blgUser;
+    private Set<BlgUser> blgUserSet= new HashSet<>();
 
     private Set<BlgDicTag> blgDicTagSet = new HashSet<BlgDicTag>();
+    //private List<BlgDicTag> blgDicTagSet = new ArrayList<>();
+
+    public MultipartFile file;
 
 
     @JsonIgnore
@@ -49,6 +55,8 @@ public class BlgPost {
         this.pstId = pstId;
     }
 
+    @Size(min = 4, max = 255, message = "{validation.pstTitle.Size.messag}")
+    @NotEmpty(message = "{validation.pstTitle.NotEmpty.message}")
     @Basic
     @Column(name = "pst_title", nullable = false, insertable = true, updatable = true, length = 255)
     public String getPstTitle() {
@@ -59,6 +67,8 @@ public class BlgPost {
         this.pstTitle = pstTitle;
     }
 
+    @Size(min = 200, max = 100000, message = "{validation.pstDocument.Size.messag}")
+    @NotEmpty(message = "{validation.pstDocument.NotEmpty.message}")
     @Basic
     @Column(name = "pst_document", nullable = false, insertable = true, updatable = true)
     public String getPstDocument() {
@@ -70,7 +80,7 @@ public class BlgPost {
     }
 
     @Basic
-    @Column(name = "pst_title_image", nullable = true, insertable = true, updatable = true, length = 255)
+    @Column(name = "pst_title_image", nullable = true, insertable = true, updatable = true)
     public String getPstTitleImage() {
         return pstTitleImage;
     }
@@ -150,6 +160,16 @@ public class BlgPost {
         this.pstUrl = pstUrl;
     }
 
+    @Basic
+    @Column(name = "pst_document_short",nullable = false, insertable = true, updatable = true)
+    public String getPstDocumentShort() {
+        return pstDocumentShort;
+    }
+
+    public void setPstDocumentShort(String pstDocumentShort) {
+        this.pstDocumentShort = pstDocumentShort;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -189,7 +209,6 @@ public class BlgPost {
         return result;
     }
 
-
     @Override
     public String toString() {
         return "BlgPost{" +
@@ -204,32 +223,57 @@ public class BlgPost {
                 ", pstCountDislike=" + pstCountDislike +
                 ", pstCountComm=" + pstCountComm +
                 ", pstUrl='" + pstUrl + '\'' +
-                ", blgPostCategories=" + blgPostCategories +
-                ", blgUser=" + blgUser +
+                ", blgPostCategorySet=" + blgDicCategorySet +
+                ", blgUserSet=" + blgUserSet +
                 ", blgDicTagSet=" + blgDicTagSet +
                 '}';
     }
 
-    @JsonBackReference(value = "cat")
-    @ManyToOne()
-    @JoinColumn(name = "pst_cat_id",nullable = false)
-    public BlgPostCategories getBlgPostCategories() {
-        return blgPostCategories;
-    }
-
-    public void setBlgPostCategories(BlgPostCategories blgPostCategories) {
-        this.blgPostCategories = blgPostCategories;
-    }
+    /*
 
     @JsonBackReference(value = "post")
-    @ManyToOne
-    @JoinColumn(name = "usr_id", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "usr_id", nullable = false,insertable = false, updatable = false)
     public BlgUser getBlgUser() {
         return blgUser;
     }
 
     public void setBlgUser(BlgUser blgUser) {
         this.blgUser = blgUser;
+    }
+*/
+
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "blg_post_category",
+            joinColumns = {
+                    @JoinColumn(name = "pst_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "dic_cat_id")
+            })
+    public Set<BlgDicCategory> getBlgDicCategorySet() {
+        return blgDicCategorySet;
+    }
+
+    public void setBlgDicCategorySet(Set<BlgDicCategory> blgDicCategorySet) {
+        this.blgDicCategorySet = blgDicCategorySet;
+    }
+    @JsonIgnore
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "blg_post_user",
+            joinColumns = {
+                    @JoinColumn(name = "pst_id")
+            },
+            inverseJoinColumns = {
+                    @JoinColumn(name = "usr_id")
+            })
+    public Set<BlgUser> getBlgUserSet() {
+        return blgUserSet;
+    }
+
+    public void setBlgUserSet(Set<BlgUser> blgUserSet) {
+        this.blgUserSet = blgUserSet;
     }
 
     @JsonIgnore
@@ -247,5 +291,14 @@ public class BlgPost {
 
     public void setBlgDicTagSet(Set<BlgDicTag> blgDicTagSet) {
         this.blgDicTagSet = blgDicTagSet;
+    }
+
+    @Transient
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
     }
 }

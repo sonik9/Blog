@@ -10,6 +10,7 @@
      xmlns:form="http://www.springframework.org/tags/form"
      xmlns:sec="http://www.springframework.org/security/tags"
      xmlns:spring="http://www.springframework.org/tags"
+     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      version="2.0">
 
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
@@ -63,17 +64,31 @@
 
                                     <div class="col-md-2 col-sm-3 text-center">
                                         <a class="story-img" href="#">
-                                            <img src="//placehold.it/100" style="width:100px;height:100px"
-                                                 class="img-rounded"/>
+                                            <c:choose>
+                                                <c:when test="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink!=null}">
+                                                    <img src="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink}"
+                                                         style="width:70px;height:70px" class="img-rounded"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="//placehold.it/70" style="width:30px;height:30px" class="img-rounded"/>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </a>
+                                        <p><i>${item.blgUserSet.iterator().next().blgUserDetail.usrDetFirstname}<![CDATA[&nbsp;]]>${item.blgUserSet.iterator().next().blgUserDetail.usrDetLastname}</i></p>
                                     </div>
 
                                     <h3>${item.pstTitle}</h3>
 
                                     <div class="row">
                                         <div class="col-xs-9">
-
-                                            <p>${item.pstDocument}</p>
+                                            <c:choose>
+                                                <c:when test="${fn:length(item.pstDocumentShort)>0}">
+                                                    <p>${item.pstDocumentShort}</p>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p>${item.pstDocument}</p>
+                                                </c:otherwise>
+                                            </c:choose>
 
                                             <p class="lead">
                                                 <button class="btn btn-default">Read More</button>
@@ -99,46 +114,46 @@
                         <div class="row">
                             <!--/stories-->
                             <nav>
-                            <ul class="pagination pagination-control" style="margin: 0;">
-                                <li>
-                                    <a href="#" aria-label="Previous">
-                                        <span aria-hidden="true"><![CDATA[&laquo;]]></span>
-                                    </a>
-                                </li>
-                                <c:forEach var="item" begin="${1}" end="${posts.totalPage}">
-                                    <c:choose>
-                                        <c:when test="${posts.currentPage==item-1}">
-                                            <li class="active">
-                                                <c:url value="/" var="activePage">
-                                                    <c:param name="page" value="${item-1}"/>
-                                                    <c:param name="rows" value="1"/>
-                                                </c:url>
-                                                <a href="${activePage}">${item}</a>
-                                            </li>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <li>
-                                                <c:url value="/" var="activePage">
-                                                    <c:param name="page" value="${item-1}"/>
-                                                    <c:param name="rows" value="1"/>
-                                                </c:url>
-                                                <a href="${activePage}">${item}</a>
-                                            </li>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                                <li>
-                                    <c:url value="/" var="activePage">
-                                        <c:param name="page" value="${posts.currentPage+1}"/>
-                                        <c:param name="rows" value="1"/>
-                                    </c:url>
-                                    <a href="${activePage}" aria-label="Next">
-                                        <span aria-hidden="true"><![CDATA[&raquo;]]></span>
-                                    </a>
-                                </li>
-                            </ul>
-                            <a href="${pageContext.request.contextPath}/"
-                               class="btn btn-primary pull-right btnNext">More</a>
+                                <ul class="pagination pagination-control" style="margin: 0;">
+                                    <li>
+                                        <a href="#" aria-label="Previous">
+                                            <span aria-hidden="true"><![CDATA[&laquo;]]></span>
+                                        </a>
+                                    </li>
+                                    <c:forEach var="item" begin="${1}" end="${posts.totalPage}">
+                                        <c:choose>
+                                            <c:when test="${posts.currentPage==item-1}">
+                                                <li class="active">
+                                                    <c:url value="/" var="activePage">
+                                                        <c:param name="page" value="${item-1}"/>
+                                                        <c:param name="rows" value="3"/>
+                                                    </c:url>
+                                                    <a href="${activePage}">${item}</a>
+                                                </li>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <li>
+                                                    <c:url value="/" var="activePage">
+                                                        <c:param name="page" value="${item-1}"/>
+                                                        <c:param name="rows" value="3"/>
+                                                    </c:url>
+                                                    <a href="${activePage}">${item}</a>
+                                                </li>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </c:forEach>
+                                    <li>
+                                        <c:url value="/" var="activePage">
+                                            <c:param name="page" value="${posts.currentPage+1}"/>
+                                            <c:param name="rows" value="3"/>
+                                        </c:url>
+                                        <a href="${activePage}" aria-label="Next">
+                                            <span aria-hidden="true"><![CDATA[&raquo;]]></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                                <a href="${pageContext.request.contextPath}/"
+                                   class="btn btn-primary pull-right btnNext">More</a>
                             </nav>
                         </div>
                     </div>
@@ -147,4 +162,9 @@
             <!--/col-12-->
         </div>
     </div>
+    <script>
+        $(document).ready(function () {
+            $("div.panel-body div.col-xs-9 img").addClass("img-responsive");
+        });
+    </script>
 </div>

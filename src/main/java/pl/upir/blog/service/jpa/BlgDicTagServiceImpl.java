@@ -28,6 +28,11 @@ public class BlgDicTagServiceImpl implements BlgDicTagService {
     }
 
     @Override
+    public BlgDicTag finByDicTagName(String dicTagName) {
+        return blgDicTagRepository.findByDicTagName(dicTagName);
+    }
+
+    @Override
     public List<BlgDicTag> findAll() {
         return Lists.newArrayList(blgDicTagRepository.findAll());
     }

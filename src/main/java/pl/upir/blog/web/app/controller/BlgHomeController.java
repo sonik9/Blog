@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -55,9 +56,10 @@ public class BlgHomeController {
     BlgPostService blgPostService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String home(@RequestParam(value = "rows",defaultValue = "1", required = false) int rows,
+    public String home(@RequestParam(value = "rows",defaultValue = "3", required = false) int rows,
                        @RequestParam(value = "page",defaultValue = "0",required = false) int page, Model model) {
-        Page<BlgPost> blgPostPage = blgPostService.findAllByPage(new PageRequest(page,rows));
+        Sort sort = new Sort(Sort.Direction.DESC,"pstTimeCreate");
+        Page<BlgPost> blgPostPage = blgPostService.findAllByPage(new PageRequest(page,rows,sort));
         FormPostPagination blgPostPagination = new FormPostPagination();
         blgPostPagination.setBlgPostList(blgPostPage.getContent());
         blgPostPagination.setCurrentPage(blgPostPage.getNumber());

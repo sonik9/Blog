@@ -13,6 +13,8 @@ public class FormPostPagination {
     private long totalRecords;
     private List<BlgPost> blgPostList;
 
+
+
     public int getTotalPage() {
         return totalPage;
     }
@@ -44,4 +46,6 @@ public class FormPostPagination {
     public void setBlgPostList(List<BlgPost> blgPostList) {
         this.blgPostList = blgPostList;
     }
+
+
 }

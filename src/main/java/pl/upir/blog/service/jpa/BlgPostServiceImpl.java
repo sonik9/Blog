@@ -51,31 +51,35 @@ public class BlgPostServiceImpl implements BlgPostService {
         return blgPostRepository.findByPstTitleContaining(title);
     }
 
+    @Override
+    public int getNextAutoincrement() {
+        return blgPostRepository.getNextAutoincrement();
+    }
 
 
     @Override
     public ArrayList<BlgPost> findAllByUserId(int id) {
-        return blgPostRepository.findAllByBlgUser_UsrId(id);
+        return null; // blgPostRepository.findAllByBlgUser_UsrId(id);
     }
 
     @Override
     public List<BlgPost> findAllByUser(BlgUser blgUser) {
-        return blgPostRepository.findAllByBlgUser(blgUser);
+        return null; // blgPostRepository.findAllByBlgUser(blgUser);
     }
 
     @Override
     public List<BlgPost> findAllByUserLogin(String login) {
-        return blgPostRepository.findAllByBlgUser_UsrLogin(login);
+        return null; //blgPostRepository.findAllByBlgUser_UsrLogin(login);
     }
 
     @Override
     public List<BlgPost> findAllByUserFirstname(String firstname) {
-        return blgPostRepository.findAllByBlgUser_BlgUserDetail_UsrDetFirstnameContains(firstname);
+        return null; //blgPostRepository.findAllByBlgUser_BlgUserDetail_UsrDetFirstnameContains(firstname);
     }
 
     @Override
     public List<BlgPost> findAllByUserLastname(String lastname) {
-        return blgPostRepository.findAllByBlgUser_BlgUserDetail_UsrDetLastnameContains(lastname);
+        return null; //blgPostRepository.findAllByBlgUser_BlgUserDetail_UsrDetLastnameContains(lastname);
     }
 
     @Override
@@ -92,4 +96,6 @@ public class BlgPostServiceImpl implements BlgPostService {
     public Page<BlgPost> findAllByPage(Pageable pageable) {
         return blgPostRepository.findAll(pageable);
     }
+
+
 }

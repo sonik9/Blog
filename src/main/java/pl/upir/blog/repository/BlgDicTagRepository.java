@@ -8,5 +8,6 @@ import pl.upir.blog.entity.BlgDicTag;
  * Created by Vitalii on 26/08/2015.
  */
 public interface BlgDicTagRepository extends CrudRepository<BlgDicTag, Integer> {
+    public BlgDicTag findByDicTagName(String dicTagName);
 
 }
