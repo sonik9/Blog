@@ -1,5 +1,6 @@
 package pl.upir.blog.web.app.controller;
 
+import com.google.common.collect.Lists;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import pl.upir.blog.web.form.Message;
 import pl.upir.blog.web.util.ImageCropper;
 import pl.upir.blog.web.util.MD5Encoder;
 import pl.upir.blog.web.util.UrlUtil;
+import pl.upir.blog.wrapper.WrapperFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -36,7 +38,13 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Locale;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.attribute.FileAttribute;
+import java.nio.file.attribute.PosixFilePermission;
+import java.nio.file.attribute.PosixFilePermissions;
+import java.util.*;
 
 /**
  * Created by Vitalii on 22.06.2015.
@@ -56,10 +64,10 @@ public class BlgHomeController {
     BlgPostService blgPostService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String home(@RequestParam(value = "rows",defaultValue = "3", required = false) int rows,
-                       @RequestParam(value = "page",defaultValue = "0",required = false) int page, Model model) {
-        Sort sort = new Sort(Sort.Direction.DESC,"pstTimeCreate");
-        Page<BlgPost> blgPostPage = blgPostService.findAllByPage(new PageRequest(page,rows,sort));
+    public String home(@RequestParam(value = "rows", defaultValue = "5", required = false) int rows,
+                       @RequestParam(value = "page", defaultValue = "0", required = false) int page, Model model) {
+        Sort sort = new Sort(Sort.Direction.DESC, "pstTimeCreate");
+        Page<BlgPost> blgPostPage = blgPostService.findByPstEnable(true, new PageRequest(page, rows, sort));
         FormPostPagination blgPostPagination = new FormPostPagination();
         blgPostPagination.setBlgPostList(blgPostPage.getContent());
         blgPostPagination.setCurrentPage(blgPostPage.getNumber());
@@ -188,5 +196,166 @@ public class BlgHomeController {
             return new ResponseEntity("Your profile image uploaded from facebook account!", HttpStatus.CONFLICT);
     }
 
+    @RequestMapping(value = "/{firstName}.{lastName}/storage", method = RequestMethod.GET)
+    @PreAuthorize("isFullyAuthenticated()")
+    public String storage(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
+                          Model model, HttpServletRequest request) throws IOException {
+        /*TODO log*/
+        //logger.info("Listing users");
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (firstName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetFirstname()) && lastName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetLastname())) {
+            BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
+            String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
 
+            String url = UrlUtil.sourcePathFile(request, "/resources/images/storage/" + blgUser.getUsrId() + "/");
+            List<Object> paths = new ArrayList<>();
+            if (Files.exists(Paths.get(path))) {
+                //paths= Lists.newArrayList(Files.walk(Paths.get(path)));
+                Files.walk(Paths.get(path)).forEach(filePath -> {
+                    if (Files.isRegularFile(filePath)) {
+                        paths.add(url + new File(filePath.toUri()).getName());
+                    }
+                });
+            }
+            //logger.info("No. of users" + blgUser.size());
+            model.addAttribute("blgUser", blgUser);
+            model.addAttribute("files", paths);
+            return "users/storage";
+        } else {
+            return "home";
+        }
+    }
+
+    @RequestMapping(value = "/{firstName}.{lastName}/storage/download", method = RequestMethod.GET)
+    @PreAuthorize("isFullyAuthenticated()")
+    public String downloadImage(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
+                                Model model, HttpServletRequest request) throws IOException {
+        /*TODO log*/
+        //logger.info("Listing users");
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (firstName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetFirstname()) && lastName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetLastname())) {
+            BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
+            String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
+            String url = UrlUtil.sourcePathFile(request, "/resources/images/storage/" + blgUser.getUsrId() + "/");
+            //Map<String,Map<String,Byte>> paths= new HashMap<>();
+            //paths= Lists.newArrayList(Files.walk(Paths.get(path)));
+            List<WrapperFile> wrapperFileList = new ArrayList<>();
+            Files.walk(Paths.get(path)).forEach(filePath -> {
+                if (Files.isRegularFile(filePath)) {
+                    //Map<String, Byte> map = new HashMap<String, Byte>();
+                    //map.put(url+new File(filePath.toUri()).getName(), (byte) new File(filePath.toUri()).length());
+                    //paths.put(new File(filePath.toUri()).getName(),map);
+                    wrapperFileList.add(new WrapperFile(new File(filePath.toUri()).getName(), new File(filePath.toUri()).length(), url + new File(filePath.toUri()).getName()));
+                }
+            });
+            //logger.info("No. of users" + blgUser.size());
+            //model.addAttribute("blgUser",blgUser);
+            model.addAttribute("files", wrapperFileList);
+            return "users/storage/download";
+            //return new ResponseEntity(paths,HttpStatus.OK);
+        } else {
+            //return new ResponseEntity(HttpStatus.FORBIDDEN);
+            return "home";
+        }
+
+    }
+
+    @RequestMapping(value = "/{firstName}.{lastName}/storage/delete", method = RequestMethod.POST)
+    @PreAuthorize("isFullyAuthenticated()")
+    public ResponseEntity deleteImage(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
+                                      @RequestParam(value = "files") List<String> files, HttpServletRequest request) throws IOException {
+        /*TODO log*/
+        //logger.info("Listing users");
+        if (!files.isEmpty()) {
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (firstName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetFirstname()) && lastName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetLastname())) {
+                BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
+
+                String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
+                //String url = UrlUtil.sourcePathFile(request, "/resources/images/storage/" + blgUser.getUsrId() + "/");
+                //Map<String,Map<String,Byte>> paths= new HashMap<>();
+                //paths= Lists.newArrayList(Files.walk(Paths.get(path)));
+                /*List<WrapperFile> wrapperFileList = new ArrayList<>();
+                Files.walk(Paths.get(path)).forEach(filePath -> {
+                    if (Files.isRegularFile(filePath)) {
+                        //Map<String, Byte> map = new HashMap<String, Byte>();
+                        //map.put(url+new File(filePath.toUri()).getName(), (byte) new File(filePath.toUri()).length());
+                        //paths.put(new File(filePath.toUri()).getName(),map);
+                        wrapperFileList.add(new WrapperFile(new File(filePath.toUri()).getName(), new File(filePath.toUri()).length(), url + new File(filePath.toUri()).getName()));
+                    }
+                });*/
+                //logger.info("No. of users" + blgUser.size());
+                //model.addAttribute("blgUser",blgUser);
+                List<String> filesDeleted = new ArrayList<>();
+                files.forEach(fileName -> {
+                    File file = new File(path + fileName);
+                    if (file.delete()) {
+                        filesDeleted.add(fileName);
+                    }
+                });
+                return new ResponseEntity(filesDeleted, HttpStatus.OK);
+            } else {
+                return new ResponseEntity(HttpStatus.FORBIDDEN);
+            }
+        } else
+            return new ResponseEntity("No files for delete!", HttpStatus.OK);
+    }
+
+
+    /*TODO translate & comments*/
+    @RequestMapping(value = "/{firstName}.{lastName}/storage/upload", method = RequestMethod.POST)
+    public ResponseEntity uploadImage(@RequestParam(value = "files") List<MultipartFile> files, HttpServletRequest request) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
+        for (MultipartFile file : files) {
+            if (file.isEmpty()) {
+                return new ResponseEntity("Invalid file!", HttpStatus.BAD_REQUEST);
+            } else {
+                String fileName = file.getOriginalFilename();
+                byte[] bytes = new byte[0];
+
+                try {
+                    bytes = file.getBytes();
+                    String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
+                    if (!Files.exists(Paths.get(path))) {
+                        if (System.getProperty("os.name").toLowerCase().indexOf("win") >= 0) {
+                            Files.createDirectory(Paths.get(path));
+                        } else {
+                            Set<PosixFilePermission> perms =
+                                    PosixFilePermissions.fromString("rwxrw-rw-");
+                            FileAttribute<Set<PosixFilePermission>> attr =
+                                    PosixFilePermissions.asFileAttribute(perms);
+                            Files.createDirectory(Paths.get(path), attr);
+                        }
+                    }
+                    if (Files.exists(Paths.get(path)) && Files.isReadable(Paths.get(path))) {
+                        File serverFile = new File(path + fileName);
+                        BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                        stream.write(bytes);
+                        stream.close();
+                        //ImageCropper.resizeImage(serverFile, origHeight, origWidth, "png");
+                        //ImageCropper.cropp(serverFile, "png", height, width, left, top);
+                        /*String oldFilePath = blgUserUpdate.getBlgUserDetail().getUsrPhotoLink();
+
+                        if (!oldFilePath.equals(UrlUtil.sourcePathFile(request, "/resources/images/" + fileName))) {
+                            File oldFile = new File(path + "public/images/" + oldFilePath.substring(oldFilePath.lastIndexOf("/") + 1, oldFilePath.length()));
+                            if (oldFile.delete())
+                                logger.info("File " + serverFile + " is deleted!");
+                            else
+                                logger.error("Delete operation is faild!");
+                        }*/
+
+                        //blgUserUpdate.getBlgUserDetail().setUsrPhotoLink(UrlUtil.sourcePathFile(request, "/resources/images/" + fileName));
+                        //blgUserService.save(blgUserUpdate);
+                        /*Principal update*/
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    return new ResponseEntity(e.toString(), HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+
+            }
+        }
+        return new ResponseEntity("Your image was updated!", HttpStatus.OK);
+    }
 }

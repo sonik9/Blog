@@ -20,6 +20,7 @@
     <spring:message code="header_text" var="headerText"/>
     <spring:message code="label_en_US" var="labelEnUs"/>
     <spring:message code="label_ru_RU" var="labelRuRu"/>
+    <spring:message code="label_blgStorage" var="labelBlgStorage"/>
 
     <sec:authorize access="isAuthenticated()">
         <sec:authentication var="principal" property="principal"/>
@@ -30,7 +31,7 @@
     </sec:authorize>
     <spring:url value="/" var="homeUrl"/>
     <spring:url value="/sign" var="showRegUrl"/>
-
+    <input type="hidden" value="${homeUrl}${firstname}.${lastname}" id="homePath"/>
     <div class="container">
         <div class="navbar-header">
             <button class="navbar-toggle collapsed" type="button" data-toggle="collapse"
@@ -46,9 +47,6 @@
             <ul class="nav navbar-nav">
 
                 <li>
-                    <a href="${usersUrl}/sign/sign_json">SIGN JSON</a>
-                </li>
-                <li>
                     <a href="#">Category</a>
                 </li>
                 <li>
@@ -58,9 +56,16 @@
             </ul>
             <ul class="nav navbar-right navbar-nav">
                 <sec:authorize access="isAuthenticated()">
-                <li>
-                    <a href="${homeUrl}${firstname}.${lastname}/post/create">Post create <span class="fa fa-pencil"/></a>
-                </li>
+                    <li>
+                        <a href="${homeUrl}${firstname}.${lastname}/storage">
+                            ${labelBlgStorage}<![CDATA[&nbsp;]]>
+                            <span class="fa fa-cloud-upload"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${homeUrl}${firstname}.${lastname}/post/create">Post create <span
+                                class="fa fa-pencil"/></a>
+                    </li>
                 </sec:authorize>
                 <li>
                     <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
@@ -82,7 +87,8 @@
 
                     </li>
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown" id="user" style="padding-bottom: 0; padding-top: 10px;"
+                        <a class="dropdown-toggle" data-toggle="dropdown" id="user"
+                           style="padding-bottom: 0; padding-top: 10px;"
                            href="">
                             <c:choose>
                                 <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">

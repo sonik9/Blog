@@ -97,5 +97,12 @@ public class BlgPostServiceImpl implements BlgPostService {
         return blgPostRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<BlgPost> findByPstEnable(boolean pstEnable,Pageable pageable) {
+        return blgPostRepository.findByPstEnable(pstEnable,pageable);
+    }
+
+
+
 
 }

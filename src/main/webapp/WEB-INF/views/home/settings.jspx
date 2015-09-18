@@ -45,7 +45,7 @@
                                 <c:when test="${user.blgUserDetail.usrPhotoLink!=null}">
                                     <a href="#"><img name="userpic" alt="User Pic"
                                                      src="${user.blgUserDetail.usrPhotoLink}"
-                                                     style="width:200px;height:200px" class="img-rounded"></a>
+                                                     style="width:200px;height:200px" class="img-rounded"/></a>
                                 </c:when>
                                 <c:otherwise>
                                     <a href="#"> <img name="userpic" src="//placehold.it/200"

@@ -8,4 +8,7 @@
             <put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
             <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
     </definition>
+    <definition name="frame" template="/WEB-INF/layouts/frame.jsp">
+    </definition>
+
 </tiles-definitions>

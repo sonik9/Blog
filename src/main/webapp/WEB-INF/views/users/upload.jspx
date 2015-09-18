@@ -1,0 +1,388 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_blgStorage" var="labelBlgStorage"/>
+    <spring:message code="label_blgStorage_inf_b" var="labelBlgStorageInfB"/>
+    <spring:message code="label_blgStorage_inf" var="labelBlgStorageInf"/>
+    <spring:message code="label_blgStorage_upload_panel" var="labelBlogStorageUploadPanel"/>
+    <!--<spring:message code="label_blgStorage" var="labelBlogStorage"/>-->
+    <style>
+        .table > tbody > tr > td {
+            vertical-align: inherit;
+        }
+    </style>
+
+    <div id="masthead">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-7" id="accountSignUpText">
+                    <!-- TODO i18n-->
+                    <h1>${labelBlgStorage}
+                        <p class="lead">
+                            <h4>${labelBlgStorageInfB}
+                                <small>${labelBlgStorageInf}</small>
+                            </h4>
+                        </p>
+                    </h1>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <c:if test="${not empty message}">
+            <div class="${message.type}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&amp;times</span></button>
+                <strong>${message.firstWord}</strong> ${message.message}
+            </div>
+        </c:if>
+
+        <div class="row">
+
+            <div class="user-info-block">
+                <ul class="navigation">
+                    <li>
+                        <a href="${homeUrl}${firstname}.${lastname}"
+                           style="border-top-left-radius:6px;border-bottom-left-radius:6px;">
+                            <span class="fa fa-user fa-2x"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings">
+                            <span class="fa fa-cog fa-2x"></span>
+                        </a>
+                    </li>
+                    <li class="active">
+                        <a href="#upload">
+                            <span class="fa fa-cloud-upload fa-2x"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="${homeUrl}${firstname}.${lastname}/post/create"
+                           style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
+                            <span class="fa fa-pencil-square fa-2x"/>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="user-body">
+                <div class="tab-content">
+                    <div id="information" class="tab-pane active">
+                        <!--  <form:form autocomplete="off" modelAttribute="blgUser" id="userUpdateForm" method="post"
+                                     action="${homeUrl}${firstname}.${lastname}/save">-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading">
+                                <h2 class="panel-title">${labelBlogStorageUploadPanel}</h2>
+                            </div>
+                            <div class="panel-body">
+                                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingOne">
+                                            <h4 class="panel-title">
+                                                <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                                   href="#collapseOne" aria-expanded="true"
+                                                   aria-controls="collapseOne">
+                                                    Collapsible Group Item #1
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                             aria-labelledby="headingOne">
+                                            <div class="panel-body">
+                                                <table id="filesUpload" class="table table-striped">
+                                                    <tbody>
+                                                    No files.
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading" role="tab" id="headingTwo">
+                                            <h4 class="panel-title">
+                                                <a class="collapsed" role="button" data-toggle="collapse"
+                                                   data-parent="#accordion" href="#collapseTwo"
+                                                   aria-expanded="false" aria-controls="collapseTwo">
+                                                    Collapsible Group Item #2
+                                                </a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                             aria-labelledby="headingTwo">
+                                            <div class="panel-body">
+                                                <!--<c:forEach items="${files}" var="file">-->
+                                                <div class="col-xs-6" style="padding-right: 0;">
+                                                    <div class="files">
+                                                        <div class="col-xs-5 thmb">
+                                                            <a href="${file}" class="readingglass" target="_blank"></a>
+                                                            <img src="${file}" class="img-responsive img-rounded"/>
+                                                        </div>
+                                                        <div class="info col-xs-7">
+                                                            <a href="#" id="fileDelete" class="file-delete" title="Delete">&#10060;</a>
+                                                            <div class="filename">filename</div>
+                                                            <div class="meta">
+                                                                <span class="file_size">61.34 KB</span>
+                                                                <span class="image_size">768x512</span>
+                                                            </div>
+                                                            <div class="copypasta">
+                                                                <input type="text" class="html_code"
+                                                                       value="&#8249;img src=&#171;${file}&#187;/&#8250;"/>
+                                                                <input type="text" class="url"
+                                                                       value="${file}"/>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!--</c:forEach>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="panel-footer">
+                                <span class="btn btn-success fileinput-button">
+                                        <span>Add files...</span>
+                                    <input path="file" type="file" name="files[]"
+                                           multiple="true" id="fileUpload"/>
+                                </span>
+                                    <span class="pull-right btn-group">
+
+                                            <button data-original-title="Edit this user" id="clearall"
+                                                    data-toggle="tooltip" type="submit"
+                                                    class="btn btn-primary btn-warning" disabled="disabled">
+                                                <span class="fa fa-ban"></span>
+                                                Clear all
+                                            </button>
+                                            <button data-original-title="Remove this user" data-toggle="tooltip"
+                                                    id="uploadall" class="btn btn-primary btn-default"
+                                                    disabled="disabled">
+                                                <span class="fa fa-upload"></span>
+                                                Upload all
+                                            </button>
+                                        </span>
+                            </div>
+                        </div>
+                        <!--</form:form>-->
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+
+
+    </div>
+
+
+    <script> <![CDATA[
+
+    $(document).ready(function () {
+        NProgress.configure({easing: 'ease', speed: 500});
+//        $("#fileUpload").on("change", handleFileSelect);
+        $("#fileUpload").change(function () {
+            showimagepreview(this);
+        });
+
+        var storedFiles = [],
+                uploadButton = $('<button/>')
+                        .
+                        addClass('btn btn-primary btn-upload')
+                        .text('Upload')
+                        .on('click', function () {
+                            var form = new FormData(),
+                                    i = 0,
+                                    $this = $(this);
+                            name = $this.attr('name');
+
+                            for (i = 0; i < storedFiles.length; i++) {
+                                if (storedFiles[i].name === name) {
+                                    form.append('files', storedFiles[i]);
+                                    break;
+                                }
+                            }
+                            jQuery.ajax({
+                                        data: form,
+                                        type: "POST",
+                                        enctype: 'multipart/form-data',
+                                        processData: false,
+                                        contentType: false,
+                                        url: "${homeUrl}${firstname}.${lastname}/storage/upload",
+                                        xhr: function () {
+                                            var xhr = new window.XMLHttpRequest();
+                                            //Upload progress
+                                            xhr.upload.addEventListener("progress", function (evt) {
+                                                if (evt.lengthComputable) {
+                                                    var percentComplete = evt.loaded / evt.total;
+                                                    NProgress.start();
+                                                    console.log(percentComplete);
+                                                }
+                                            }, false);
+                                            //Download progress
+                                            xhr.addEventListener("progress", function (evt) {
+                                                if (evt.lengthComputable) {
+                                                    var percentComplete = evt.loaded / evt.total;
+                                                    //Do something with download progress
+                                                    NProgress.set(percentComplete);
+                                                    console.log(percentComplete);
+                                                }
+                                            }, false);
+                                            return xhr;
+                                        },
+                                        success: function (data) {
+                                            alert(data);
+                                            storedFiles.splice(i, 1);
+                                            $this.parent().parent().remove();
+                                            if (storedFiles.length === 0) {
+                                                $("#filesUpload").find('tbody').append("No files");
+                                            }
+                                        },
+                                        error: function (xhr, status, errorThrown) {
+                                            alert(xhr + ' ' + status + '. ' + errorThrown);
+                                        }
+
+                                    }
+                            );
+                        }),
+                cancelButton = $('<button/>')
+                        .addClass('btn btn-warning cancel')
+                        .text('Cancel')
+                        .bind('click', function () {
+                            var name = $(this).attr('name');
+                            for (var i = 0; i < storedFiles.length; i++) {
+                                if (storedFiles[i].name === name) {
+                                    storedFiles.splice(i, 1);
+                                    break;
+                                }
+                            }
+                            if (storedFiles.length === 0) {
+                                $("#filesUpload").find('tbody').append("No files");
+                            }
+                            $(this).parent().parent().parent().remove();
+                        });
+
+        function clearAll() {
+            $("#filesUpload").find('tbody').children().remove();
+            $("#fileUpload").val("");
+            storedFiles.splice(0, storedFiles.length);
+            $("#filesUpload").find('tbody').append("No files");
+            $(this).prop("disabled", true);
+            $("#uploadall").prop("disabled", true);
+            NProgress.done();
+        }
+
+        function size(bytes) {
+            if (typeof bytes !== 'number') {
+                return '';
+            }
+            if (bytes >= 1000000000) {
+                return (bytes / 1000000000).toFixed(2) + ' GB';
+            }
+            if (bytes >= 1000000) {
+                return (bytes / 1000000).toFixed(2) + ' MB';
+            }
+            return (bytes / 1000).toFixed(2) + ' Kb.';
+        }
+
+        function showimagepreview(input) {
+            if (input.files && input.files[0]) {
+                if (storedFiles.length === 0) {
+                    $("#filesUpload").empty();
+                }
+                $.each(input.files, function (index, file) {
+                    if (file.type.match("\.(gif|jpg|jpeg|tiff|png)$")) {
+                        storedFiles.push(file);
+                        var filerdr = new FileReader(),
+                        //_URL = window.URL || window.webkitURL,
+                                image = new Image();
+                        filerdr.onload = function (e) {
+                            image.src = e.target.result;
+                            tr = document.createElement('tr');
+                            tdImage = document.createElement("td");
+                            $(tdImage).addClass("col-xs-4 col-center-block").append("<img src='" + e.target.result + "' class='img-responsive uploadImagePrev'/>");
+                            tdName = document.createElement("td");
+                            $(tdName).addClass("col-xs-4 col-center-block").append("<p>" + file.name + "</p>").append("<p>" + size(file.size) + "</p>").append("<p>" + image.width + "x" + image.height + "</p>");
+                            tdButtons = document.createElement("td");
+                            divButtons = document.createElement("div");
+                            $(divButtons).addClass("btn-group pull-right").append(cancelButton.attr("name", file.name).clone(true)).append(uploadButton.attr("name", file.name).clone(true));
+                            $(tdButtons).addClass("col-xs-4").append(divButtons);
+                            $(tr).attr("name", file.name).append(tdImage).append(tdName).append(tdButtons);
+                            $("#filesUpload").append(tr);
+                            $("#clearall").prop("disabled", false);
+                            $("#uploadall").prop("disabled", false);
+                        }
+                        filerdr.readAsDataURL(input.files[index]);
+                        //image.src=_URL.createOjectURL(input.files[index]);
+                    } else {
+                        alert("Wrong type of image!");
+                    }
+                });
+            }
+        }
+
+
+        $("#clearall").click(function () {
+            clearAll();
+        });
+
+        $("#uploadall").click(function () {
+            var form = new FormData();
+            for (var i = 0, len = storedFiles.length; i < len; i++) {
+                form.append('files', storedFiles[i]);
+            }
+            jQuery.ajax({
+                        data: form,
+                        type: "POST",
+                        enctype: 'multipart/form-data',
+                        processData: false,
+                        contentType: false,
+                        url: "${homeUrl}${firstname}.${lastname}/storage/upload",
+                        xhr: function () {
+                            var xhr = new window.XMLHttpRequest();
+                            //Upload progress
+                            xhr.upload.addEventListener("progress", function (evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = evt.loaded / evt.total;
+                                    NProgress.start();
+                                    console.log(percentComplete);
+                                }
+                            }, false);
+                            //Download progress
+                            xhr.addEventListener("progress", function (evt) {
+                                if (evt.lengthComputable) {
+                                    var percentComplete = evt.loaded / evt.total;
+                                    //Do something with download progress
+                                    NProgress.set(percentComplete);
+                                    console.log(percentComplete);
+                                }
+                            }, false);
+                            return xhr;
+                        },
+                        success: function (data) {
+                            //alert(data);
+                            clearAll();
+                            NProgress.done();
+                        },
+                        error: function (xhr, status, errorThrown) {
+                            alert(xhr + ' ' + status + '. ' + errorThrown);
+                            NProgress.done();
+                        }
+
+
+                    }
+            );
+        });
+
+
+    });
+    ]]></script>
+</div>

@@ -3,12 +3,17 @@ package pl.upir.blog.web.app.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.MessageSource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -21,9 +26,11 @@ import pl.upir.blog.service.BlgDicTagService;
 import pl.upir.blog.service.BlgPostService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.service.security.BlgUserSecurityServiceImpl;
+import pl.upir.blog.web.form.FormPostPagination;
 import pl.upir.blog.web.form.Message;
 import pl.upir.blog.web.util.ImageCropper;
 import pl.upir.blog.web.util.UrlUtil;
+import pl.upir.blog.web.validator.BlgPostCustomValidator;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -58,12 +65,15 @@ public class BlgPostController {
     @Autowired
     BlgDicTagService blgDicTagService;
 
-    /*static class BlgTagCat {
-        public List<BlgPostCategory> blgPostCategories;
-        public List<BlgDicTag> blgDicTags;
+    @Autowired
+    BlgPostCustomValidator blgPostCustomValidator;
 
-
-    }*/
+    @RequestMapping(value = "/{y}/{m}/{d}/{id}",method = RequestMethod.GET)
+    public String home(@PathVariable(value = "id") int id, Model model) {
+        BlgPost blgPost = blgPostService.findById(id);
+        model.addAttribute("post", blgPost);
+        return "post/view";
+    }
 
     @Secured("IS_AUTHENTICATED_FULLY")
     @RequestMapping(value = "/{firstName}.{lastName}/post/create", method = RequestMethod.GET)
@@ -83,7 +93,7 @@ public class BlgPostController {
     }
 
     @ModelAttribute("tagCache")
-    public List<BlgDicTag> getDicTag(){
+    public List<BlgDicTag> getDicTag() {
         return blgDicTagService.findAll();
     }
 
@@ -108,23 +118,27 @@ public class BlgPostController {
 
     }*/
 
+     @InitBinder("blgPost")
+     protected void initBinder(WebDataBinder binder) {
+
+         binder.addValidators(blgPostCustomValidator);
+     }
+
     @Secured("IS_AUTHENTICATED_FULLY")
     @RequestMapping(value = "/{firstName}.{lastName}/post/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("blgPost") BlgPost blgPost, BindingResult bindingUser,
                          //@RequestParam(value = "pstTitleImage", required = false)
                          //@ModelAttribute("pstTitleImage")MultipartFile file,
-                                   Model model, HttpServletRequest request,
-                                   RedirectAttributes redirectAttributes, Locale locale) {
-
+                         Model model, HttpServletRequest request,
+                         RedirectAttributes redirectAttributes, Locale locale) {
         if (bindingUser.hasErrors()) {
             List<BlgDicTag> blgDicTagList = blgDicTagService.findAll();
             List<BlgDicCategory> blgPostCategoriesList = blgDicCategoryService.findAll();
-            model.addAttribute("message", new Message("alert alert-danger", "Oh snap!", messageSource.getMessage("save_fail", new Object[]{}, locale)));
+            model.addAttribute("message", new Message("alert alert-danger", "Oh snap!", messageSource.getMessage("save_fail_smart", new Object[]{}, locale)));
             model.addAttribute("blgPost", blgPost);
             model.addAttribute("blgPostCatList", blgPostCategoriesList);
             model.addAttribute("blgPostTagList", blgDicTagList);
-
-           return "/{firstName}.{lastName}/post/create";
+            return "post/create";
         }
         model.asMap().clear();
         redirectAttributes.addFlashAttribute("message", new Message("alert alert-success", "Well done!", messageSource.getMessage("save_success", new Object[]{}, locale)));
@@ -135,93 +149,59 @@ public class BlgPostController {
         blgDicTagSet.forEach(blgDicTag -> blgDicTag.setDicTagId(blgDicTagService.finByDicTagName(blgDicTag.getDicTagName()).getDicTagId()));
         Set<BlgDicCategory> blgDicCategorySet = new HashSet<>();
         blgPost.getBlgDicCategorySet().forEach(blgDicCategory -> {
-            blgDicCategory=blgDicCategoryService.findByTitle(blgDicCategory.getDicCatName());
-        blgDicCategorySet.add(blgDicCategory);
+            blgDicCategory = blgDicCategoryService.findByTitle(blgDicCategory.getDicCatName());
+            blgDicCategorySet.add(blgDicCategory);
         });
 
-        int target=50;
-        String substr="";
+        int target = 50;
+        String substr = "";
         //Document document = Jsoup.parse(blgPost.getPstDocument());
-        String patt="\\s|\\n";
-        String documentShort=blgPost.getPstDocument().replaceAll("[>][\\s*]+[<]","><");
-        Pattern pattern1=Pattern.compile("\\s|\\n");
-        Pattern pattern = Pattern.compile("[.][\\s]?");
-        //Pattern pattern2 = Pattern.compile("^[А-Я,A-Z][.*\\s]+$");
-
-        Matcher matcher1=pattern1.matcher(documentShort);
-        int i=0;
-        while (matcher1.find()){
-            if(i==target){
-                target=matcher1.end();
-            }
-            i++;
-        }
-int j=0;
-        matcher1=pattern.matcher(documentShort).region(target,documentShort.length());
-        while (matcher1.find()){
-            if(matcher1.end()>target) {
-                target = matcher1.end();
-                j++;
-                break;
-            }
-
-
-        }
-        //target=matcher1.end();
-
-        pattern1= Pattern.compile("<pre");
-        matcher1=pattern1.matcher(documentShort).region(0,target);
-        if(matcher1.find()){
-            pattern1=Pattern.compile("</pre>");
-            matcher1=pattern1.matcher(documentShort).region(target,documentShort.length());
-            if(matcher1.find()){
-                target=matcher1.end();
-            }
-        }
-        substr=documentShort.substring(0,target);
-
-
-        /*String str = documentShort.split(patt)[i];
-        Matcher matcher = pattern.matcher(str);
+        String patt = "\\s|\\n";
+        //Delete all space between tags
+        String documentShort = blgPost.getPstDocument().replaceAll("[>][\\s*]+[<]", "><");
+        documentShort=documentShort.replaceAll("&nbsp;"," ");
+        //all spaces and \n
+        Pattern pattern1 = Pattern.compile("\\s|\\n");
+        //end of sentence
+        Pattern pattern = Pattern.compile("[.][\\s]");
+        Pattern patternCut = Pattern.compile("<cutblog>.....</cutblog>");
+        Matcher matcher = patternCut.matcher(documentShort);
         if(matcher.find()){
-            int j=i;
-            matcher.reset();
-            while(matcher.find()){
-                j--;
-                String str2=documentShort.split("[.*\\s]+")[j];
-                matcher=pattern2.matcher(str2);
+            target=matcher.start();
+        }else {
+
+
+            Matcher matcher1 = pattern1.matcher(documentShort);
+            int i = 0;
+            while (matcher1.find()) {
+                if (i == target) {
+                    target = matcher1.end();
+                    break;
+                }
+                i++;
             }
-            for(int q=j;q==i;q++){
-                substr=substr+documentShort.split("[.*\\s]+")[q];
+            int j = 0;
+            matcher1 = pattern.matcher(documentShort).region(target, documentShort.length());
+            while (matcher1.find()) {
+                if (matcher1.end() > target) {
+                    target = matcher1.end();
+                    j++;
+                    break;
+                }
             }
-        }else
-        {
-            int j=i;
-            matcher.reset();
-            while(!matcher.find()){
-                j++;
-                String str2= documentShort.split(patt)[j];
-                matcher=pattern.matcher(str2);
+            pattern1 = Pattern.compile("<pre");
+            matcher1 = pattern1.matcher(documentShort).region(0, target);
+            if (matcher1.find()) {
+                pattern1 = Pattern.compile("</pre>");
+                matcher1 = pattern1.matcher(documentShort).region(target, documentShort.length());
+                if (matcher1.find()) {
+                    target = matcher1.end();
+                }
             }
-
-             substr=documentShort.split(patt)[j].replaceAll("\\(\\)","\\\\(\\\\)").replaceAll("[.]", "[.]");
-             substr.replaceAll(substr,substr+"<!--START-->");
-            documentShort.split(patt)[j]=substr;
-             Pattern pattern3 = Pattern.compile("(((?s)"+documentShort.split(patt)[i]+"(.*?)("+documentShort.split(patt)[j]+"))((.*)[.*\\\\s]))\"");
-             Matcher matcher1 = pattern3.matcher(documentShort);
-
-            if(matcher1.find()){
-                System.out.print("");
-            }
-
-
-        }*/
-
-
-
-
-
-
+        }
+        /*pattern1 = Pattern.compile("<iframe");
+        matcher1 = pattern1.matcher(documentShort).region(0, target);*/
+        substr = documentShort.substring(0, target);
 
         blgPost.setPstDocumentShort(substr);
         blgPost.setBlgDicTagSet(blgDicTagSet);
@@ -230,7 +210,7 @@ int j=0;
         MultipartFile file = blgPost.file;
 
 
-        if (!file.isEmpty()) {
+        if (file!=null) {
             String fileName = file.getOriginalFilename();
             byte[] bytes = new byte[0];
             try {
@@ -242,7 +222,7 @@ int j=0;
                 stream.write(bytes);
                 stream.close();
                 //ImageCropper.resizeImage(serverFile, origHeight, origWidth, "png");
-                if(ImageCropper.getSize(serverFile).get("height")>800 && ImageCropper.getSize(serverFile).get("height")>600){
+                if (ImageCropper.getSize(serverFile).get("height") > 800 && ImageCropper.getSize(serverFile).get("height") > 600) {
                     model.addAttribute("message", new Message("alert alert-danger", "Oh snap!", messageSource.getMessage("post.image.size", new Object[]{}, locale)));
                     model.addAttribute("blgPost", blgPost);
                     List<BlgDicTag> blgDicTagList = blgDicTagService.findAll();
@@ -263,14 +243,14 @@ int j=0;
                 }*/
 
                 blgPost.setPstTitleImage(UrlUtil.sourcePathFile(request, "/resources/images/post/" + fileName));
-            } catch (IOException ex){
+            } catch (IOException ex) {
                 ex.printStackTrace();
                 //return ex.toString();
             }
         }
 
         LocalDate date = LocalDate.now();
-        blgPost.setPstUrl(UrlUtil.sourcePathFile(request,"/"+date.getYear()+"/"+date.getMonthValue()+"/"+date.getDayOfMonth()+"/"+blgPostService.getNextAutoincrement()));
+        blgPost.setPstUrl(UrlUtil.sourcePathFile(request, "/" + date.getYear() + "/" + date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + blgPostService.getNextAutoincrement()));
         //blgPost=blgPostService.save(blgPost);
 
         blgPostService.save(blgPost);

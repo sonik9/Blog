@@ -1,5 +1,7 @@
 package pl.upir.blog.repository;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.data.repository.query.Param;
@@ -23,6 +25,11 @@ public interface BlgPostRepository extends PagingAndSortingRepository<BlgPost, I
     public ArrayList<BlgPost> findByPstTitleContaining(@Param("title")String title);
     @Query(value = "SELECT AUTO_INCREMENT FROM information_schema.tables WHERE table_name = 'blg_post' AND table_schema = DATABASE()", nativeQuery = true)
     public int getNextAutoincrement();
+
+    //@Query(value = "SELECT * FROM blg_post WHERE pst_enable=true", nativeQuery = true)
+    public Page<BlgPost> findByPstEnable(boolean pstEnable,Pageable pageable);
+
+    //public Page<BlgPost> findAllAndPstEnableIsTrueByPage(Pageable pageable);
 
     /*public ArrayList<BlgPost> findAllByBlgUser_UsrId(int usrId);
     public ArrayList<BlgPost> findAllByBlgUser(BlgUser blgUser);

@@ -24,6 +24,7 @@
     <spring:theme code="styleSheetApp" var="app_css"/>
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
+
     <!-- Jquery-->
     <spring:url value="${rootUrl}resources/js/jquery/jquery-1.10.2.js" var="jsJquery"/>
     <script src="${jsJquery}" type="text/javascript"><jsp:text/></script>
@@ -31,25 +32,17 @@
     <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
     <script src="${jsBootstrap}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="${rootUrl}resources/js/jquery/jquery-ui.js" var="jsJqueryUi"/>
-    <script src="${jsJqueryUi}" type="text/javascript"><jsp:text/></script>
-
     <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
     <script src="${jsNprogress}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="${rootUrl}resources/js/tinymce/tinymce.min.js" var="jsEditor"/>
-    <script src="//tinymce.cachefly.net/4.2/tinymce.min.js" type="text/javascript"><jsp:text/></script>
-
-    <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap-multiselect.js" var="jsTag"/>
-    <script src="${jsTag}" type="text/javascript"><jsp:text/></script>
+    <spring:url value="${rootUrl}resources/js/main.js" var="jsMain"/>
+    <script src="${jsMain}" type="text/javascript"><jsp:text/></script>
 
     <c:set var="userLocale">
         <c:set var="plocale">${pageContext.response.locale}</c:set>
         <c:out value="${fn:replace(plocale, '_','-' )}" default="en"/>
     </c:set>
     <spring:message code="application_name" var="app_name" htmlEscape="false"/>
-
-
     <title><spring:message code="welcome_h3" arguments=""/>${app_name}</title>
 </head>
 
@@ -60,6 +53,13 @@
 <tiles:insertAttribute name="body"/>
 <!--Body Wrapper-->
 <tiles:insertAttribute name="footer" ignore="true"/>
+
+
+
+<!--<spring:url value="${rootUrl}resources/js/jquery/jquery-ui.js" var="jsJqueryUi"/>
+<script src="${jsJqueryUi}" type="text/javascript"><jsp:text/></script>-->
+
+
 </body>
 
 </html>

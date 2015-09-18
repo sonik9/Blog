@@ -18,6 +18,7 @@ import java.util.Set;
 public interface BlgPostService {
     public List<BlgPost> findAll();
     public Page<BlgPost> findAllByPage(Pageable pageable);
+    public Page<BlgPost> findByPstEnable(boolean pstEnable,Pageable pageable);
     public BlgPost findById(int id);
     public List<BlgPost> findAllByDate(String date);
     public ArrayList<BlgPost> findByTitle(String title);
@@ -33,4 +34,5 @@ public interface BlgPostService {
     public void delete(BlgPost blgPost);
     public BlgPost save(BlgPost blgPost);
 
+   // Page<BlgPost> findByPstEnable(Pageable pageable, boolean pstEnable);
 }

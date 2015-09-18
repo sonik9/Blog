@@ -4,10 +4,11 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition extends="default" name="home">
-        <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
+
+    <definition extends="default" name="post/create">
+        <put-attribute name="body" value="/WEB-INF/views/post/post-creating.jsp"/>
     </definition>
-    <definition extends="default" name="settings">
-        <put-attribute name="body" value="/WEB-INF/views/home/settings.jspx"/>
+    <definition extends="default" name="post/view">
+        <put-attribute name="body" value="/WEB-INF/views/post/post.jspx"/>
     </definition>
 </tiles-definitions>

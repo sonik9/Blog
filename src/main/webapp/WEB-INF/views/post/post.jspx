@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Created by IntelliJ IDEA.
+  User: Vitalii
+  Date: 18/09/2015
+  Time: 3:44 PM
+  To change this template use File | Settings | File Templates.
+-->
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+    <jsp:directive.page contentType="text/html; charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="label_blgStorage" var="labelBlgStorage"/>
+    <spring:message code="label_blgStorage_inf_b" var="labelBlgStorageInfB"/>
+    <spring:message code="label_blgStorage_inf" var="labelBlgStorageInf"/>
+    <spring:message code="label_blgStorage_upload_panel" var="labelBlogStorageUploadPanel"/>
+    <!--<spring:message code="label_blgStorage" var="labelBlogStorage"/>-->
+    <style>
+        .table > tbody > tr > td {
+            vertical-align: inherit;
+        }
+    </style>
+    <c:if test="${not empty post}">
+        <c:set var="user" value="${post.blgUserSet.iterator().next()}"/>
+        <c:set var="firstname" value="${user.blgUserDetail.usrDetFirstname}"/>
+        <c:set var="lastname" value="${user.blgUserDetail.usrDetLastname}"/>
+
+        <div id="masthead">
+            <div class="container">
+                <div class="row post-show">
+                    <div class="col-xs-7">
+                        <h1>${firstname}<![CDATA[&nbsp;]]>${lastname}
+                            <p class="lead">${labelUserInfo}</p>
+                        </h1>
+                    </div>
+                    <div class="col-xs-5" style="top: 45px;">
+                        <c:choose>
+                            <c:when test="${user.blgUserDetail.usrPhotoLink!=null}">
+                                <a href="#"><img name="userpic" alt="User Pic" src="${user.blgUserDetail.usrPhotoLink}"
+                                                 style="width:200px;height:200px" class="img-rounded"/>
+                                </a>
+                            </c:when>
+                            <c:otherwise>
+                                <a href="#"> <img name="userpic" src="//placehold.it/200"
+                                                  style="width:200px;height:200px"
+                                                  class="img-rounded"/></a>
+                            </c:otherwise>
+                        </c:choose>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </c:if>
+
+    <div class="container">
+        <c:if test="${not empty message}">
+            <div class="${message.type}" role="alert">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                        aria-hidden="true">&amp;times</span></button>
+                <strong>${message.firstWord}</strong> ${message.message}
+            </div>
+        </c:if>
+    </div>
+    <script>
+
+
+alert();
+                    $('.container').children('.row').addClass('post-show').children('div').switchClass('','col-xs-3',1000,'easeInOutQuad');
+
+
+    </script>
+</div>

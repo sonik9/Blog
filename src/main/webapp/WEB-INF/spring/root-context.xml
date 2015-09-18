@@ -14,7 +14,7 @@
 
 
     <import resource="hibernate-jpa-context.xml"/>
-
+    <context:component-scan base-package="pl.upir.blog.web.validator"/>
 
     <!--<import resource="web-security.xml"/>--> <!--web.xml-->
     <!--<bean id="message" class="java.lang.String" c:_0="Hello world annotation"/>-->

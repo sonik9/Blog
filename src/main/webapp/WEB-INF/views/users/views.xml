@@ -19,4 +19,10 @@
     <definition extends="default" name="users/del">
         <put-attribute name="body" value="/WEB-INF/views/users/list.jspx"/>
     </definition>
+    <definition extends="default" name="users/storage">
+        <put-attribute name="body" value="/WEB-INF/views/users/upload.jsp"/>
+    </definition>
+    <definition extends="frame" name="users/storage/download">
+        <put-attribute name="body" value="/WEB-INF/views/users/download-iframe.jsp"/>
+    </definition>
 </tiles-definitions>

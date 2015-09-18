@@ -79,8 +79,8 @@
                         </a>
                     </li>
                     <li>
-                        <a  href="#email">
-                            <span class="fa fa-envelope fa-2x"></span>
+                        <a  href="${homeUrl}${firstname}.${lastname}/storage/upload">
+                            <span class="fa fa-cloud-upload fa-2x"></span>
                         </a>
                     </li>
                     <li>
@@ -277,6 +277,7 @@
         $('img[name=userpic]').click(function () {
             $('#image').click();
         });
+
         $("#resizable").resizable({
             handles: 'se, sw, nw, ne, e ,w, n, s',
             helper: "ui-resizable-helper",

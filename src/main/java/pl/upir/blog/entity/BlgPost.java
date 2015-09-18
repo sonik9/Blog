@@ -27,7 +27,7 @@ public class BlgPost {
     private String pstTitleImage;
     private Timestamp pstTimeCreate;
     private Timestamp pstTimeModify;
-    private byte pstEnable;
+    private boolean pstEnable;
     private int pstCountLike;
     private int pstCountDislike;
     private int pstCountComm;
@@ -55,7 +55,7 @@ public class BlgPost {
         this.pstId = pstId;
     }
 
-    @Size(min = 4, max = 255, message = "{validation.pstTitle.Size.messag}")
+    @Size(min = 20, max = 255, message = "{validation.pstTitle.Size.message}")
     @NotEmpty(message = "{validation.pstTitle.NotEmpty.message}")
     @Basic
     @Column(name = "pst_title", nullable = false, insertable = true, updatable = true, length = 255)
@@ -67,7 +67,7 @@ public class BlgPost {
         this.pstTitle = pstTitle;
     }
 
-    @Size(min = 200, max = 100000, message = "{validation.pstDocument.Size.messag}")
+    @Size(min = 200, max = 100000, message = "{validation.pstDocument.Size.message}")
     @NotEmpty(message = "{validation.pstDocument.NotEmpty.message}")
     @Basic
     @Column(name = "pst_document", nullable = false, insertable = true, updatable = true)
@@ -112,11 +112,11 @@ public class BlgPost {
     @JsonIgnore
     @Basic
     @Column(name = "pst_enable", nullable = false, insertable = true, updatable = true)
-    public byte getPstEnable() {
+    public boolean getPstEnable() {
         return pstEnable;
     }
 
-    public void setPstEnable(byte pstEnable) {
+    public void setPstEnable(boolean pstEnable) {
         this.pstEnable = pstEnable;
     }
 
@@ -173,42 +173,30 @@ public class BlgPost {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
+        if (!(o instanceof BlgPost)) return false;
         BlgPost blgPost = (BlgPost) o;
-
-        if (pstId != blgPost.pstId) return false;
-        if (pstEnable != blgPost.pstEnable) return false;
-        if (pstCountLike != blgPost.pstCountLike) return false;
-        if (pstCountDislike != blgPost.pstCountDislike) return false;
-        if (pstCountComm != blgPost.pstCountComm) return false;
-        if (pstTitle != null ? !pstTitle.equals(blgPost.pstTitle) : blgPost.pstTitle != null) return false;
-        if (pstTitleImage != null ? !pstTitleImage.equals(blgPost.pstTitleImage) : blgPost.pstTitleImage != null)
-            return false;
-        if (pstTimeCreate != null ? !pstTimeCreate.equals(blgPost.pstTimeCreate) : blgPost.pstTimeCreate != null)
-            return false;
-        if (pstTimeModify != null ? !pstTimeModify.equals(blgPost.pstTimeModify) : blgPost.pstTimeModify != null)
-            return false;
-        if (pstUrl != null ? !pstUrl.equals(blgPost.pstUrl) : blgPost.pstUrl != null) return false;
-
-        return true;
+        return java.util.Objects.equals(pstId, blgPost.pstId) &&
+                java.util.Objects.equals(pstEnable, blgPost.pstEnable) &&
+                java.util.Objects.equals(pstCountLike, blgPost.pstCountLike) &&
+                java.util.Objects.equals(pstCountDislike, blgPost.pstCountDislike) &&
+                java.util.Objects.equals(pstCountComm, blgPost.pstCountComm) &&
+                java.util.Objects.equals(pstTitle, blgPost.pstTitle) &&
+                java.util.Objects.equals(pstDocument, blgPost.pstDocument) &&
+                java.util.Objects.equals(pstDocumentShort, blgPost.pstDocumentShort) &&
+                java.util.Objects.equals(pstTitleImage, blgPost.pstTitleImage) &&
+                java.util.Objects.equals(pstTimeCreate, blgPost.pstTimeCreate) &&
+                java.util.Objects.equals(pstTimeModify, blgPost.pstTimeModify) &&
+                java.util.Objects.equals(pstUrl, blgPost.pstUrl) &&
+                java.util.Objects.equals(blgDicCategorySet, blgPost.blgDicCategorySet) &&
+                java.util.Objects.equals(blgUserSet, blgPost.blgUserSet) &&
+                java.util.Objects.equals(blgDicTagSet, blgPost.blgDicTagSet) &&
+                java.util.Objects.equals(file, blgPost.file);
     }
 
     @Override
     public int hashCode() {
-        int result = pstId;
-        result = 31 * result + (pstTitle != null ? pstTitle.hashCode() : 0);
-        result = 31 * result + (pstTitleImage != null ? pstTitleImage.hashCode() : 0);
-        result = 31 * result + (pstTimeCreate != null ? pstTimeCreate.hashCode() : 0);
-        result = 31 * result + (pstTimeModify != null ? pstTimeModify.hashCode() : 0);
-        result = 31 * result + (int) pstEnable;
-        result = 31 * result + pstCountLike;
-        result = 31 * result + pstCountDislike;
-        result = 31 * result + pstCountComm;
-        result = 31 * result + (pstUrl != null ? pstUrl.hashCode() : 0);
-        return result;
+        return java.util.Objects.hash(pstId, pstTitle, pstDocument, pstDocumentShort, pstTitleImage, pstTimeCreate, pstTimeModify, pstEnable, pstCountLike, pstCountDislike, pstCountComm, pstUrl, blgDicCategorySet, blgUserSet, blgDicTagSet);
     }
-
     @Override
     public String toString() {
         return "BlgPost{" +
@@ -242,7 +230,6 @@ public class BlgPost {
         this.blgUser = blgUser;
     }
 */
-
     @JsonIgnore
     @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "blg_post_category",
