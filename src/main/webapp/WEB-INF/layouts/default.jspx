@@ -10,7 +10,7 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:tiles="http://tiles.apache.org/tags-tiles"
-      xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+      >
 <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compact"/>
 <jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:directive.page pageEncoding="UTF-8"/>
@@ -24,13 +24,17 @@
     <spring:theme code="styleSheetApp" var="app_css"/>
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
-
     <!-- Jquery-->
-    <spring:url value="${rootUrl}resources/js/jquery/jquery-1.10.2.js" var="jsJquery"/>
+    <spring:url value="resources/js/jquery/jquery-1.11.3.min.js" var="jsJquery"/>
     <script src="${jsJquery}" type="text/javascript"><jsp:text/></script>
+
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"><jsp:text/></script>-->
 
     <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
     <script src="${jsBootstrap}" type="text/javascript"><jsp:text/></script>
+
+    <spring:url value="${rootUrl}resources/js/jquery/jquery-ui.js" var="jsJqueryUi"/>
+    <script src="${jsJqueryUi}" type="text/javascript"><jsp:text/></script>
 
     <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
     <script src="${jsNprogress}" type="text/javascript"><jsp:text/></script>
@@ -38,11 +42,14 @@
     <spring:url value="${rootUrl}resources/js/main.js" var="jsMain"/>
     <script src="${jsMain}" type="text/javascript"><jsp:text/></script>
 
+
     <c:set var="userLocale">
         <c:set var="plocale">${pageContext.response.locale}</c:set>
         <c:out value="${fn:replace(plocale, '_','-' )}" default="en"/>
     </c:set>
     <spring:message code="application_name" var="app_name" htmlEscape="false"/>
+
+
     <title><spring:message code="welcome_h3" arguments=""/>${app_name}</title>
 </head>
 
@@ -53,11 +60,6 @@
 <tiles:insertAttribute name="body"/>
 <!--Body Wrapper-->
 <tiles:insertAttribute name="footer" ignore="true"/>
-
-
-
-<!--<spring:url value="${rootUrl}resources/js/jquery/jquery-ui.js" var="jsJqueryUi"/>
-<script src="${jsJqueryUi}" type="text/javascript"><jsp:text/></script>-->
 
 
 </body>

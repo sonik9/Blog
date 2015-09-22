@@ -20,7 +20,7 @@
     <oauth:web-expression-handler id="oauthWebExpressionHandler" />
 
 
-    <security:http pattern="/oauth/token" create-session="stateless" use-expressions="true"
+    <security:http pattern="/oauth/token" create-session="always" use-expressions="true"
                    authentication-manager-ref="clientAuthenticationManager">
         <security:csrf disabled="true"/>
         <security:intercept-url pattern="/oauth/token" access="isFullyAuthenticated()"/>
