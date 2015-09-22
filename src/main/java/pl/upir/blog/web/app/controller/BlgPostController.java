@@ -42,6 +42,8 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
@@ -74,13 +76,17 @@ public class BlgPostController {
 
     @RequestMapping(value = "/{year:\\d+}/{month:\\d+}/{day:\\d+}/{id}",method = RequestMethod.GET)
     public String home(@PathVariable("year") String year, @PathVariable("month") String month, @PathVariable("day") String day,
-                       @PathVariable(value = "id") int id, Model model) {
+                       @PathVariable(value = "id") int id, Model model, HttpServletRequest request) throws URISyntaxException {
         BlgPost blgPost = blgPostService.findById(id);
 
 
         String fbContent = Jsoup.parse(blgPost.getPstDocumentShort()).text();
-        Elements el = Jsoup.parse(blgPost.getPstDocument()).getElementsByTag("img");
+        Document document = Jsoup.parse(blgPost.getPstDocument());
+        document.setBaseUri(new URI(UrlUtil.sourcePathFile(request,"")).toString());
+
+        Elements el = document.getElementsByTag("img");
         List<String> fbImages = new ArrayList<>();
+
         el.forEach(el1 -> {
             if(el1.absUrl("src").isEmpty()) {
                 fbImages.add(el1.attr("abs:src"));
