@@ -89,7 +89,7 @@
                                     </c:choose>
                                 </li>
                             </ul>
-                            <h3>${item.pstTitle}</h3>
+                            <h3><a href="${homeUrl}${pstDate}/${item.pstId}">${item.pstTitle}</a></h3>
 
                             <div class="row">
                                 <div class="col-xs-12">
@@ -117,7 +117,7 @@
                                     <ul class="list-inline">
                                         <li>
                                             <a class="story-img" href="#">
-                                                <i>${labelPublishBy}
+                                                <i>${labelPublishBy}<![CDATA[&nbsp;]]>
                                                 <c:choose>
                                                     <c:when test="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink!=null}">
                                                         <img src="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink}"
@@ -128,13 +128,13 @@
                                                              class="img-rounded"/>
                                                     </c:otherwise>
                                                 </c:choose><![CDATA[&nbsp;]]>
-                                                ${item.blgUserSet.iterator().next().blgUserDetail.usrDetFirstname}<![CDATA[&nbsp;]]>${item.blgUserSet.iterator().next().blgUserDetail.usrDetLastname}</i>
+                                                ${item.blgUserSet.iterator().next().blgUserDetail.usrDetFirstname}<![CDATA[&nbsp;]]>${item.blgUserSet.iterator().next().blgUserDetail.usrDetLastname},</i>
                                             </a>
                                         </li>
-                                        <li><a href="#"><span class="fa fa-thumbs-up"/> ${item.pstCountLike}${labelLike}</a></li>
-                                        <li><a href="#"><span class="fa fa-thumbs-down"/> ${item.pstCountDislike}${labelDislike}</a></li>
-                                        <li><a href="#"><span class="fa fa-comments"/> ${item.pstCountComm}${labelComments}</a></li>
-                                        <li><a href="#"><span class="fa fa-share-alt"/>34${labelShare}</a></li>
+                                        <li><span class="fa fa-thumbs-up"/> ${labelLike}(${item.pstCountLike})</li>
+                                        <li><span class="fa fa-thumbs-down"/> ${labelDislike}(${item.pstCountDislike})</li>
+                                        <li><a href="#"><span class="fa fa-comments"/> ${labelComments}(${item.pstCountComm})</a></li>
+                                        <li><span class="fa fa-share-alt"/>${labelShare}(34)</li>
                                     </ul>
                                 </div>
                             </div>

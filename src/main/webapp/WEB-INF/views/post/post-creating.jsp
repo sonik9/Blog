@@ -212,6 +212,8 @@ To change this template use File | Settings | File Templates.
 
                 //$.validattion();
                 tinymce.init({
+                    convert_urls: false,
+                            remove_script_host: false,
                     extended_valid_elements: "cutblog",
                     custom_elements: "cutblog",
                     selector: "textarea#content",
@@ -234,6 +236,7 @@ To change this template use File | Settings | File Templates.
                             }
                         });
                     },
+
                 });
 
 

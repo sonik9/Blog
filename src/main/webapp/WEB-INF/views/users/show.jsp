@@ -79,7 +79,7 @@
                         </a>
                     </li>
                     <li>
-                        <a  href="${homeUrl}${firstname}.${lastname}/storage/upload">
+                        <a  href="${homeUrl}${firstname}.${lastname}/storage">
                             <span class="fa fa-cloud-upload fa-2x"></span>
                         </a>
                     </li>

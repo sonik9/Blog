@@ -7,7 +7,7 @@
 	if ( typeof define === "function" && define.amd ) {
 
 		// AMD. Register as an anonymous module.
-		define([ "jquery" ], factory );
+		define([ "js.jquery" ], factory );
 	} else {
 
 		// Browser globals
@@ -598,7 +598,7 @@ $.Widget.prototype = {
 		this.element
 			.unbind( this.eventNamespace )
 			.removeData( this.widgetFullName )
-			// support: jquery <1.6.3
+			// support: js.jquery <1.6.3
 			// http://bugs.jquery.com/ticket/9413
 			.removeData( $.camelCase( this.widgetFullName ) );
 		this.widget()
@@ -10001,7 +10001,7 @@ jQuery.cssHooks.borderColor = {
 
 // Basic color names only.
 // Usage of any of the other color names requires adding yourself or including
-// jquery.color.svg-names.js.
+// js.jquery.color.svg-names.js.
 colors = jQuery.Color.names = {
 	// 4.1. Basic color keywords
 	aqua: "#00ffff",

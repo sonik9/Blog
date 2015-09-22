@@ -1,7 +1,7 @@
 ﻿--
 -- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 6.3.358.0
 -- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 8/09/2015 10:39:28 AM
+-- Дата скрипта: 22/09/2015 5:15:59 PM
 -- Версия сервера: 5.7.7-rc-log
 -- Версия клиента: 4.1
 --
@@ -18,7 +18,7 @@ CREATE TABLE blg_dic_category (
   UNIQUE INDEX pst_cat_name (dic_cat_name)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 7
+AUTO_INCREMENT = 4
 AVG_ROW_LENGTH = 5461
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
@@ -81,21 +81,22 @@ CREATE TABLE blg_post (
   pst_document text NOT NULL,
   pst_title_image varchar(255) DEFAULT NULL,
   pst_time_create timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  pst_time_modify timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-  pst_enable tinyint(1) NOT NULL DEFAULT 1,
+  pst_time_modify timestamp NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  pst_enable tinyint(1) NOT NULL DEFAULT 0,
   pst_count_like int(11) NOT NULL DEFAULT 0,
   pst_count_dislike int(11) NOT NULL DEFAULT 0,
   pst_count_comm int(11) NOT NULL DEFAULT 0,
   pst_url varchar(255) NOT NULL,
   pst_document_short text NOT NULL,
+  pst_count_view int(11) NOT NULL DEFAULT 0,
   PRIMARY KEY (pst_id),
   INDEX UK_blg_post_pst_document (pst_document (1)),
   UNIQUE INDEX UK_blg_post_pst_id (pst_id),
   UNIQUE INDEX UK_blg_post_pst_title (pst_title)
 )
 ENGINE = INNODB
-AUTO_INCREMENT = 20
-AVG_ROW_LENGTH = 16384
+AUTO_INCREMENT = 30
+AVG_ROW_LENGTH = 11915
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -165,7 +166,7 @@ CREATE TABLE blg_post_category (
   REFERENCES blg_post (pst_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 3276
+AVG_ROW_LENGTH = 1638
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -178,7 +179,7 @@ CREATE TABLE blg_post_tag (
   REFERENCES blg_post (pst_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 2340
+AVG_ROW_LENGTH = 862
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 
@@ -191,7 +192,7 @@ CREATE TABLE blg_post_user (
   REFERENCES blg_user (usr_id) ON DELETE RESTRICT ON UPDATE RESTRICT
 )
 ENGINE = INNODB
-AVG_ROW_LENGTH = 3276
+AVG_ROW_LENGTH = 1820
 CHARACTER SET utf8
 COLLATE utf8_general_ci;
 

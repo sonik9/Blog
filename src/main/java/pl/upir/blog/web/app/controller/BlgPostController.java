@@ -68,8 +68,9 @@ public class BlgPostController {
     @Autowired
     BlgPostCustomValidator blgPostCustomValidator;
 
-    @RequestMapping(value = "/{y}/{m}/{d}/{id}",method = RequestMethod.GET)
-    public String home(@PathVariable(value = "id") int id, Model model) {
+    @RequestMapping(value = "/{year:\\d+}/{month:\\d+}/{day:\\d+}/{id}",method = RequestMethod.GET)
+    public String home(@PathVariable("year") String year, @PathVariable("month") String month, @PathVariable("day") String day,
+                       @PathVariable(value = "id") int id, Model model) {
         BlgPost blgPost = blgPostService.findById(id);
         model.addAttribute("post", blgPost);
         return "post/view";

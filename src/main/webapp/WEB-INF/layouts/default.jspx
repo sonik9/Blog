@@ -25,10 +25,8 @@
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
     <!-- Jquery-->
-    <spring:url value="resources/js/jquery/jquery-1.11.3.min.js" var="jsJquery"/>
+    <spring:url value="${rootUrl}resources/js/jquery/jquery-1.11.3.min.js" var="jsJquery"/>
     <script src="${jsJquery}" type="text/javascript"><jsp:text/></script>
-
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js" type="text/javascript"><jsp:text/></script>-->
 
     <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
     <script src="${jsBootstrap}" type="text/javascript"><jsp:text/></script>

@@ -7,6 +7,9 @@
     <definition name="default" template="/WEB-INF/layouts/default.jspx">
             <put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
             <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
+        <put-list-attribute name="javascripts">
+            <add-attribute value="/public/js/bootstrap/bootstrap.min.js" />
+        </put-list-attribute>
     </definition>
     <definition name="frame" template="/WEB-INF/layouts/frame.jsp">
     </definition>
