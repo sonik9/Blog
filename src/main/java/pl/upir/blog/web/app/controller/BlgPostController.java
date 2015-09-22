@@ -1,5 +1,9 @@
 package pl.upir.blog.web.app.controller;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.safety.Whitelist;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +76,20 @@ public class BlgPostController {
     public String home(@PathVariable("year") String year, @PathVariable("month") String month, @PathVariable("day") String day,
                        @PathVariable(value = "id") int id, Model model) {
         BlgPost blgPost = blgPostService.findById(id);
+
+
+        String fbContent = Jsoup.parse(blgPost.getPstDocumentShort()).text();
+        Elements el = Jsoup.parse(blgPost.getPstDocument()).getElementsByTag("img");
+        List<String> fbImages = new ArrayList<>();
+        el.forEach(el1 -> {
+            if(el1.absUrl("src").isEmpty()) {
+                fbImages.add(el1.attr("abs:src"));
+            }
+            else
+                fbImages.add(el1.absUrl("src"));
+        });
+        model.addAttribute("fbImages", fbImages);
+        model.addAttribute("fbContent",fbContent);
         model.addAttribute("post", blgPost);
         return "post/view";
     }
