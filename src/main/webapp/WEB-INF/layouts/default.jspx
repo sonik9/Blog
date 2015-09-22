@@ -17,9 +17,30 @@
 <jsp:directive.page session="false"/>
 
 <head>
-    <meta http-equiv="content-type" content="text/html" charset="UTF-8"/>
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
     <c:url value='/' var="rootUrl"/>
+    <spring:message code="application_name" var="app_name" htmlEscape="false"/>
+    <spring:message code="welcome_h3" var="welcome" arguments=""/>
+    <meta http-equiv="content-type" content="text/html" charset="UTF-8"/>
+    <meta property="fb:app_id"      content="777058695740737" />
+    <c:if test="${not empty post}">
+        <title>${app_name}/${post.pstTitle}</title>
+        <meta property="og:type"        content="article" />
+        <meta property="og:url"         content="${post.pstUrl}" />
+        <meta property="og:title"       content="${post.pstTitle}" />
+        <meta property="og:description" content="${post.pstDocumentShort}" />
+        <meta property="og:image"       content="${post.pstTitleImage}" />
+    </c:if>
+
+    <c:if test="${empty post}">
+        <title>${welcome}<![CDATA[&nbsp;]]>${app_name}</title>
+        <meta property="og:type"        content="website" />
+        <meta property="og:url"         content="${rootUrl}" />
+        <meta property="og:title"       content="${welcome}<![CDATA[&nbsp;]]>${app_name}" />
+        <meta property="og:description" content="Blog storage system" />
+    </c:if>
+
+    <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
+
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/public/images/favicon.png" />
     <spring:theme code="styleSheetApp" var="app_css"/>
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
@@ -45,10 +66,10 @@
         <c:set var="plocale">${pageContext.response.locale}</c:set>
         <c:out value="${fn:replace(plocale, '_','-' )}" default="en"/>
     </c:set>
-    <spring:message code="application_name" var="app_name" htmlEscape="false"/>
 
 
-    <title><spring:message code="welcome_h3" arguments=""/>${app_name}</title>
+
+
 </head>
 
 <body>
