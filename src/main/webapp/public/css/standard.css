@@ -75,6 +75,14 @@ input, button, select, option {
     background-color:#4c576a;
 }
 
+.container-custom{
+    width: 90%;
+    padding-right: 15px;
+    padding-left: 15px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
 .user-details .user-info-block {width: 100%; position: absolute; top: 55px; background: rgb(255, 255, 255); z-index: 0; padding-top: 0px;}
 .user-info-block .user-heading {width: 100%; text-align: center; margin: 20px 0 0;}
 .user-info-block .navigation {float: left; width: 100%; padding: 0; list-style: none;}

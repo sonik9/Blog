@@ -2,6 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!--
 Created by IntelliJ IDEA.
 User: Vitalii
@@ -46,9 +47,11 @@ To change this template use File | Settings | File Templates.
         <c:set var="firstname" value="${principal.getBlgUserDetail().getUsrDetFirstname()}"/>
         <c:set var="lastname" value="${principal.getBlgUserDetail().getUsrDetLastname()}"/>
     </sec:authorize>
+    <sec:authorize access="hasRole('ADMIN')" var="auth">
+    </sec:authorize>
 
     <div id="masthead">
-        <div class="container">
+        <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-7">
                     <h1>${labelPost}
@@ -62,133 +65,179 @@ To change this template use File | Settings | File Templates.
 
 
     <!--TODO comments -->
-    <div class="container">
-        <div class="row">
-            <form:form autocomplete="off" commandName="blgPost" method="post"
-                       action="${homeUrl}${firstname}.${lastname}/post/create" enctype="multipart/form-data">
-                <c:if test="${not empty message}">
-                    <div class="${message.type}" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                aria-hidden="true"> <![CDATA[&times;]]></span></button>
-                        <strong>${message.firstWord}</strong> ${message.message}
-                        <p><form:errors path="blgDicCategorySet" cssStyle="color: red;"/></p>
-                        <p><form:errors path="pstTitle"/></p>
-                        <p><form:errors path="pstDocument"/></p>
-                        <p><form:errors path="blgDicTagSet"/></p>
+    <div class="container-fluid">
+        <div class="col-xs-8">
+            <c:if test="${not empty param.preview && param.preview==true}">
+                <div class="panel panel-info">
+                    <div class="panel-heading" role="tab">
+                        <h4 class="panel-title">
+                            <a class="collapsed" role="button" data-toggle="collapse"
+                               data-parent="#accordion" href="#collapseTwo"
+                               aria-expanded="false" aria-controls="collapseTwo">
+                                    Preview
+                            </a>
+                        </h4>
                     </div>
-                </c:if>
-                <div class="panel panel-default">
-                    <div class="panel-heading">
-                        <h2 class="panel-title">${labelPostCreate}</h2>
-                    </div>
-                    <div class="panel-body panel-correct">
-                        <div class="row">
-                            <div class="row">
-                                <div class="form-group col-xs-5">
-                                    <label for="category">${labelCategoryPost}<span style="color: red;">*</span></label>
-                                    <form:select cssClass="form-control chosen-select " path="blgDicCategorySet"
-                                                 id="category" data-validation="selection" data-validation-count="1"
-                                                 multiple="false">
-                                        <form:option value=""/>
-                                        <c:forEach items="${blgPostCatList}" var="listCat">
-                                            <form:option value="${listCat.dicCatName}"/>
-                                        </c:forEach>
-                                    </form:select>
-
-                                    <p class="help-block">${labelCategoryPostDesc}</p>
-                                </div>
-
-                                <div class="form-group col-xs-7">
-                                    <label for="title">${labelTitlePost}<span
-                                            style="color: red;">*</span></label>
-                                    <form:input  data-validation="length" data-validation-length="20"
-                                               placeholder="Title" path="pstTitle" cssClass="form-control"
-                                                type="text" id="title" style="width: 100%;"/>
-                                        <p class="help-block">${labelTitlePostDesc}</p>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="titleImage">${labelImagePost}
-                                    <span style="color: red;">*</span>
-                                </label>
-                                <form:input id="titleImage" path="pstTitleImage" cssClass="form-control" type="url"
-                                            placeholder="http://"/>
-                                <form:errors path="pstTitleImage"/>
-                                <p class="help-block">${labelImagePostDesc}</p>
-                            </div>
-
-                            <div class="form-group has-error">
-                                <label for="content">${labelTextPost}<span
-                                        style="color: red;">*</span></label>
-                                <form:textarea path="pstDocument" id="content" name="content"
-                                               data-validation="length" data-validation-length="200"
-                                               style="width:100%; height: 500px;"
-                                               value="text"></form:textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="listTag">${labelTagPost}<span
-                                        style="color: red;">*</span></label>
-                                <form:select path="blgDicTagSet" items="${tagCache}" itemLabel="dicTagName"
-                                             data-validation="selection" data-validation-count="1"
-                                             name="dicTagName" itemValue="dicTagName" id="listTag"
-                                             cssClass="form-control chosen-select">
-                                </form:select>
-
-                                    <%--<input  type="hidden" value="${tagCache.dicTagName}"/>--%>
-                                    <%--<c:forEach items="${blgPostTagList}" var="listTag">
-                                        <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}"/>
-                                    </c:forEach>--%>
-                                    <%--<form:options items="${blgPostTagList}" itemLabel="${blgPostTagList.dicTagName}" itemValue="${blgPostTagList.dicTagId}"/>--%>
-
-                                    <%-- <form:select path="blgDicTagSet"  id="listTag"
-                                                  cssClass="form-control" multiple="true">
-                                         <c:forEach items="${blgPostTagList}" var="listTag">
-                                             <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}">
-                                             <form:input path="blgDicTagSet" type="hidden" value="${listTag.dicTagName}"/>
-                                             </form:option>
-                                         </c:forEach>
-
-                                     </form:select>--%>
-
-                                <p class="help-block">${labelTagPostDes}</p>
-                            </div>
-                            <div class="panel panel-info">
-                                <div class="panel-heading" role="tab" id="headingTwo">
-                                    <h4 class="panel-title">
-                                        <a class="collapsed" role="button" data-toggle="collapse"
-                                           data-parent="#accordion" href="#collapseTwo"
-                                           aria-expanded="false" aria-controls="collapseTwo">
-                                                ${labelBlgStorageDownloadedFiles}
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
-                                     aria-labelledby="headingTwo">
-                                    <div class="panel-body" id="filelist"></div>
-                                </div>
-                            </div>
+                    <div class="panel-collapse collapse-in" role="tabpanel"
+                         aria-labelledby="headingTwo">
+                        <div class="panel-body" id="preview">
+                                ${blgPost.pstDocument}
                         </div>
                     </div>
-
-                    <div class="panel-footer">
-                        <button data-original-title="Broadcast Message" data-toggle="tooltip"
-                                type="submit"
-                                class="btn btn btn-primary">
-                            <span class="fa fa-floppy-o"></span>
-                            ${labelButtonSendModerate}
-                        </button>
-                        <button data-original-title="Broadcast Message" data-toggle="tooltip"
-                                type="submit"
-                                class="btn btn btn-success">
-                            <span class="fa fa-floppy-o"></span>
-                                ${labelButtonPublish}
-                        </button>
-                    </div>
                 </div>
-            </form:form>
+            </c:if>
+
+            <div class="row">
+                <c:url value="${homeUrl}${firstname}.${lastname}/post/create" var="action"/>
+
+
+                <form:form autocomplete="off" commandName="blgPost" method="post"
+                           action="${action}" enctype="multipart/form-data">
+
+                    <c:if test="${not empty message}">
+                        <div class="${message.type}" role="alert">
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                                    aria-hidden="true"> <![CDATA[&times;]]></span></button>
+                            <strong>${message.firstWord}</strong> ${message.message}
+                            <p><form:errors path="blgDicCategorySet" cssStyle="color: red;"/></p>
+
+                            <p><form:errors path="pstTitle"/></p>
+
+                            <p><form:errors path="pstDocument"/></p>
+
+                            <p><form:errors path="blgDicTagSet"/></p>
+                        </div>
+                    </c:if>
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">${labelPostCreate}</h2>
+                        </div>
+                        <div class="panel-body panel-correct">
+                            <div class="row">
+                                <div class="row">
+                                    <div class="form-group col-xs-5">
+                                        <label for="category">${labelCategoryPost}<span
+                                                style="color: red;">*</span></label>
+                                        <form:select cssClass="form-control chosen-select " path="blgDicCategorySet"
+                                                     id="category" data-validation="selection" data-validation-count="1"
+                                                     multiple="false">
+                                            <form:option value=""/>
+                                            <c:forEach items="${blgPostCatList}" var="listCat">
+                                                <form:option value="${listCat.dicCatName}"/>
+                                            </c:forEach>
+                                        </form:select>
+
+                                        <p class="help-block">${labelCategoryPostDesc}</p>
+                                    </div>
+
+                                    <div class="form-group col-xs-7">
+                                        <label for="title">${labelTitlePost}<span
+                                                style="color: red;">*</span></label>
+                                        <form:input data-validation="length" data-validation-length="20"
+                                                    placeholder="Title" path="pstTitle" cssClass="form-control"
+                                                    type="text" id="title" style="width: 100%;"/>
+                                        <p class="help-block">${labelTitlePostDesc}</p>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="titleImage">${labelImagePost}
+                                        <span style="color: red;">*</span>
+                                    </label>
+                                    <form:input id="titleImage" path="pstTitleImage" cssClass="form-control" type="url"
+                                                placeholder="http://"/>
+                                    <form:errors path="pstTitleImage"/>
+                                    <p class="help-block">${labelImagePostDesc}</p>
+                                </div>
+
+                                <div class="form-group has-error">
+                                    <label for="content">${labelTextPost}<span
+                                            style="color: red;">*</span></label>
+                                    <form:textarea path="pstDocument" id="content" name="content"
+                                                   data-validation="length" data-validation-length="200"
+                                                   style="width:100%; height: 500px;"
+                                                   value="text"></form:textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="listTag">${labelTagPost}<span style="color: red;">*</span></label>
+                                    <form:select path="blgDicTagSet" items="${tagCache}" itemLabel="dicTagName"
+                                                 data-validation="selection" data-validation-count="1"
+                                                 name="dicTagName" itemValue="dicTagName" id="listTag"
+                                                 cssClass="form-control chosen-select">
+                                    </form:select>
+
+                                        <%--<input  type="hidden" value="${tagCache.dicTagName}"/>--%>
+                                        <%--<c:forEach items="${blgPostTagList}" var="listTag">
+                                            <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}"/>
+                                        </c:forEach>--%>
+                                        <%--<form:options items="${blgPostTagList}" itemLabel="${blgPostTagList.dicTagName}" itemValue="${blgPostTagList.dicTagId}"/>--%>
+
+                                        <%-- <form:select path="blgDicTagSet"  id="listTag"
+                                                      cssClass="form-control" multiple="true">
+                                             <c:forEach items="${blgPostTagList}" var="listTag">
+                                                 <form:option value="${listTag.dicTagId}" label="${listTag.dicTagName}">
+                                                 <form:input path="blgDicTagSet" type="hidden" value="${listTag.dicTagName}"/>
+                                                 </form:option>
+                                             </c:forEach>
+
+                                         </form:select>--%>
+
+                                    <p class="help-block">${labelTagPostDes}</p>
+                                </div>
+
+
+                            </div>
+                        </div>
+
+                        <div class="panel-footer">
+                            <div class=" btn-group">
+                                <button type="submit" class="btn btn btn-success">
+                                    <span class="fa fa-floppy-o"></span>
+                                        ${labelButtonSave}
+                                </button>
+
+                                <button type="submit" class="btn btn btn-info">
+                                    <span class="fa fa-floppy-o"></span>
+                                        Pre View
+                                </button>
+                            </div>
+                            <span class="pull-right btn-group">
+                                <button type="submit" class="btn btn btn-primary">
+                                    <span class="fa fa-floppy-o"></span>
+                                        ${labelButtonSave}/${labelButtonSendModerate}
+                                </button>
+                            <c:if test="${auth}">
+                                    <button data-toggle="tooltip" type="button" onclick="publish()"
+                                            class="btn btn btn-success">
+                                        <span class="fa fa-floppy-o"></span>
+                                            ${labelButtonPublish}
+                                    </button>
+                            </c:if>
+                                </span>
+                        </div>
+                    </div>
+                    <form:hidden path="pstId" name="pstId"/>
+                </form:form>
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="panel panel-info">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                    <h4 class="panel-title">
+                        <a class="collapsed" role="button" data-toggle="collapse"
+                           data-parent="#accordion" href="#collapseTwo"
+                           aria-expanded="false" aria-controls="collapseTwo">
+                            ${labelBlgStorageDownloadedFiles}
+                        </a>
+                    </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse-in" role="tabpanel"
+                     aria-labelledby="headingTwo">
+                    <div class="panel-body" id="filelist"></div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+
 
 </div>
 <spring:url value="${homeUrl}resources/js/tinymce/tinymce.min.js" var="jsEditor"/>
@@ -207,13 +256,41 @@ To change this template use File | Settings | File Templates.
 </script>
 
 <script>
-    $(document).ready(function () {
-                updateFrame();
+    <c:if test="${auth}">
+    function publishSend() {
+        $('form').attr("action", "${action}?public=true").submit();
+    }
+    </c:if>
+    function moderateSend(){
+        $('form').attr("action", "${action}?moderate=true").submit();
+    }
+    function preViewSend(){
+        $('form').attr("action", "${action}?preview=true").submit();
+    }
 
-                //$.validattion();
+
+    $(document).ready(function () {
+
+                updateFrame();
+                /*function checkCutBlog(){
+                 var html= $.parseHTML($('#content').val());
+                 $.each(html, function(i,item){
+                 if(item.nodeName==='CUTBLOG'){
+                 c = confirm("No tag of cut blog!");
+                 if(c===true){
+
+                 }
+                 }
+                 })
+
+
+
+                 }*/
+
+                $.validattion();
                 tinymce.init({
                     convert_urls: false,
-                            remove_script_host: false,
+                    remove_script_host: false,
                     extended_valid_elements: "cutblog",
                     custom_elements: "cutblog",
                     selector: "textarea#content",
@@ -240,9 +317,6 @@ To change this template use File | Settings | File Templates.
                 });
 
 
-
-
-
             }
     );
     var config = {
@@ -261,7 +335,9 @@ To change this template use File | Settings | File Templates.
                 $('#deleteall').prop("disabled", true);
             } else
                 $('#deleteall').prop("disabled", false)
+            $('#filelist').children('div').removeClass('col-xs-6').css('padding-left', '0');
         });
+
     }
 
 

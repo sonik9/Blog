@@ -9,10 +9,7 @@ import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -134,6 +131,11 @@ public class UrlUtil {
     public static String sourcePathFile(HttpServletRequest request, String filePath){
 
         return request.getScheme() + "://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath()+filePath;
+    }
+
+    public static Optional<String> getPreviousPageByRequest(HttpServletRequest request)
+    {
+        return Optional.ofNullable(request.getHeader("Referer")).map(requestUrl -> "redirect:" + requestUrl);
     }
 	
 }

@@ -12,6 +12,8 @@ import org.springframework.context.MessageSource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -20,6 +22,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import pl.upir.blog.entity.BlgDicCategory;
 import pl.upir.blog.entity.BlgDicTag;
@@ -30,6 +33,7 @@ import pl.upir.blog.service.BlgDicTagService;
 import pl.upir.blog.service.BlgPostService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.service.security.BlgUserSecurityServiceImpl;
+import pl.upir.blog.web.error.BlgExceptionForbiden;
 import pl.upir.blog.web.form.FormPostPagination;
 import pl.upir.blog.web.form.Message;
 import pl.upir.blog.web.util.ImageCropper;
@@ -37,6 +41,7 @@ import pl.upir.blog.web.util.UrlUtil;
 import pl.upir.blog.web.validator.BlgPostCustomValidator;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -74,7 +79,7 @@ public class BlgPostController {
     @Autowired
     BlgPostCustomValidator blgPostCustomValidator;
 
-    @RequestMapping(value = "/{year:\\d+}/{month:\\d+}/{day:\\d+}/{id}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{year:\\d+}/{month:\\d+}/{day:\\d+}/{id}", method = RequestMethod.GET)
     public String home(@PathVariable("year") String year, @PathVariable("month") String month, @PathVariable("day") String day,
                        @PathVariable(value = "id") int id, Model model, HttpServletRequest request) throws URISyntaxException {
         BlgPost blgPost = blgPostService.findById(id);
@@ -82,20 +87,19 @@ public class BlgPostController {
 
         String fbContent = Jsoup.parse(blgPost.getPstDocumentShort()).text();
         Document document = Jsoup.parse(blgPost.getPstDocument());
-        document.setBaseUri(new URI(UrlUtil.sourcePathFile(request,"")).toString());
+        document.setBaseUri(new URI(UrlUtil.sourcePathFile(request, "")).toString());
 
         Elements el = document.getElementsByTag("img");
         List<String> fbImages = new ArrayList<>();
 
         el.forEach(el1 -> {
-            if(el1.absUrl("src").isEmpty()) {
+            if (el1.absUrl("src").isEmpty()) {
                 fbImages.add(el1.attr("abs:src"));
-            }
-            else
+            } else
                 fbImages.add(el1.absUrl("src"));
         });
         model.addAttribute("fbImages", fbImages);
-        model.addAttribute("fbContent",fbContent);
+        model.addAttribute("fbContent", fbContent);
         model.addAttribute("post", blgPost);
         return "post/view";
     }
@@ -122,6 +126,28 @@ public class BlgPostController {
         return blgDicTagService.findAll();
     }
 
+    @Secured("IS_AUTHENTICATED_FULLY")
+    @RequestMapping(value = "/{firstName}.{lastName}/post/edit/{id}", method = RequestMethod.GET)
+    public String editPost(@PathVariable("firstName") String firstName, @PathVariable("lastName") String lastName,
+                           @PathVariable("id") int id, Model model, HttpServletRequest request,Locale locale) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
+        BlgPost blgPost = blgPostService.findById(id);
+        int usrId = blgPost.getBlgUserSet().iterator().next().getUsrId();
+        if (Objects.equals(blgUser.getBlgUserDetail().getUsrDetFirstname(), firstName) && Objects.equals(blgUser.getBlgUserDetail().getUsrDetLastname(), lastName)
+                && usrId == blgUser.getUsrId()) {
+            List<BlgDicTag> blgDicTagList = blgDicTagService.findAll();
+            List<BlgDicCategory> blgPostCategoriesList = blgDicCategoryService.findAll();
+            //model.addAttribute("message", new Message("alert alert-danger", "Oh snap!", messageSource.getMessage("save_fail_smart", new Object[]{}, locale)));
+            model.addAttribute("blgPost", blgPost);
+            model.addAttribute("blgPostCatList", blgPostCategoriesList);
+            model.addAttribute("blgPostTagList", blgDicTagList);
+            return "post/create";
+        }else {
+            throw new BlgExceptionForbiden();
+        }
+    }
+
     /*protected void initBinder(HttpServletRequest request, ServletRequestDataBinder binder) throws Exception {
         binder.registerCustomEditor(Set.class, "blgDicTagSet", new CustomCollectionEditor(Set.class)
         {
@@ -143,17 +169,19 @@ public class BlgPostController {
 
     }*/
 
-     @InitBinder("blgPost")
-     protected void initBinder(WebDataBinder binder) {
+    @InitBinder("blgPost")
+    protected void initBinder(WebDataBinder binder) {
 
-         binder.addValidators(blgPostCustomValidator);
-     }
+        binder.addValidators(blgPostCustomValidator);
+    }
 
     @Secured("IS_AUTHENTICATED_FULLY")
     @RequestMapping(value = "/{firstName}.{lastName}/post/create", method = RequestMethod.POST)
     public String create(@Valid @ModelAttribute("blgPost") BlgPost blgPost, BindingResult bindingUser,
-                         //@RequestParam(value = "pstTitleImage", required = false)
-                         //@ModelAttribute("pstTitleImage")MultipartFile file,
+                         @RequestParam(value = "public", required = false) boolean publication,
+                         @RequestParam(value = "pstId",required = false) int pstId,
+                         @RequestParam(value = "moderate", required = false) boolean moderate,
+                         @RequestParam(value = "preview", required = false) boolean preView,
                          Model model, HttpServletRequest request,
                          RedirectAttributes redirectAttributes, Locale locale) {
         if (bindingUser.hasErrors()) {
@@ -170,6 +198,9 @@ public class BlgPostController {
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
 
+        if(pstId>0){
+           blgPost.setPstId(pstId);
+        }
         Set<BlgDicTag> blgDicTagSet = blgPost.getBlgDicTagSet();
         blgDicTagSet.forEach(blgDicTag -> blgDicTag.setDicTagId(blgDicTagService.finByDicTagName(blgDicTag.getDicTagName()).getDicTagId()));
         Set<BlgDicCategory> blgDicCategorySet = new HashSet<>();
@@ -184,16 +215,16 @@ public class BlgPostController {
         String patt = "\\s|\\n";
         //Delete all space between tags
         String documentShort = blgPost.getPstDocument().replaceAll("[>][\\s*]+[<]", "><");
-        documentShort=documentShort.replaceAll("&nbsp;"," ");
+        documentShort = documentShort.replaceAll("&nbsp;", " ");
         //all spaces and \n
         Pattern pattern1 = Pattern.compile("\\s|\\n");
         //end of sentence
         Pattern pattern = Pattern.compile("[.][\\s]");
         Pattern patternCut = Pattern.compile("<cutblog>.....</cutblog>");
         Matcher matcher = patternCut.matcher(documentShort);
-        if(matcher.find()){
-            target=matcher.start();
-        }else {
+        if (matcher.find()) {
+            target = matcher.start();
+        } else {
 
 
             Matcher matcher1 = pattern1.matcher(documentShort);
@@ -232,10 +263,15 @@ public class BlgPostController {
         blgPost.setBlgDicTagSet(blgDicTagSet);
         blgPost.setBlgDicCategorySet(blgDicCategorySet);
         blgPost.getBlgUserSet().add(blgUser);
+
+        if (request.isUserInRole("ADMIN")) {
+            blgPost.setPstEnable(publication);
+        }
+
         MultipartFile file = blgPost.file;
 
 
-        if (file!=null) {
+        if (file != null) {
             String fileName = file.getOriginalFilename();
             byte[] bytes = new byte[0];
             try {
@@ -279,6 +315,13 @@ public class BlgPostController {
         //blgPost=blgPostService.save(blgPost);
 
         blgPostService.save(blgPost);
-        return "redirect:/";
+        if(moderate) {
+            return "redirect:/";
+        }
+        else if(preView) {
+            redirectAttributes.addAttribute("preview",true);
+            return "redirect:/{firstName}.{lastName}/post/edit/" + blgPost.getPstId();
+        }
+        return "redirect:/{firstName}.{lastName}/post/edit/" + blgPost.getPstId();
     }
 }

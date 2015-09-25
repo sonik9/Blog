@@ -66,10 +66,10 @@
         <jsp:text/>
     </script>
 
-    <spring:url value="${rootUrl}resources/js/jquery/jquery-ui.js" var="jsJqueryUi"/>
+  <!--  <spring:url value="${rootUrl}resources/js/jquery/jquery-ui.min.js" var="jsJqueryUi"/>
     <script src="${jsJqueryUi}" type="text/javascript">
         <jsp:text/>
-    </script>
+    </script>-->
 
     <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
     <script src="${jsNprogress}" type="text/javascript">
