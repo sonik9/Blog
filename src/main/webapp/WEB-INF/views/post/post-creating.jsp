@@ -206,7 +206,7 @@ To change this template use File | Settings | File Templates.
                                         ${labelButtonSave}/${labelButtonSendModerate}
                                 </button>
                             <c:if test="${auth}">
-                                    <button data-toggle="tooltip" type="button" onclick="publish()"
+                                    <button data-toggle="tooltip" type="button" onclick="publishSend()"
                                             class="btn btn btn-success">
                                         <span class="fa fa-floppy-o"></span>
                                             ${labelButtonPublish}
