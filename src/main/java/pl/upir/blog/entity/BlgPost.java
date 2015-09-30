@@ -90,7 +90,7 @@ public class BlgPost {
     }
 
     @Basic
-    @Column(name = "pst_time_create", nullable = false, insertable = true, updatable = true)
+    @Column(name = "pst_time_create", nullable = false, insertable = false, updatable = false)
     public Timestamp getPstTimeCreate() {
         return pstTimeCreate;
     }
@@ -100,7 +100,7 @@ public class BlgPost {
     }
 
     @Basic
-    @Column(name = "pst_time_modify", nullable = false, insertable = true, updatable = true)
+    @Column(name = "pst_time_modify", nullable = false, insertable = false, updatable = false)
     public Timestamp getPstTimeModify() {
         return pstTimeModify;
     }

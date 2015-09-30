@@ -135,7 +135,7 @@ public class BlgPostController {
         BlgPost blgPost = blgPostService.findById(id);
         int usrId = blgPost.getBlgUserSet().iterator().next().getUsrId();
         if (Objects.equals(blgUser.getBlgUserDetail().getUsrDetFirstname(), firstName) && Objects.equals(blgUser.getBlgUserDetail().getUsrDetLastname(), lastName)
-                && usrId == blgUser.getUsrId()) {
+                && usrId == blgUser.getUsrId()|| request.isUserInRole("ADMIN")) {
             List<BlgDicTag> blgDicTagList = blgDicTagService.findAll();
             List<BlgDicCategory> blgPostCategoriesList = blgDicCategoryService.findAll();
             //model.addAttribute("message", new Message("alert alert-danger", "Oh snap!", messageSource.getMessage("save_fail_smart", new Object[]{}, locale)));
@@ -143,7 +143,9 @@ public class BlgPostController {
             model.addAttribute("blgPostCatList", blgPostCategoriesList);
             model.addAttribute("blgPostTagList", blgDicTagList);
             return "post/create";
-        }else {
+
+        }else
+         {
             throw new BlgExceptionForbiden();
         }
     }
@@ -264,9 +266,7 @@ public class BlgPostController {
         blgPost.setBlgDicCategorySet(blgDicCategorySet);
         blgPost.getBlgUserSet().add(blgUser);
 
-        if (request.isUserInRole("ADMIN")) {
-            blgPost.setPstEnable(publication);
-        }
+
 
         MultipartFile file = blgPost.file;
 
@@ -316,11 +316,17 @@ public class BlgPostController {
 
         blgPostService.save(blgPost);
         if(moderate) {
+
             return "redirect:/";
         }
         else if(preView) {
             redirectAttributes.addAttribute("preview",true);
             return "redirect:/{firstName}.{lastName}/post/edit/" + blgPost.getPstId();
+        }else if(publication){
+            if (request.isUserInRole("ADMIN")) {
+                blgPost.setPstEnable(publication);
+            }
+            return "redirect:/";
         }
         return "redirect:/{firstName}.{lastName}/post/edit/" + blgPost.getPstId();
     }
