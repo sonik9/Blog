@@ -1,0 +1,62 @@
+.notifications {
+  position: fixed;
+
+}
+
+/* Positioning */ 
+.notifications.top-right {
+  right: 10px;
+  top: 25px;
+}
+
+.notifications.top-left {
+  left: 10px;
+  top: 25px;
+}
+
+.notifications.bottom-left {
+  left: 10px;
+  bottom: 25px;
+}
+
+.notifications.bottom-right {
+  right: 10px;
+  bottom: 25px;
+}
+
+/* Notification Element */
+.notifications > div {
+  position: relative;
+  margin: 5px 0px;
+  z-index: 9999;
+  min-width: 300px;
+}
+
+@-webkit-keyframes notification {
+  0% { -webkit-transform: rotateY(-90deg); opacity: 0; }
+  70% { -webkit-transform: rotateY(20deg); opacity: .8; }
+  90% { -webkit-transform: rotateY(-10deg); opacity: 1; }
+  100% { -webkit-transform: rotateY(-0deg); opacity: 1; }
+}
+
+@-moz-keyframes notification {
+  0% { -webkit-transform: rotateY(-90deg); opacity: 0; }
+  70% { -webkit-transform: rotateY(20deg); opacity: .8; }
+  90% { -webkit-transform: rotateY(-10deg); opacity: 1; }
+  100% { -webkit-transform: rotateY(-0deg); opacity: 1; }
+}
+
+@-o-keyframes notification {
+  0% { -webkit-transform: rotateY(-90deg); opacity: 0; }
+  70% { -webkit-transform: rotateY(20deg); opacity: .8; }
+  90% { -webkit-transform: rotateY(-10deg); opacity: 1; }
+  100% { -webkit-transform: rotateY(-0deg); opacity: 1; }
+}
+
+.alert-blackgloss {
+  -webkit-animation: notification .75s linear;
+  -moz-animation: notification .75s linear;
+  -ms-animation: notification .75s linear;
+  -o-animation: notification .75s linear;
+  animation: notification .75s linear;
+}

@@ -5,6 +5,7 @@
 @import url("nprogress/nprogress.css");
 @import url("chosen/chosen.min.css");
 @import url("jquery-validator/theme-default.min.css");
+@import url("bootstrap/bootstrap-notify.css");
 
 .btn-windows {background-color:#4099FF;color:#fff;}
 .btn-facebook {background-color:#3B5998;color:#fff;}
@@ -570,4 +571,19 @@ select.form-control + .chosen-container .chosen-search input[type=text]:focus{
 }
 .comments img{
     width: 25px;
+}
+
+.preview .modal{
+    display: block !important;
+}
+.preview .modal-dialog{
+    overflow-y: initial !important
+}
+.preview .modal-body{
+    height: 250px;
+    overflow-y: auto;
+}
+
+.error{
+    display: none;
 }

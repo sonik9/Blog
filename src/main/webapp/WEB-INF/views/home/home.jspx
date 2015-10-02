@@ -56,14 +56,6 @@
     <!-- /cont -->
 
     <div class="container">
-        <c:if test="${not empty message}">
-            <div class="${message.type}" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&amp;times</span></button>
-                <strong>${message.firstWord}</strong> ${message.message}
-            </div>
-        </c:if>
-
         <div class="row">
             <div class="col-md-8">
                 <!--/stories-->

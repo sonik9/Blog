@@ -67,21 +67,25 @@ To change this template use File | Settings | File Templates.
     <!--TODO comments -->
     <div class="container-fluid">
         <div class="col-xs-8">
-            <c:if test="${not empty param.preview && param.preview==true}">
-                <div class="panel panel-info">
-                    <div class="panel-heading" role="tab">
-                        <h4 class="panel-title">
-                            <a class="collapsed" role="button" data-toggle="collapse"
-                               data-parent="#accordion" href="#collapseTwo"
-                               aria-expanded="false" aria-controls="collapseTwo">
-                                    Preview
-                            </a>
-                        </h4>
-                    </div>
-                    <div class="panel-collapse collapse-in" role="tabpanel"
-                         aria-labelledby="headingTwo">
-                        <div class="panel-body" id="preview">
+            <c:if test="${not empty blgPost.pstTimeCreate}">
+                <div class="modal fade preview" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                    <div class="modal-dialog modal-lg" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                <h4 class="modal-title" id="myModalLabel">Preview</h4>
+                            </div>
+                            <div class="modal-body">
+                                <h2>Short version</h2>
+                                <hr/>
+                                ${blgPost.pstDocumentShort}
+                                <hr/>
+                                <h2>Full version</h2>
                                 ${blgPost.pstDocument}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -94,20 +98,15 @@ To change this template use File | Settings | File Templates.
                 <form:form autocomplete="off" commandName="blgPost" method="post"
                            action="${action}" enctype="multipart/form-data">
 
-                    <c:if test="${not empty message}">
-                        <div class="${message.type}" role="alert">
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                                    aria-hidden="true"> <![CDATA[&times;]]></span></button>
-                            <strong>${message.firstWord}</strong> ${message.message}
-                            <p><form:errors path="blgDicCategorySet" cssStyle="color: red;"/></p>
 
-                            <p><form:errors path="pstTitle"/></p>
+                            <form:errors cssClass="error" path="blgDicCategorySet" cssStyle="color: red;"/>
 
-                            <p><form:errors path="pstDocument"/></p>
+                            <form:errors cssClass="error" path="pstTitle"/>
 
-                            <p><form:errors path="blgDicTagSet"/></p>
-                        </div>
-                    </c:if>
+                            <form:errors cssClass="error" path="pstDocument"/>
+
+                            <form:errors cssClass="error" path="blgDicTagSet"/>
+
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <h2 class="panel-title">${labelPostCreate}</h2>
@@ -153,7 +152,7 @@ To change this template use File | Settings | File Templates.
                                     <label for="content">${labelTextPost}<span
                                             style="color: red;">*</span></label>
                                     <form:textarea path="pstDocument" id="content" name="content"
-                                                   data-validation="length" data-validation-length="200"
+                                                   data-validation="length" data-validation-length="50"
                                                    style="width:100%; height: 500px;"
                                                    value="text"></form:textarea>
                                 </div>
@@ -194,11 +193,12 @@ To change this template use File | Settings | File Templates.
                                     <span class="fa fa-floppy-o"></span>
                                         ${labelButtonSave}
                                 </button>
-
-                                <button type="submit" class="btn btn btn-info">
-                                    <span class="fa fa-floppy-o"></span>
+                                <c:if test="${not empty blgPost.pstTimeCreate}">
+                                    <%--${blgPost.pstTimeCreate}--%>
+                                    <button type="button" class="btn btn btn-info" data-toggle="modal" data-target="#myModal">
                                         Pre View
-                                </button>
+                                    </button>
+                                </c:if>
                             </div>
                             <span class="pull-right btn-group">
                                 <button type="submit" class="btn btn btn-primary">
@@ -206,11 +206,11 @@ To change this template use File | Settings | File Templates.
                                         ${labelButtonSave}/${labelButtonSendModerate}
                                 </button>
                             <c:if test="${auth}">
-                                    <button data-toggle="tooltip" type="button" onclick="publishSend()"
-                                            class="btn btn btn-success">
-                                        <span class="fa fa-floppy-o"></span>
-                                            ${labelButtonPublish}
-                                    </button>
+                                <button data-toggle="tooltip" type="button" onclick="publishSend()"
+                                        class="btn btn btn-success">
+                                    <span class="fa fa-floppy-o"></span>
+                                        ${labelButtonPublish}
+                                </button>
                             </c:if>
                                 </span>
                         </div>
@@ -261,11 +261,14 @@ To change this template use File | Settings | File Templates.
         $('form').attr("action", "${action}?public=true").submit();
     }
     </c:if>
-    function moderateSend(){
+    function moderateSend() {
         $('form').attr("action", "${action}?moderate=true").submit();
     }
-    function preViewSend(){
+    /*function preViewSend() {
         $('form').attr("action", "${action}?preview=true").submit();
+    }*/
+    function showPreview(){
+
     }
 
 
@@ -287,7 +290,7 @@ To change this template use File | Settings | File Templates.
 
                  }*/
 
-                $.validattion();
+                //$.validattion();
                 tinymce.init({
                     convert_urls: false,
                     remove_script_host: false,

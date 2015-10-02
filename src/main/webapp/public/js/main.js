@@ -1,6 +1,15 @@
 /**
  * Created by Vitalii on 24.06.2015.
  */
+var message;
+function notify(messages,type,trans) {
+    $('.top-right').notify({
+        message: {text: messages},
+        fadeOut: { enabled: true, delay: 150000 },
+        type:type,
+        transition:trans
+    }).show();
+}
 function sizeH(bytes) {
     if (typeof bytes !== 'number') {
         return '';
