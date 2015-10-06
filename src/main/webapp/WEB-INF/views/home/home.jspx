@@ -15,7 +15,7 @@
 
     <jsp:directive.page contentType="text/html; charset=UTF-8"/>
     <jsp:output omit-xml-declaration="yes"/>
-    <spring:url value="/" var="homeUrl"/>
+    <spring:url value="/" var="f"/>
     <!--<c:set var="now" value="<%=new java.util.Date();%>"/>-->
     <jsp:useBean id="now" class="java.util.Date"/>
     <fmt:formatDate value="${now}" pattern="yyyy/MM/dd" var="today"/>
@@ -29,7 +29,6 @@
     <spring:message code="label_readmore" var="labelReadmore"/>
     <spring:message code="label_yesterday" var="label_yesterday"/>
     <spring:message code="label_today" var="label_today"/>
-
     <div id="masthead">
         <div class="container">
             <div class="row">
@@ -45,6 +44,7 @@
                                 <sec:authorize access="hasRole('ADMIN')">
                                     <a href="#">Administration</a>
                                 </sec:authorize>
+
                             </div>
                         </div>
                     </div>
@@ -54,6 +54,8 @@
     </div>
 
     <!-- /cont -->
+
+
 
     <div class="container">
         <div class="row">
