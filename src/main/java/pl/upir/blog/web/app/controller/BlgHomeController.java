@@ -74,7 +74,7 @@ public class BlgHomeController {
         blgPostPagination.setTotalPage(blgPostPage.getTotalPages());
         blgPostPagination.setTotalRecords(blgPostPage.getTotalElements());
         model.addAttribute("posts", blgPostPagination);
-        return "home";
+        return "homePage";
     }
 
 
