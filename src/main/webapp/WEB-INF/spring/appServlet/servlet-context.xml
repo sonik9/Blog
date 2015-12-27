@@ -47,8 +47,8 @@
                 <beans:value>/WEB-INF/frontend/layouts/layouts.xml</beans:value>
                 <beans:value>/WEB-INF/frontend/views/**/views.xml</beans:value>
                 <!-- Scan views dir for Tiles config-->
-                <!--<beans:value>/WEB-INF/frontend/layouts/layouts.xml</beans:value>-->
-                <!--<beans:value>/WEB-INF/views/**/views.xml</beans:value>-->
+                <!--<beans:value>/WEB-INF/layouts/layouts.xml</beans:value>
+                <beans:value>/WEB-INF/views/**/views.xml</beans:value>-->
 
             </beans:list>
         </beans:property>

@@ -6,8 +6,24 @@
 <tiles-definitions>
     <definition extends="defaultLayout" name="homePage">
         <put-attribute name="body" value="/WEB-INF/frontend/views/home/home.jspx"/>
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/test1.css" type="template"/>
+        </put-list-attribute>
+
+        <put-list-attribute name="js">
+            <add-attribute value="/js/jquery/jquery-1.11.3.min.js" type="template"/>
+            <add-attribute value="/js/jquery/jquery-ui.min.js" type="template"/>
+            <add-attribute value="/js/bootstrap/bootstrap.min.js" type="template"/>
+            <add-attribute value="/js/main.js" type="template"/>
+            <add-attribute value="/js/bootstrap/bootstrap-notify.js" type="template"/>
+
+        </put-list-attribute>
+
     </definition>
-    <!--<definition extends="default" name="settingsPage">
-        <put-attribute name="body" value="/WEB-INF/views/home/settings.jspx"/>
-    </definition>-->
+    <definition extends="defaultLayout" name="userPage">
+        <put-attribute name="body" value="/WEB-INF/frontend/views/home/user.jspx"/>
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/test2.css" type="template"/>
+        </put-list-attribute>
+    </definition>
 </tiles-definitions>

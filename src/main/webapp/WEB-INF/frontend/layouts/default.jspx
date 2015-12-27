@@ -10,7 +10,8 @@
       xmlns:c="http://java.sun.com/jsp/jstl/core"
       xmlns:fn="http://java.sun.com/jsp/jstl/functions"
       xmlns:tiles="http://tiles.apache.org/tags-tiles"
-        >
+      xmlns:tilesx="http://tiles.apache.org/tags-tiles-extras"
+>
 <jsp:output doctype-root-element="HTML" doctype-system="about:legacy-compact"/>
 <jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <jsp:directive.page pageEncoding="UTF-8"/>
@@ -50,33 +51,38 @@
     </c:if>
 
     <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
-
+    <!--...................FAVICON-->
     <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.png"/>
+
     <spring:theme code="styleSheetApp" var="app_css"/>
+
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
+
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
-    <!-- Jquery-->
-    <spring:url value="${rootUrl}resources/js/jquery/jquery-1.11.3.min.js" var="jsJquery"/>
-    <script src="${jsJquery}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap.min.js" var="jsBootstrap"/>
-    <script src="${jsBootstrap}" type="text/javascript"><jsp:text/></script>
+    <!--CSS STYLE-->
+    <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" ignore="true"/>
+    <c:forEach items="${styles}" var="s">
+        <link rel="stylesheet"
+              href="/resources${s}" />
+    </c:forEach>
 
-    <!--  <spring:url value="${rootUrl}resources/js/jquery/jquery-ui.min.js" var="jsJqueryUi"/>
-      <script src="${jsJqueryUi}" type="text/javascript">
-          <jsp:text/>
-      </script>-->
+    <!-- JavaScripts-->
+    <tilesx:useAttribute name="js" classname="java.util.List" id="js" ignore="true"/>
+    <c:forEach items="${js}" var="j">
+        <script src="/resources${j}" type="text/javascript"><jsp:text/></script>
+    </c:forEach>
 
-    <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
-    <script src="${jsNprogress}" type="text/javascript"><jsp:text/></script>
 
-    <spring:url value="${rootUrl}resources/js/main.js" var="jsMain"/>
-    <script src="${jsMain}" type="text/javascript"><jsp:text/>
-    </script>
+
+    <!-- <spring:url value="${rootUrl}resources/js/nprogress/nprogress.js" var="jsNprogress"/>
+     <script src="${jsNprogress}" type="text/javascript"><jsp:text/></script>-->
+
+    <!--<spring:url value="${rootUrl}resources/js/main.js" var="jsMain"/>
+    <script src="${jsMain}" type="text/javascript"><jsp:text/></script>-->
     <!-- Notify-->
-    <spring:url value="${rootUrl}resources/js/bootstrap/bootstrap-notify.js" var="jsNotify"/>
-    <script src="${jsNotify}" type="text/javascript"><jsp:text/>
-    </script>
+    <!--<spring:url value="${rootUrl}resources/js/bootstrap/bootstrap-notify.js" var="jsNotify"/>
+    <script src="${jsNotify}" type="text/javascript"><jsp:text/></script>-->
 
 
     <c:set var="userLocale">
@@ -91,9 +97,10 @@
 <div class="notifications top-right"> <![CDATA[&nbsp;]]></div>
 <tiles:insertAttribute name="header" ignore="true"/>
 
-<!--Wrapper-->
+<!--Wrapper--><!--Body Wrapper-->
 <tiles:insertAttribute name="body"/>
-<!--Body Wrapper-->
+
+
 <tiles:insertAttribute name="footer" ignore="true"/>
 
 <!-- <div class="${message.type}" role="alert">
@@ -102,17 +109,17 @@ aria-hidden="true">&amp;times</span></button>
 <strong>${message.firstWord}</strong> ${message.message}
 </div>-->
 
-    <c:if test="${not empty message}">
-        <script>
-            message="<strong>${message.firstWord}</strong>${message.message}";
-            if(message.length>20)
-                notify(message,'${message.type}','alert-blackgloss');
-            /*er=$('.error').toArray();
-            for(var i=0;er.length;i++){
-                notify(er[i],'','alert-blackgloss');
-            }*/
-        </script>
-    </c:if>
+<c:if test="${not empty message}">
+    <script>
+        message = "<strong>${message.firstWord}</strong>${message.message}";
+        if (message.length > 20)
+            notify(message, '${message.type}', 'alert-blackgloss');
+        /*er=$('.error').toArray();
+         for(var i=0;er.length;i++){
+         notify(er[i],'','alert-blackgloss');
+         }*/
+    </script>
+</c:if>
 <![CDATA[]]>
 
 

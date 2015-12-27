@@ -77,6 +77,12 @@ public class BlgHomeController {
         return "homePage";
     }
 
+    @RequestMapping(value = "/user", method = RequestMethod.GET)
+    public String user(Model model){
+
+        return "userPage";
+    }
+
 
     @RequestMapping(params = "error")
     public String error(@RequestParam("error") String error, Model model, Locale locale, HttpServletRequest httpServletRequest) {
@@ -102,7 +108,7 @@ public class BlgHomeController {
             //logger.info("No. of users" + blgUser.size());
             return "users/show";
         } else {
-            return "home";
+            return "homePage";
         }
     }
 
@@ -222,7 +228,7 @@ public class BlgHomeController {
             model.addAttribute("files", paths);
             return "users/storage";
         } else {
-            return "home";
+            return "homePage";
         }
     }
 
@@ -255,7 +261,7 @@ public class BlgHomeController {
             //return new ResponseEntity(paths,HttpStatus.OK);
         } else {
             //return new ResponseEntity(HttpStatus.FORBIDDEN);
-            return "home";
+            return "homePage";
         }
 
     }

@@ -12,5 +12,5 @@
      xmlns:spring="http://www.springframework.org/tags"
      xmlns:fn="http://java.sun.com/jsp/jstl/functions"
      version="2.0">
-    <p class="text1">Do here what are you want!</p>
+    <p class="text1">USER PAGE</p>
 </div>
