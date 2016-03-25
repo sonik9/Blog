@@ -1,13 +1,4 @@
-﻿--
--- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 6.3.358.0
--- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 22/09/2015 5:15:59 PM
--- Версия сервера: 5.7.7-rc-log
--- Версия клиента: 4.1
---
-
-
-USE java_blog;
+﻿USE java_blog;
 
 CREATE TABLE blg_dic_category (
   dic_cat_id int(11) NOT NULL AUTO_INCREMENT,

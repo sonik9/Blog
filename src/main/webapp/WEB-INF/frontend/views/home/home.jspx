@@ -5,12 +5,8 @@
   Time: 3:13 PM
   To change this template use File | Settings | File Templates.
 -->
-<div xmlns:jsp="http://java.sun.com/JSP/Page"
-     xmlns:c="http://java.sun.com/jsp/jstl/core"
-     xmlns:fmt="http://java.sun.com/jsp/jstl/fmt"
-     xmlns:sec="http://www.springframework.org/security/tags"
-     xmlns:spring="http://www.springframework.org/tags"
-     xmlns:fn="http://java.sun.com/jsp/jstl/functions"
-     version="2.0">
-    <p class="text1">Do here what are you want!</p>
-</div>
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+    <div>
+        <p class="text1">Do here what are you want!</p>
+    </div>
+</jsp:root>

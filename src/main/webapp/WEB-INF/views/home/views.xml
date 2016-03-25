@@ -4,7 +4,7 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition extends="default" name="home">
+    <definition extends="default" name="homePage">
         <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
     </definition>
     <definition extends="default" name="settings">

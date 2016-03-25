@@ -1,11 +1,4 @@
-﻿--
--- Скрипт сгенерирован Devart dbForge Studio for MySQL, Версия 6.3.358.0
--- Домашняя страница продукта: http://www.devart.com/ru/dbforge/mysql/studio
--- Дата скрипта: 22/09/2015 5:16:47 PM
--- Версия сервера: 5.7.7-rc-log
--- Версия клиента: 4.1
---
-
+﻿
 
 SET NAMES 'utf8';
 
@@ -131,28 +124,7 @@ INSERT INTO java_blog.blg_post_tag(pst_id, dic_tag_id) VALUES
 INSERT INTO java_blog.blg_post_tag(pst_id, dic_tag_id) VALUES
 (29, 7);
 
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 1);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(35, 3);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 9);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 16);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 19);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(35, 20);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(35, 25);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 26);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 27);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(29, 28);
-INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
-(35, 29);
+
 
 INSERT INTO java_blog.blg_user(usr_id, usr_dateTimeChange, usr_login, usr_password) VALUES
 (1, '2015-07-03 12:54:28', 'admin', '$2a$10$GThHMT1Os9W3YbeW1buZJu9AbdPPLCOhVeSfhaXc2ob1nVc.VoDDK');
@@ -213,3 +185,26 @@ INSERT INTO java_blog.blg_user_telephone(usr_tel_id, usr_tel_numb, usr_id, tel_t
 (4, '+38111111111', 2, 1);
 INSERT INTO java_blog.blg_user_telephone(usr_tel_id, usr_tel_numb, usr_id, tel_type_id) VALUES
 (5, '123-333-111', 23, 1);
+
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 1);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(35, 3);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 9);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 16);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 19);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(35, 20);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(35, 25);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 26);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 27);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(29, 28);
+INSERT INTO java_blog.blg_post_user(usr_id, pst_id) VALUES
+(35, 29);

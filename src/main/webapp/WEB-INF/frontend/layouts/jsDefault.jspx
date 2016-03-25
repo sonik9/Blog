@@ -1,0 +1,11 @@
+<!--
+  Created by IntelliJ IDEA.
+  User: vital
+  Date: 30/12/2015
+  Time: 7:20 AM
+  To change this template use File | Settings | File Templates.
+-->
+<jsp:root xmlns:jsp="http://java.sun.com/JSP/Page" xmlns="http://www.w3.org/1999/xhtml" version="2.0">
+<script type="text/javascript" src="/resources/js/jquery/jquery-1.11.3.min.js"><jsp:text/></script>
+<script type="text/javascript" src="/resources/js/jquery/jquery-ui.min.js"><jsp:text/></script>
+</jsp:root>

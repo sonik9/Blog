@@ -62,6 +62,8 @@ public class BlgCity implements Serializable{
         int result = cityId;
         result = 31 * result + (cityName != null ? cityName.hashCode() : 0);
         result = 31 * result + (countryId != null ? countryId.hashCode() : 0);
+        
         return result;
     }
+
 }
