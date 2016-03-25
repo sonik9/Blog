@@ -17,6 +17,7 @@
         <spring:message code="label_delete" var="labelDelete"/>
         <spring:url value="/users" var="showUserUrl"/>
         <c:url value='/sign/signin' var="authCheckUrl"/>
+        <c:url value='/' var="rootUrl"/>
 
         <div id="masthead">
             <div class="container">
