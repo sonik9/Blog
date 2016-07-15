@@ -240,8 +240,7 @@
                 <h4 class="modal-title">Photo preview</h4>
             </div>
             <div class="modal-body">
-                <div id="resizable" style="  ">
-                </div>
+                <div id="resizable"></div>
                 <img id="imagePreview" src="" class="img-responsive"/>
 
             </div>
@@ -265,6 +264,7 @@
             NProgress.done();
 
         });
+        //TODO: recreate by css
         $('img[name=userpic]').hover(function () {
             //$(this).toggleClass("img-thumbnail");
             $(this).removeClass("img-rounded");
@@ -274,6 +274,7 @@
             $(this).removeClass("img-thumbnail");
             $(this).addClass("img-rounded");
         });
+
         $('img[name=userpic]').click(function () {
             $('#image').click();
         });
@@ -287,6 +288,7 @@
             maxWidth: 232,*/
             containment: "#imagePreview"
         }).draggable();
+
         $("#image").change(function () {
             $("#modalPhotoPreview").modal("show");
             showimagepreview(this);

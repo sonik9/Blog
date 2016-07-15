@@ -7,9 +7,10 @@
     <definition extends="default" name="homePage">
         <!--Path to target jsp-->
         <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
+
         <!--List of css files-->
         <put-list-attribute name="styles" inherit="true">
-            <add-attribute value="/css/main.css" />
+
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">

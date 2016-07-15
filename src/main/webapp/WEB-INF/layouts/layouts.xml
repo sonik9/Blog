@@ -11,11 +11,13 @@
 
         <!--List of css files-->
         <put-list-attribute name="styles">
+            <add-attribute value="/css/main.css" />
         </put-list-attribute>
 
         <!--List of js files-->
         <put-list-attribute name="js">
             <add-attribute value="/resources/js/jquery/jquery-1.11.3.min.js"/>
+            <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
             <add-attribute value="/resources/js/bootstrap/bootstrap.min.js"/>
             <add-attribute value="/resources/js/bootstrap/bootstrap-notify.js"/>
             <add-attribute value="/resources/js/main.js"/>
