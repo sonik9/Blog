@@ -21,6 +21,10 @@
     </definition>
     <definition extends="default" name="users/storage">
         <put-attribute name="body" value="/WEB-INF/views/users/upload.jsp"/>
+        <!--List of css files-->
+         <put-list-attribute name="styles">
+             <add-attribute value="/css/main.css" type="template"/>
+         </put-list-attribute>
     </definition>
     <definition extends="frame" name="users/storage/download">
         <put-attribute name="body" value="/WEB-INF/views/users/download-iframe.jsp"/>

@@ -6,9 +6,29 @@
 <tiles-definitions>
 
     <definition extends="default" name="post/create">
+        <!--Path to target jsp-->
         <put-attribute name="body" value="/WEB-INF/views/post/post-creating.jsp"/>
+
+        <!--List of css files-->
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/main.css" type="template"/>
+        </put-list-attribute>
+        <!--List of js files-->
+        <put-list-attribute name="js">
+
+        </put-list-attribute>
     </definition>
     <definition extends="default" name="post/view">
         <put-attribute name="body" value="/WEB-INF/views/post/post.jspx"/>
+        <!--List of css files-->
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/main.css" type="template"/>
+        </put-list-attribute>
+        <!--List of js files-->
+        <put-list-attribute name="js">
+            <add-attribute value="/js/bootstrap/bootstrap.min.js" type="template"/>
+            <add-attribute value="/js/main.js" type="template"/>
+            <add-attribute value="/js/bootstrap/bootstrap-notify.js" type="template"/>
+        </put-list-attribute>
     </definition>
 </tiles-definitions>

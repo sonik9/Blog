@@ -5,9 +5,22 @@
 
 <tiles-definitions>
     <definition extends="default" name="homePage">
+        <!--Path to target jsp-->
         <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
+        <!--List of css files-->
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/main.css" type="template"/>
+        </put-list-attribute>
+        <!--List of js files-->
+        <put-list-attribute name="js">
+
+        </put-list-attribute>
     </definition>
-    <definition extends="default" name="settings">
-        <put-attribute name="body" value="/WEB-INF/views/home/settings.jspx"/>
+
+    <definition extends="default" name="userPage">
+        <put-attribute name="body" value="/WEB-INF/frontend/views/home/user.jspx"/>
+        <put-list-attribute name="styles">
+            <add-attribute value="/css/test2.css" type="template"/>
+        </put-list-attribute>
     </definition>
 </tiles-definitions>

@@ -4,12 +4,21 @@
         "http://tiles.apache.org/dtds/tiles-config_3_0.dtd">
 
 <tiles-definitions>
-    <definition name="default" template="/WEB-INF/layouts/default.jspx">
+    <definition name="default" template="/WEB-INF/layouts/default.jsp">
             <put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
             <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
-        <put-list-attribute name="javascripts">
-            <add-attribute value="/public/js/bootstrap/bootstrap.min.js" />
+
+        <!--List of css files-->
+       <!-- <put-list-attribute name="styles">
+            <add-attribute value="/css/main.css" type="template"/>
+        </put-list-attribute>-->
+        <!--List of js files-->
+        <put-list-attribute name="js">
+            <add-attribute value="/js/bootstrap/bootstrap.min.js" type="template"/>
+            <add-attribute value="/js/main.js" type="template"/>
+            <add-attribute value="/js/bootstrap/bootstrap-notify.js" type="template"/>
         </put-list-attribute>
+
     </definition>
     <definition name="frame" template="/WEB-INF/layouts/frame.jsp">
     </definition>
