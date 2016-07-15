@@ -5,21 +5,25 @@
 
 <tiles-definitions>
     <definition name="default" template="/WEB-INF/layouts/default.jsp">
-            <put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
-            <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
+
+        <put-attribute name="header" value="/WEB-INF/views/header.jspx"/>
+        <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
 
         <!--List of css files-->
-       <!-- <put-list-attribute name="styles">
-            <add-attribute value="/css/main.css" type="template"/>
-        </put-list-attribute>-->
+        <put-list-attribute name="styles">
+        </put-list-attribute>
+
         <!--List of js files-->
         <put-list-attribute name="js">
-            <add-attribute value="/js/bootstrap/bootstrap.min.js" type="template"/>
-            <add-attribute value="/js/main.js" type="template"/>
-            <add-attribute value="/js/bootstrap/bootstrap-notify.js" type="template"/>
+            <add-attribute value="/resources/js/jquery/jquery-1.11.3.min.js"/>
+            <add-attribute value="/resources/js/bootstrap/bootstrap.min.js"/>
+            <add-attribute value="/resources/js/bootstrap/bootstrap-notify.js"/>
+            <add-attribute value="/resources/js/main.js"/>
         </put-list-attribute>
 
     </definition>
+
+
     <definition name="frame" template="/WEB-INF/layouts/frame.jsp">
     </definition>
 

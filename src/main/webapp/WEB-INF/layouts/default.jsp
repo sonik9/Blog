@@ -51,30 +51,24 @@ To change this template use File | Settings | File Templates.
         <meta property="og:description" content="Blog storage system"/>
     </c:if>
 
-    <!--<meta http-equiv="X-UA-Compatible" content="IE=8"/>-->
-    <!--...................FAVICON-->
-    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/images/favicon.png"/>
-
-    <spring:theme code="styleSheetApp" var="app_css"/>
-
-    <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
-
-    <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>
-
     <!--CSS STYLE-->
-    <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" ignore="true"/>
+    <!--FAVICON-->
+    <link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath}/resources/images/favicon1.png"/>
+    <%--Load resources using spring--%>
+    <%--<spring:theme code="styleSheetApp" var="app_css"/>
+    <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
+    <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>--%>
+
+    <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" />
     <c:forEach items="${styles}" var="s">
         <link rel="stylesheet"
-              href="/resources${s}"/>
+              href="${pageContext.request.contextPath}/resources${s}"/>
     </c:forEach>
 
     <!-- JavaScripts-->
-    <%--<tiles:insertAttribute name="jsDefault" ignore="true"/>--%>
     <tilesx:useAttribute name="js" classname="java.util.List" id="js"/>
     <c:forEach items="${js}" var="j">
-        <script src="/resources${j}" type="text/javascript">
-            <jsp:text/>
-        </script>
+        <script src="${pageContext.request.contextPath}${j}"><jsp:text/></script>
     </c:forEach>
 
 
@@ -100,7 +94,7 @@ To change this template use File | Settings | File Templates.
 <tiles:insertAttribute name="header" ignore="true"/>
 
 <!--Wrapper--><!--Body Wrapper-->
-<tiles:insertAttribute name="body"/>
+<tiles:insertAttribute name="body" />
 
 
 <tiles:insertAttribute name="footer" ignore="true"/>
