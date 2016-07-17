@@ -17,7 +17,7 @@
         <spring:message code="label_delete" var="labelDelete"/>
         <spring:url value="/users" var="showUserUrl"/>
         <c:url value='/sign/signin' var="authCheckUrl"/>
-        <c:url value='/' var="rootUrl"/>
+        <!--<c:url value='/' var="rootUrl"/>-->
 
         <div id="masthead">
             <div class="container">
@@ -60,7 +60,7 @@
                     <div class="col-xs-12 col-sm-8 col-md-6 col-sm-offset-2 col-md-offset-3">
                         <form id="userSignInForm" method="post" action="${authCheckUrl}">
                             <div class="btn-group">
-                                <a class="btn btn-facebook btn-lg" href="/sign/facebook"><span
+                                <a class="btn btn-facebook btn-lg" href="${rootUrl}/sign/facebook"><span
                                         class="fa fa-facebook"> </span> Facebook</a>
                                 <a class="btn btn-windows btn-lg" href="#"><span
                                         class="fa fa-windows"> </span> Microsoft</a>

@@ -107,8 +107,8 @@ public class BlgSignController {
         blgUserService.save(blgUser);
         return "redirect:/sign";
     }
-    private @Value("${app.FACEBOOK_URL}")
-    String FACEBOOK_URL;
+    @Value("${app.FACEBOOK_URL}")
+    private String FACEBOOK_URL;
     @Value("${app.FACEBOOK_API_KEY}")
     private String FACEBOOK_API_KEY;
     @Value("${app.FACEBOOK_API_SECRET}")
