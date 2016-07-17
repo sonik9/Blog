@@ -13,13 +13,13 @@
             <c:set var="size" value="${meta.value}"/>
         </c:forEach>
     </c:forEach>--%>
-<c:url value='/' var="rootUrl"/>
+<spring:url value="/" var="homeUrl"/>
 <c:forEach items="${files}" var="file">
         <div class="col-xs-6" style="padding-right: 0; padding-left: 5px;">
             <div class="files">
                 <div class="col-xs-5 thmb">
-                    <a href="${rootUrl}${file.path}" class="readingglass" target="_blank"></a>
-                    <img id="${rootUrl}${file.fileName}" src="${file.path}" class="img-responsive img-rounded"/>
+                    <a href="dd${homeUrl}${file.path}" class="readingglass" target="_blank"></a>
+                    <img id="${file.fileName}" src="${homeUrl}${file.path}" class="img-responsive img-rounded"/>
                 </div>
                 <div class="info col-xs-7">
                     <a href="#" onclick="deleteFileClick(this);" id="fileDelete" name="${file.fileName}" class="file-delete" title="Delete">&#10060;</a>
@@ -30,7 +30,7 @@
                         <span class="image_size">
                             <script>
                                 var img = document.createElement('img');
-                                img.src = '${file.path}';
+                                img.src = '${homeUrl}${file.path}';
                                 img.onload = function (e) {$("div[name='${file.fileName}']").find('.image_size').append(img.width+"x"+img.height);}
                             </script>
                         </span>
