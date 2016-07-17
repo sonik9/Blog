@@ -139,6 +139,7 @@ function updateFrame() {
     $("#filelist").load(homePath + "/storage/download",function() {
         if ($("#filelist").find('div').length === 0) { //is(":empty")){
             $('#deleteall').prop("disabled", true);
+            $(this).html("No files. Please upload new files.")
         } else
             $('#deleteall').prop("disabled", false)
     });

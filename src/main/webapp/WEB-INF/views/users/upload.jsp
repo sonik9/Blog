@@ -127,7 +127,7 @@
                                                 </a>
                                             </h4>
                                         </div>
-                                        <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel"
+                                        <div id="collapseTwo" class="panel-collapse" role="tabpanel"
                                              aria-labelledby="headingTwo">
                                             <div class="panel-body" id="filelist"></div>
                                         </div>
@@ -170,7 +170,7 @@
             </div>
         </div>
 
-        <spring:url value="${rootURL}resources/js/storage.js" var="jsStorage"/>
+        <spring:url value="${systemPath}/resources/js/storage.js" var="jsStorage"/>
         <script src="${jsStorage}" type="text/javascript"><jsp:text/></script>
 
     </div>

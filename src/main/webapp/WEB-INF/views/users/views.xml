@@ -73,13 +73,13 @@
     </definition>
     <definition extends="frame" name="users/storage/download">
         <put-attribute name="body" value="/WEB-INF/views/users/download-iframe.jsp"/>
-        <!--List of css files-->
+        <!--&lt;!&ndash;List of css files&ndash;&gt;
         <put-list-attribute name="styles" inherit="true">
 
         </put-list-attribute>
-        <!--List of js files-->
+        &lt;!&ndash;List of js files&ndash;&gt;
         <put-list-attribute name="js" inherit="true">
 
-        </put-list-attribute>
+        </put-list-attribute>-->
     </definition>
 </tiles-definitions>

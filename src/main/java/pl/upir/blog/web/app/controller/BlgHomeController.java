@@ -78,7 +78,7 @@ public class BlgHomeController {
     }
 
     @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String user(Model model){
+    public String user(Model model) {
 
         return "userPage";
     }
@@ -167,15 +167,16 @@ public class BlgHomeController {
                     bytes = file.getBytes();
                     String path = request.getRealPath("/");
                     File serverFile = new File(path + "public/images/" + fileName);
-                    BufferedOutputStream stream =
-                            new BufferedOutputStream(new FileOutputStream(serverFile));
+                    BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
                     stream.write(bytes);
                     stream.close();
+
                     ImageCropper.resizeImage(serverFile, origHeight, origWidth, "png");
                     ImageCropper.cropp(serverFile, "png", height, width, left, top);
+
                     String oldFilePath = blgUserUpdate.getBlgUserDetail().getUsrPhotoLink();
-                    if(oldFilePath!=null) {
-                        if (!oldFilePath.equals("/resources/images/" + fileName)) {
+                    if (oldFilePath != null) {
+                        if (!oldFilePath.equals("resources/images/" + fileName)) {
                             File oldFile = new File(path + "public/images/" + oldFilePath.substring(oldFilePath.lastIndexOf("/") + 1, oldFilePath.length()));
                             if (oldFile.delete())
                                 logger.info("File " + serverFile + " is deleted!");
@@ -183,7 +184,7 @@ public class BlgHomeController {
                                 logger.error("Delete operation is faild!");
                         }
                     }
-                    blgUserUpdate.getBlgUserDetail().setUsrPhotoLink("/resources/images/" + fileName);
+                    blgUserUpdate.getBlgUserDetail().setUsrPhotoLink("resources/images/" + fileName);
                     blgUserService.save(blgUserUpdate);
                     /*Principal update*/
                     Authentication authentication = blgUserSecurityService.trust(blgUserSecurityService.loadUserByUsername(blgUserUpdate.getUsrLogin()));
@@ -242,7 +243,7 @@ public class BlgHomeController {
         if (firstName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetFirstname()) && lastName.equals(((BlgUser) principal).getBlgUserDetail().getUsrDetLastname())) {
             BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
             String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
-            String url = UrlUtil.sourcePathFile(request, "/resources/images/storage/" + blgUser.getUsrId() + "/");
+            String url = "/resources/images/storage/" + blgUser.getUsrId() + "/";
             //Map<String,Map<String,Byte>> paths= new HashMap<>();
             //paths= Lists.newArrayList(Files.walk(Paths.get(path)));
             List<WrapperFile> wrapperFileList = new ArrayList<>();
