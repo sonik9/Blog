@@ -14,6 +14,9 @@ import pl.upir.blog.wrapper.WrapperUserDetailJson;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by Vitalii on 09.07.2015.
@@ -26,17 +29,16 @@ public class BlgUserApi {
     BlgUserService blgUserService;
 
     @RequestMapping(value = "/1",method = RequestMethod.GET)
-    public @ResponseBody ArrayList getStr(HttpServletRequest httpServletRequest){
-        ArrayList arr = new ArrayList();
-        arr.add(httpServletRequest.getPathInfo());
-        arr.add(httpServletRequest.getContextPath());
-        arr.add(httpServletRequest.getRequestURI());
-        arr.add(httpServletRequest.getRequestURL());
-        arr.add(httpServletRequest.getServerName());
-        arr.add(httpServletRequest.getRemoteAddr());
-        arr.add(httpServletRequest.getRemoteHost());
-        arr.add(httpServletRequest.getServletContext().getContextPath());
-        return arr;
+    public @ResponseBody Map<String, String> getStr(HttpServletRequest request){
+        Map<String, String> map = new HashMap<String, String>();
+
+        Enumeration headerNames = request.getHeaderNames();
+        while (headerNames.hasMoreElements()) {
+            String key = (String) headerNames.nextElement();
+            String value = request.getHeader(key);
+            map.put(key, value);
+        }
+        return map;
     }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
