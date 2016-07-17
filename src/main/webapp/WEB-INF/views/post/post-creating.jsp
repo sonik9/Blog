@@ -240,20 +240,6 @@ To change this template use File | Settings | File Templates.
 
 
 </div>
-<spring:url value="${homeUrl}resources/js/tinymce/tinymce.min.js" var="jsEditor"/>
-<script src="//tinymce.cachefly.net/4.2/tinymce.min.js" type="text/javascript">
-    <jsp:text/>
-</script>
-
-<spring:url value="${homeUrl}resources/js/bootstrap/bootstrap-multiselect.js" var="jsTag"/>
-<script src="${jsTag}" type="text/javascript">
-    <jsp:text/>
-</script>
-
-<spring:url value="${homeUrl}resources/js/jquery/chosen.jquery.min.js" var="jsChosen"/>
-<script src="${jsChosen}" type="text/javascript">
-    <jsp:text/>
-</script>
 
 <script>
     <c:if test="${auth}">
