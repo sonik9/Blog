@@ -175,7 +175,7 @@ public class BlgHomeController {
                     ImageCropper.cropp(serverFile, "png", height, width, left, top);
                     String oldFilePath = blgUserUpdate.getBlgUserDetail().getUsrPhotoLink();
                     if(oldFilePath!=null) {
-                        if (!oldFilePath.equals(UrlUtil.sourcePathFile(request, "/resources/images/" + fileName))) {
+                        if (!oldFilePath.equals("/resources/images/" + fileName)) {
                             File oldFile = new File(path + "public/images/" + oldFilePath.substring(oldFilePath.lastIndexOf("/") + 1, oldFilePath.length()));
                             if (oldFile.delete())
                                 logger.info("File " + serverFile + " is deleted!");
@@ -183,7 +183,7 @@ public class BlgHomeController {
                                 logger.error("Delete operation is faild!");
                         }
                     }
-                    blgUserUpdate.getBlgUserDetail().setUsrPhotoLink(UrlUtil.sourcePathFile(request, "/resources/images/" + fileName));
+                    blgUserUpdate.getBlgUserDetail().setUsrPhotoLink("/resources/images/" + fileName);
                     blgUserService.save(blgUserUpdate);
                     /*Principal update*/
                     Authentication authentication = blgUserSecurityService.trust(blgUserSecurityService.loadUserByUsername(blgUserUpdate.getUsrLogin()));

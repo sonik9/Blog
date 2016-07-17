@@ -49,12 +49,12 @@
         <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
 
-                <li>
+                <!--<li>
                     <a href="#">Category</a>
                 </li>
                 <li>
                     <a href="#" onClick="notify(message)">message test</a>
-                </li>
+                </li>-->
 
             </ul>
             <ul class="nav navbar-right navbar-nav">
@@ -95,7 +95,7 @@
                            href="">
                             <c:choose>
                                 <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
-                                    <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
+                                    <img src="${homeUrl}${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                          style="width:30px;height:30px" class="img-rounded"/>
                                 </c:when>
                                 <c:otherwise>
