@@ -214,7 +214,7 @@ public class BlgHomeController {
             BlgUser blgUser = blgUserService.findById(((BlgUser) principal).getUsrId());
             String path = request.getRealPath("/") + "public/images/storage/" + blgUser.getUsrId() + "/";
 
-            String url = UrlUtil.sourcePathFile(request, "/resources/images/storage/" + blgUser.getUsrId() + "/");
+            String url = "/resources/images/storage/" + blgUser.getUsrId() + "/";
             List<Object> paths = new ArrayList<>();
             if (Files.exists(Paths.get(path))) {
                 //paths= Lists.newArrayList(Files.walk(Paths.get(path)));

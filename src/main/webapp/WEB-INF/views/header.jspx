@@ -95,7 +95,7 @@
                            href="">
                             <c:choose>
                                 <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
-                                    <img src="${homeUrl}${principal.getBlgUserDetail().getUsrPhotoLink()}"
+                                    <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                          style="width:30px;height:30px" class="img-rounded"/>
                                 </c:when>
                                 <c:otherwise>

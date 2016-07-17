@@ -87,7 +87,7 @@ public class BlgPostController {
 
         String fbContent = Jsoup.parse(blgPost.getPstDocumentShort()).text();
         Document document = Jsoup.parse(blgPost.getPstDocument());
-        document.setBaseUri(new URI(UrlUtil.sourcePathFile(request, "")).toString());
+        document.setBaseUri(new URI(UrlUtil.sourcePathUrl(request, "")).toString());
 
         Elements el = document.getElementsByTag("img");
         List<String> fbImages = new ArrayList<>();
@@ -303,7 +303,7 @@ public class BlgPostController {
                         logger.error("Delete operation is faild!");
                 }*/
 
-                blgPost.setPstTitleImage(UrlUtil.sourcePathFile(request, "/resources/images/post/" + fileName));
+                blgPost.setPstTitleImage("/resources/images/post/" + fileName);
             } catch (IOException ex) {
                 ex.printStackTrace();
                 //return ex.toString();
@@ -311,7 +311,7 @@ public class BlgPostController {
         }
 
         LocalDate date = LocalDate.now();
-        blgPost.setPstUrl(UrlUtil.sourcePathFile(request, "/" + date.getYear() + "/" + date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + blgPostService.getNextAutoincrement()));
+        blgPost.setPstUrl("/" + date.getYear() + "/" + date.getMonthValue() + "/" + date.getDayOfMonth() + "/" + blgPostService.getNextAutoincrement());
         //blgPost=blgPostService.save(blgPost);
 
         blgPostService.save(blgPost);

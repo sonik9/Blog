@@ -128,9 +128,9 @@ public class UrlUtil {
         return result;
     }
 
-    public static String sourcePathFile(HttpServletRequest request, String filePath){
+    public static String sourcePathUrl(HttpServletRequest request, String pageUrl){
 
-        return request.getScheme() + "://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath()+filePath;
+        return request.getScheme() + "://" + request.getRemoteAddr() + ":"+ request.getServerPort() + request.getContextPath()+pageUrl;
     }
 
     public static Optional<String> getPreviousPageByRequest(HttpServletRequest request)

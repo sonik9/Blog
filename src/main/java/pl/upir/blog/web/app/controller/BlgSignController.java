@@ -121,17 +121,17 @@ public class BlgSignController {
     private String FACEBOOK_URL_ME;
     @Value("${app.FACEBOOK_URL_ME_AVATAR}")
     private String FACEBOOK_URL_ME_AVATAR;
-    @RequestMapping(value = "facebook", method = RequestMethod.GET)
-    public String signinFacebook(Model model)throws Exception{
 
+    @RequestMapping(value = "facebook", method = RequestMethod.GET)
+    public String signinFacebook(Model model, HttpServletRequest request)throws Exception{
         return "redirect:"+FACEBOOK_URL + "?client_id=" + FACEBOOK_API_KEY
-                + "&redirect_uri=" + FACEBOOK_URL_CALLBACK_REGISTRATION
+                + "&redirect_uri=" +UrlUtil.sourcePathUrl(request,FACEBOOK_URL_CALLBACK_REGISTRATION)
                 + "&scope=email,user_location&state=registration";
     }
 
     @ RequestMapping(value = "/facebook/register", params = "code")
     public String registrationAccessCode(@RequestParam("code") String code, HttpServletRequest request) throws Exception {
-        String authRequest = UrlUtil.sendHttpRequest("GET", FACEBOOK_URL_ACCESS_TOKEN, new String[]{"client_id", "redirect_uri", "client_secret", "code"}, new String[]{FACEBOOK_API_KEY, FACEBOOK_URL_CALLBACK_REGISTRATION, FACEBOOK_API_SECRET, code});
+        String authRequest = UrlUtil.sendHttpRequest("GET", FACEBOOK_URL_ACCESS_TOKEN, new String[]{"client_id", "redirect_uri", "client_secret", "code"}, new String[]{FACEBOOK_API_KEY, UrlUtil.sourcePathUrl(request,FACEBOOK_URL_CALLBACK_REGISTRATION), FACEBOOK_API_SECRET, code});
         String token = UrlUtil.parseURLQuery(authRequest).get("access_token");
         String tokenRequest = UrlUtil.sendHttpRequest("GET", FACEBOOK_URL_ME, new String[]{"access_token"}, new String[]{token});
         ObjectMapper mapper = new ObjectMapper();
