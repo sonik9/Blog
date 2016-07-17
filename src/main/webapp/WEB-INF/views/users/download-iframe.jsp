@@ -13,7 +13,7 @@
             <c:set var="size" value="${meta.value}"/>
         </c:forEach>
     </c:forEach>--%>
-
+<c:url value='/' var="rootUrl"/>
 <c:forEach items="${files}" var="file">
         <div class="col-xs-6" style="padding-right: 0; padding-left: 5px;">
             <div class="files">
