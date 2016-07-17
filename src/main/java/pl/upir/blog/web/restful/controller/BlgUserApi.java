@@ -33,6 +33,8 @@ public class BlgUserApi {
         arr.add(httpServletRequest.getRequestURI());
         arr.add(httpServletRequest.getRequestURL());
         arr.add(httpServletRequest.getServerName());
+        arr.add(httpServletRequest.getRemoteAddr());
+        arr.add(httpServletRequest.getRemoteHost());
         arr.add(httpServletRequest.getServletContext().getContextPath());
         return arr;
     }
