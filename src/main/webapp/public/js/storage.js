@@ -1,9 +1,11 @@
 /**
  * Created by Vitalii on 15/09/2015.
  */
-//$(document).ready(function () {
+$(document).ready(function () {
+    NProgress.configure({easing: 'ease', speed: 500});
+    updateFrame();
+});
 
-NProgress.configure({easing: 'ease', speed: 500});
 //        $("#fileUpload").on("change", handleFileSelect);
 
 var homePath = $("#homePath").val(),
@@ -99,7 +101,7 @@ function clearAll() {
 }
 
 
-updateFrame();
+
 function showimagepreview(input) {
     if (input.files && input.files[0]) {
         if (uploadFiles.length === 0) {

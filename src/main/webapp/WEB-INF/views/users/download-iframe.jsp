@@ -18,8 +18,8 @@
         <div class="col-xs-6" style="padding-right: 0; padding-left: 5px;">
             <div class="files">
                 <div class="col-xs-5 thmb">
-                    <a href="${file.path}" class="readingglass" target="_blank"></a>
-                    <img id="${file.fileName}" src="${file.path}" class="img-responsive img-rounded"/>
+                    <a href="${rootUrl}${file.path}" class="readingglass" target="_blank"></a>
+                    <img id="${rootUrl}${file.fileName}" src="${file.path}" class="img-responsive img-rounded"/>
                 </div>
                 <div class="info col-xs-7">
                     <a href="#" onclick="deleteFileClick(this);" id="fileDelete" name="${file.fileName}" class="file-delete" title="Delete">&#10060;</a>
