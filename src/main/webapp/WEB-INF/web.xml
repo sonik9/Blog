@@ -100,6 +100,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>restful</servlet-name>
+        <url-pattern>/rest/1</url-pattern>
         <url-pattern>/rest/test</url-pattern>
         <url-pattern>/restful/test</url-pattern>
         <url-pattern>/restful/api/signup</url-pattern>

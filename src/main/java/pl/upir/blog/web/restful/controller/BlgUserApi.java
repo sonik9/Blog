@@ -1,5 +1,6 @@
 package pl.upir.blog.web.restful.controller;
 
+import org.hibernate.mapping.Array;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import pl.upir.blog.wrapper.WrapperUserDetailJson;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 
 /**
  * Created by Vitalii on 09.07.2015.
@@ -23,9 +25,16 @@ public class BlgUserApi {
     @Autowired
     BlgUserService blgUserService;
 
-    @RequestMapping("/1")
-    public @ResponseBody String getStr(){
-        return "fuck";
+    @RequestMapping(value = "/1",method = RequestMethod.GET)
+    public @ResponseBody ArrayList getStr(HttpServletRequest httpServletRequest){
+        ArrayList arr = new ArrayList();
+        arr.add(httpServletRequest.getPathInfo());
+        arr.add(httpServletRequest.getContextPath());
+        arr.add(httpServletRequest.getRequestURI());
+        arr.add(httpServletRequest.getRequestURL());
+        arr.add(httpServletRequest.getServerName());
+        arr.add(httpServletRequest.getServletContext().getContextPath());
+        return arr;
     }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
