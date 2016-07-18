@@ -90,7 +90,7 @@ To change this template use File | Settings | File Templates.
                            href="">
                             <c:choose>
                                 <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
-                                    <c:choose>
+                                   <%-- <c:choose>
                                     <c:when test="${fn:indexOf(principal.getBlgUserDetail().getUsrPhotoLink(), 'http')==0}">
                                         <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                              style="width:30px;height:30px" class="img-rounded"/>
@@ -99,7 +99,9 @@ To change this template use File | Settings | File Templates.
                                         <img src="${rootUrl}${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                              style="width:30px;height:30px" class="img-rounded"/>
                                     </c:otherwise>
-                                    </c:choose>
+                                    </c:choose>--%>
+                                    <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
+                                         style="width:30px;height:30px" class="img-rounded"/>
                                 </c:when>
                                 <c:otherwise>
                                     <img src="//placehold.it/30" style="width:30px;height:30px" class="img-rounded"/>
