@@ -45,7 +45,7 @@ public class CustomUserAuthentication extends BlgUser implements Authentication 
     }
     @ Override
     public Object getPrincipal() {
-        return "HALO";
+        return user;
     }
     @ Override
     public boolean isAuthenticated() {
