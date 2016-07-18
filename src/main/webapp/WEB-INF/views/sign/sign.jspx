@@ -22,7 +22,7 @@
     <spring:url value="/users" var="showUserUrl"/>
     <c:url value='/sign/signin' var="authCheckUrl"/>
     <!--<c:url value='/' var="rootUrl"/>-->
-
+    <c:url value="${pageContext.request.contextPath}" var="systemPath"/>
     <div id="masthead">
         <div class="container">
             <div class="row">
