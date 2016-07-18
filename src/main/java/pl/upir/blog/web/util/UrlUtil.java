@@ -129,8 +129,8 @@ public class UrlUtil {
     }
 
     public static String sourcePathUrl(HttpServletRequest request, String pageUrl){
-        String adr=request.getRequestURL().substring(0,request.getRequestURL().indexOf(pageUrl.split("/")[1])-1);
-        return adr+pageUrl;//request.getScheme() + "://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath()+pageUrl;
+        //String adr=request.getRequestURL().substring(0,request.getRequestURL().indexOf(pageUrl.split("/")[1])-1);
+        return request.getScheme() + "://" + request.getServerName() + ":"+ request.getServerPort() + request.getContextPath()+pageUrl;
     }
 
     public static Optional<String> getPreviousPageByRequest(HttpServletRequest request)

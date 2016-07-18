@@ -132,7 +132,7 @@ public class BlgSignController {
     @ RequestMapping(value = "/facebook/register", params = "code")
     public String registrationAccessCode(@RequestParam("code") String code, HttpServletRequest request) throws Exception {
         String authRequest = UrlUtil.sendHttpRequest("GET", FACEBOOK_URL_ACCESS_TOKEN, new String[]{"client_id", "redirect_uri", "client_secret", "code"}, new String[]{FACEBOOK_API_KEY, UrlUtil.sourcePathUrl(request,FACEBOOK_URL_CALLBACK_REGISTRATION), FACEBOOK_API_SECRET, code});
-       /* String token = UrlUtil.parseURLQuery(authRequest).get("access_token");
+        String token = UrlUtil.parseURLQuery(authRequest).get("access_token");
         String tokenRequest = UrlUtil.sendHttpRequest("GET", FACEBOOK_URL_ME, new String[]{"access_token"}, new String[]{token});
         ObjectMapper mapper = new ObjectMapper();
         BlgUserFacebook blgUserFacebook;
@@ -170,10 +170,9 @@ public class BlgSignController {
 
             Authentication authentication = new BlgUserSecurityServiceImpl().trust(userDetailsService.loadUserByUsername(blgUser.getUsrLogin()));
             authentication.setAuthenticated(true);
-        }*/
+        }
 
-        //return "redirect:/";
-        return request.getRequestURL().toString();
+        return "redirect:/";
     }
 
     @RequestMapping(value = "/sign_json")

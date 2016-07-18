@@ -1,0 +1,31 @@
+.container.sign{
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: flex;
+
+    flex-flow: column nowrap;
+    align-items: center;
+}
+.signin-social{
+
+}
+.signin-box{
+    width: 100%;
+}
+.signup-box{
+    width: 100%;
+    display: none;
+}
+.sign-tab{
+    display: -webkit-box;      /* OLD - iOS 6-, Safari 3.1-6 */
+    display: -moz-box;         /* OLD - Firefox 19- (buggy but mostly works) */
+    display: -ms-flexbox;      /* TWEENER - IE 10 */
+    display: flex;
+    flex-flow: row;
+    justify-content: center;
+    width: 50%;
+}
+.sign-tab > div{
+    flex: 1 1 50%;
+}

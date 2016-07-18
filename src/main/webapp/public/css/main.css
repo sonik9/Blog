@@ -7,17 +7,45 @@
 @import url("jquery-validator/theme-default.min.css");
 @import url("bootstrap/bootstrap-notify.css");
 
-.btn-windows {background-color:#4099FF;color:#fff;}
-.btn-facebook {background-color:#3B5998;color:#fff;}
-.btn-google-plus {background-color:#d34836;color:#fff;}
-.btn-github {background-color: #828282;color:#fff;}
+
+.btn{
+    color:#fff;
+}
+.btn-windows {background-color:#4099FF;}
+.btn-facebook {background-color:#3B5998;}
+.btn-google-plus {background-color:#d34836;}
+.btn-github {background-color: #828282;}
 
 .btn-windows:hover {background-color:#3088FF;color:#62BBFF;}
 .btn-facebook:hover {background-color:#2A4998;color:#4C6BBA;}
 .btn-google-plus:hover {background-color:#C23836;color:#E45A58;}
 .btn-github:hover {background-color: #1a1717;color: #bfbbba;}
 
+.btn-tab{
+    cursor: pointer;
+    color: #000000;
+    border-bottom: 3px solid grey;
+    padding-bottom: 15px;
+    margin-bottom: 10px;
+    font-weight: bold;
+    text-align: center;
+    letter-spacing: 5px;
+    margin-left: 1px;
+    margin-right: 1px;
+    text-transform: uppercase;
+}
+.btn-tab:hover{
+    color: grey;
+}
+.btn-tab.active{
+    border-bottom: 3px solid #337ab7;
+}
 
+.btn.disabled {
+    pointer-events: none;
+    cursor: default;
+    opacity: 0.6;
+}
 .navbar-form input, .form-inline input {
     width:auto;
 }

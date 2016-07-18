@@ -1,28 +1,47 @@
 /**
  * Created by Vitalii on 24.06.2015.
  */
-var message;
-function notify(messages,type,trans) {
-    $('.top-right').notify({
-        message: {text: messages},
-        fadeOut: { enabled: true, delay: 150000 },
-        type:type,
-        transition:trans
-    }).show();
-}
-function sizeH(bytes) {
-    if (typeof bytes !== 'number') {
-        return '';
+$(document).ready(function () {
+
+
+    var message;
+
+    function notify(messages, type, trans) {
+        $('.top-right').notify({
+            message: {text: messages},
+            fadeOut: {enabled: true, delay: 150000},
+            type: type,
+            transition: trans
+        }).show();
     }
-    if (bytes >= 1000000000) {
-        return (bytes / 1000000000).toFixed(2) + ' GB';
-    }
-    if (bytes >= 1000000) {
-        return (bytes / 1000000).toFixed(2) + ' MB';
-    }
-    return (bytes / 1000).toFixed(2) + ' Kb.';
-}
-;
+
+    function sizeH(bytes) {
+        if (typeof bytes !== 'number') {
+            return '';
+        }
+        if (bytes >= 1000000000) {
+            return (bytes / 1000000000).toFixed(2) + ' GB';
+        }
+        if (bytes >= 1000000) {
+            return (bytes / 1000000).toFixed(2) + ' MB';
+        }
+        return (bytes / 1000).toFixed(2) + ' Kb.';
+    };
+
+    $('#signup').on('click', function () {
+        $('#signinbox, #accountSignInText').hide();
+        $('#signupbox, #accountSignUpText').show()
+        $("#signup").toggleClass("active");
+        $("#signin").toggleClass("active");
+    });
+    $('#signin').on('click', function () {
+        $('#signinbox, #accountSignInText').show();
+        $('#signupbox, #accountSignUpText').hide();
+        $("#signup").toggleClass("active");
+        $("#signin").toggleClass("active");
+    });
+});
+
 (function ($) {
     $.validattion = (function (customFunction) {
         var app = {
@@ -83,8 +102,7 @@ function sizeH(bytes) {
 
 
                     switch (attr) {
-                        case 'length':
-                        {
+                        case 'length': {
                             var length = item.attr('data-validation-length');
                             if (val.length < length) {
                                 //item.after("<p datatype='tooltip'>Length of this field can't be less then " + length + ".</p>");
@@ -94,8 +112,7 @@ function sizeH(bytes) {
                             }
                             break;
                         }
-                        case 'selection':
-                        {
+                        case 'selection': {
                             var count = item.attr('data-validation-count'),
                                 sel = item.find(':selected');
                             if (sel.length < count || sel.val().length === 0) {
