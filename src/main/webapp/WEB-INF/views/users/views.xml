@@ -20,11 +20,12 @@
         <put-attribute name="body" value="/WEB-INF/views/users/show.jsp"/>
         <!--List of css files-->
         <put-list-attribute name="styles" inherit="true">
-
+            <add-attribute value="/css/views/user-profile.css"/>
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
             <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
+            <add-attribute value="/resources/js/view/user-profile.js"/>
         </put-list-attribute>
     </definition>
     <definition extends="default" name="users/update">

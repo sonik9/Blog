@@ -1,0 +1,4 @@
+img[name=userpic]:hover{
+    transform: scale(1.1);
+    transition: all 350ms ease 0s;
+}

@@ -11,7 +11,7 @@
 --%>
 <jsp:directive.page contentType="text/html; charset=UTF-8"/>
 <%--<jsp:output omit-xml-declaration="yes"/>--%>
-<spring:url value="/" var="homeUrl"/>
+<spring:url value="/" var="rootUrl"/>
 <spring:message code="label_blgUser_info" var="labelUserInfo"/>
 <spring:message code="label_blgUsers_login" var="labelUsersLogin"/>
 <spring:message code="label_blgUsers_pass" var="labelUsersPass"/>
@@ -20,7 +20,6 @@
 <spring:message code="label_blgUsers_lastName" var="labelUsersLastName"/>
 
 
-<div>
 <c:if test="${not empty blgUser}">
     <c:set var="user" value="${blgUser}"/>
     <c:set var="firstname" value="${user.blgUserDetail.usrDetFirstname}"/>
@@ -33,11 +32,12 @@
                         <p class="lead">${labelUserInfo}</p>
                     </h1>
                 </div>
-                    <%--<form:form id="formFileUpload" method="post" action="${homeUrl}${firstname}.${lastname}/uploadphoto" enctype="multipart/form-data">--%>
+                    <%--<form:form id="formFileUpload" method="post" action="${rootUrl}${firstname}.${lastname}/uploadphoto" enctype="multipart/form-data">--%>
                 <div class="col-xs-5" style="top: 45px;">
                     <c:choose>
                         <c:when test="${user.blgUserDetail.usrPhotoLink!=null}">
-                            <a href="#"><img name="userpic" alt="User Pic" src="${user.blgUserDetail.usrPhotoLink}"
+                            <a href="#"><img name="userpic" alt="User Pic"
+                                             src="${rootUrl}${user.blgUserDetail.usrPhotoLink}"
                                              style="width:200px;height:200px" class="img-rounded"></a>
                         </c:when>
                         <c:otherwise>
@@ -55,36 +55,36 @@
 
     <%--TODO comments--%>
     <div class="container">
+            <%--Message show--%>
+            <%-- <c:if test="${not empty message}">
+                 <div class="${message.type}" role="alert">
+                     <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
+                             aria-hidden="true">&amp;times</span></button>
+                     <strong>${message.firstWord}</strong> ${message.message}
+                 </div>
+             </c:if>--%>
 
-        <c:if test="${not empty message}">
-            <div class="${message.type}" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
-                        aria-hidden="true">&amp;times</span></button>
-                <strong>${message.firstWord}</strong> ${message.message}
-            </div>
-        </c:if>
         <div class="row">
-
             <div class="user-info-block">
                 <ul class="navigation">
                     <li class="active">
-                        <a  href="#information"
+                        <a href="#information"
                            style="border-top-left-radius:6px;border-bottom-left-radius:6px;">
                             <span class="fa fa-user fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a  href="#settings">
+                        <a href="#settings">
                             <span class="fa fa-cog fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a  href="${homeUrl}${firstname}.${lastname}/storage">
+                        <a href="${rootUrl}${firstname}.${lastname}/storage">
                             <span class="fa fa-cloud-upload fa-2x"></span>
                         </a>
                     </li>
                     <li>
-                        <a  href="${homeUrl}${firstname}.${lastname}/post/create"
+                        <a href="${rootUrl}${firstname}.${lastname}/post/create"
                            style="border-top-right-radius:6px;border-bottom-right-radius:6px;">
                             <span class="fa fa-pencil-square fa-2x"/>
                         </a>
@@ -96,7 +96,7 @@
                 <div class="tab-content">
                     <div id="information" class="tab-pane active">
                         <form:form autocomplete="off" modelAttribute="blgUser" id="userUpdateForm" method="post"
-                                   action="${homeUrl}${firstname}.${lastname}/save">
+                                   action="${rootUrl}${firstname}.${lastname}/save">
                             <div class="panel panel-default">
                                 <div class="panel-heading">
                                     <h2 class="panel-title">${labelUserInfo}</h2>
@@ -176,8 +176,9 @@
                                                 <tr class="edit1" style="display: none;">
                                                     <td>${labelUsersPass}</td>
                                                     <td>
-                                                        <form:password cssClass="form-control" path="usrPassword" showPassword="false" autocomplete="false"/>
-                                                        <%--<form:input  path="usrPassword" type="password" cssStyle="display: none;"/>--%>
+                                                        <form:password cssClass="form-control" path="usrPassword"
+                                                                       showPassword="false" autocomplete="false"/>
+                                                            <%--<form:input  path="usrPassword" type="password" cssStyle="display: none;"/>--%>
                                                         <form:errors path="usrPassword" cssClass="error"/>
                                                     </td>
                                                 </tr>
@@ -191,7 +192,7 @@
                                 <div class="panel-footer">
                                     <a data-original-title="Broadcast Message" data-toggle="tooltip" type="button"
                                        class="btn btn-sm btn-primary"><i class="glyphicon glyphicon-envelope"></i></a>
-                                        <span class="pull-right">
+                                    <span class="pull-right">
                                             <a data-original-title="Edit this user" id="edit"
                                                data-toggle="tooltip" type="button"
                                                class="btn btn-primary btn-warning"><span
@@ -252,110 +253,3 @@
 
     </div>
 </div>
-
-</div>
-<script>
-    $(document).ready(function () {
-
-        $('#edit').click(function () {
-            NProgress.start();
-            $('.edit1').toggle();
-            $('.show1').toggle();
-            NProgress.done();
-
-        });
-        //TODO: recreate by css
-        $('img[name=userpic]').hover(function () {
-            //$(this).toggleClass("img-thumbnail");
-            $(this).removeClass("img-rounded");
-            $(this).addClass("img-thumbnail");
-        }, function () {
-            //$(this).toggleClass("img-rounded");
-            $(this).removeClass("img-thumbnail");
-            $(this).addClass("img-rounded");
-        });
-
-        $('img[name=userpic]').click(function () {
-            $('#image').click();
-        });
-
-        $("#resizable").resizable({
-            handles: 'se, sw, nw, ne, e ,w, n, s',
-            helper: "ui-resizable-helper",
-            ghost: true,
-            aspectRatio: true,
-            /*maxHeight: 232,
-            maxWidth: 232,*/
-            containment: "#imagePreview"
-        }).draggable();
-
-        $("#image").change(function () {
-            $("#modalPhotoPreview").modal("show");
-            showimagepreview(this);
-
-
-        });
-
-        $("#saveImage").click(function () {
-            var left = $("#resizable").position().left-15;
-            var top = $("#resizable").position().top-15;
-            var height = $("#resizable").height();
-            var width = $("#resizable").width();
-            var origHeight = $("#imagePreview").height();
-            var origWidth = $("#imagePreview").width();
-
-
-//            /* //files=event.target.files;
-            var files = $('#image')[0].files;
-
-            var form = new FormData();
-            form.append("image", files[0]);
-            form.append("left",left);
-            form.append("top", top);
-            form.append("height", height);
-            form.append("width", width);
-            form.append("origHeight", origHeight);
-            form.append("origWidth", origWidth);
-
-            jQuery.ajax({
-                        //dataType:'json',
-                        data: form,
-                        type: "POST",
-                        enctype: 'multipart/form-data',
-                        processData: false,
-                        contentType: false,
-                        url: "${homeUrl}${firstname}.${lastname}/uploadphoto",
-                        success: function (data) {
-                            alert(data);
-                        },
-                        error: function (xhr, status, errorThrown) {
-                            alert(xhr + ' ' + status + '. ' + errorThrown);
-                        }
-
-                    }
-            );
-        });
-        function showimagepreview(input) {
-            if (input.files && input.files[0]) {
-                var filerdr = new FileReader();
-                filerdr.onload = function (e) {
-
-                    $('#imagePreview').attr('src', e.target.result);
-                };
-                filerdr.readAsDataURL(input.files[0]);
-            }
-        }
-    });
-</script>
-<%--<div id="no-more-tables-vertical">
-                                    <table class="col-md-12 table-striped table-condensed cf">
-                                        <tbody>
-                                        <tr>
-                                            <td data-title="Id" class="numeric">${user.usrId}</td>
-                                            <td data-title="${labelUsersLogin}">${user.usrLogin}</td>
-                                            <td data-title="${labelUsersPass}">${user.usrPassword}</td>
-                                            <td data-title="${labelUsersTimeChange}">${user.usrDateTimeChange}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>--%>
