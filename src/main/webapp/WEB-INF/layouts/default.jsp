@@ -20,7 +20,7 @@ To change this template use File | Settings | File Templates.
 --%>
 <head>
     <c:url value='/' var="rootUrl"/>
-    <c:url value="${pageContext.request.contextPath}" var="systemPath"/>
+    <spring:url value="${pageContext.request.contextPath}" var="systemPath"/>
     <spring:message code="application_name" var="app_name" htmlEscape="false"/>
     <spring:message code="welcome_h3" var="welcome" arguments=""/>
     <meta http-equiv="content-type" content="text/html" charset="UTF-8"/>
