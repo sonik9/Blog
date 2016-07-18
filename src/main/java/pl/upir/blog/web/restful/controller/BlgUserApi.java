@@ -29,16 +29,27 @@ public class BlgUserApi {
     BlgUserService blgUserService;
 
     @RequestMapping(value = "/1",method = RequestMethod.GET)
-    public @ResponseBody Map<String, String> getStr(HttpServletRequest request){
+    public @ResponseBody ArrayList getStr(HttpServletRequest httpServletRequest){
+        ArrayList arr = new ArrayList();
+        arr.add(httpServletRequest.getContextPath());
+        arr.add(httpServletRequest.getRequestURI());
+        arr.add(httpServletRequest.getRequestURL());
+        arr.add(httpServletRequest.getServerName());
+        arr.add(httpServletRequest.getRemoteAddr());
+        arr.add(httpServletRequest.getRemoteHost());
+        arr.add(httpServletRequest.getServletContext().getContextPath());
+
         Map<String, String> map = new HashMap<String, String>();
 
-        Enumeration headerNames = request.getHeaderNames();
+        Enumeration headerNames = httpServletRequest.getHeaderNames();
         while (headerNames.hasMoreElements()) {
             String key = (String) headerNames.nextElement();
-            String value = request.getHeader(key);
+            String value = httpServletRequest.getHeader(key);
             map.put(key, value);
         }
-        return map;
+
+        arr.add(map);
+        return arr;
     }
 
     @RequestMapping(value = "/test",method = RequestMethod.GET)
