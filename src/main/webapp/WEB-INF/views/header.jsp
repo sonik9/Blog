@@ -22,10 +22,10 @@ To change this template use File | Settings | File Templates.
     <sec:authorize access="isAuthenticated()">
         <sec:authentication var="principal" property="principal"/>
         <%---<sec:authentication property="firstname" var="firstname"/>
-        <sec:authentication property="lastname" var="lastname"/>
+        <sec:authentication property="lastname" var="lastname"/>--%>
         <c:set var="firstname" value="${principal.getBlgUserDetail().getUsrDetFirstname()}"/>
         <c:set var="lastname" value="${principal.getBlgUserDetail().getUsrDetLastname()}"/>
-        --%>
+
     </sec:authorize>
     <spring:url value="/" var="rootUrl"/>
     <spring:url value="/sign" var="showRegUrl"/>
@@ -90,7 +90,7 @@ To change this template use File | Settings | File Templates.
                            href="">
                             <c:choose>
                                 <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
-                                   <%-- <c:choose>
+                                    <c:choose>
                                     <c:when test="${fn:indexOf(principal.getBlgUserDetail().getUsrPhotoLink(), 'http')==0}">
                                         <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                              style="width:30px;height:30px" class="img-rounded"/>
@@ -99,9 +99,7 @@ To change this template use File | Settings | File Templates.
                                         <img src="${rootUrl}${principal.getBlgUserDetail().getUsrPhotoLink()}"
                                              style="width:30px;height:30px" class="img-rounded"/>
                                     </c:otherwise>
-                                    </c:choose>--%>
-                                    <img src="${principal.getBlgUserDetail().getUsrPhotoLink()}"
-                                         style="width:30px;height:30px" class="img-rounded"/>
+                                    </c:choose>
                                 </c:when>
                                 <c:otherwise>
                                     <img src="//placehold.it/30" style="width:30px;height:30px" class="img-rounded"/>

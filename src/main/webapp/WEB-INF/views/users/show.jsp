@@ -35,14 +35,22 @@
                     <%--<form:form id="formFileUpload" method="post" action="${rootUrl}${firstname}.${lastname}/uploadphoto" enctype="multipart/form-data">--%>
                 <div class="col-xs-5" style="top: 45px;">
                     <c:choose>
-                        <c:when test="${user.blgUserDetail.usrPhotoLink!=null}">
-                            <a href="#"><img name="userpic" alt="User Pic"
-                                             src="${rootUrl}${user.blgUserDetail.usrPhotoLink}"
-                                             style="width:200px;height:200px" class="img-rounded"></a>
+                        <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
+                            <c:choose>
+                                <c:when test="${fn:indexOf(principal.getBlgUserDetail().getUsrPhotoLink(), 'http')==0}">
+                                    <a href="#"><img name="userpic" alt="User Pic"
+                                                     src="${user.blgUserDetail.usrPhotoLink}"
+                                                     style="width:200px;height:200px" class="img-rounded"></a>
+                                </c:when>
+                                <c:otherwise>
+                                    <a href="#"><img name="userpic" alt="User Pic"
+                                                     src="${rootUrl}${user.blgUserDetail.usrPhotoLink}"
+                                                     style="width:200px;height:200px" class="img-rounded"></a>
+                                </c:otherwise>
+                            </c:choose>
                         </c:when>
                         <c:otherwise>
-                            <a href="#"> <img name="userpic" src="//placehold.it/200" style="width:200px;height:200px"
-                                              class="img-rounded"/></a>
+                            <img src="//placehold.it/200" style="width:200px;height:200px" class="img-rounded"/>
                         </c:otherwise>
                     </c:choose>
                     <input type="file" name="image" id="image" style="display: none;">
