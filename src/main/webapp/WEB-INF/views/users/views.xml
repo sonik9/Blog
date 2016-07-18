@@ -24,7 +24,7 @@
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
-
+            <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
         </put-list-attribute>
     </definition>
     <definition extends="default" name="users/update">
@@ -68,7 +68,7 @@
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
-
+            <add-attribute value="resources/js/views/storage.js"/>
         </put-list-attribute>
     </definition>
     <definition extends="frame" name="users/storage/download">

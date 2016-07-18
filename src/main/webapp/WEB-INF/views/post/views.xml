@@ -15,6 +15,7 @@
         </put-list-attribute >
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
+            <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
             <add-attribute value="/resources/js/jquery/chosen.jquery.min.js"/>
             <add-attribute value="/resources/js/bootstrap/bootstrap-multiselect.js"/>
             <add-attribute value="//cdn.tinymce.com/4/tinymce.min.js"/>

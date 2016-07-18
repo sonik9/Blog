@@ -170,8 +170,8 @@
             </div>
         </div>
 
-        <spring:url value="${systemPath}/resources/js/storage.js" var="jsStorage"/>
-        <script src="${jsStorage}" type="text/javascript"><jsp:text/></script>
+        <%--<spring:url value="${systemPath}/resources/js/views/storage.js" var="jsStorage"/>
+        <script src="${jsStorage}" type="text/javascript"><jsp:text/></script>--%>
 
     </div>
 </div>

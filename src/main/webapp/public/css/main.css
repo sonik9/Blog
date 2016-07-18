@@ -8,9 +8,7 @@
 @import url("bootstrap/bootstrap-notify.css");
 
 
-.btn{
-    color:#fff;
-}
+
 .btn-windows {background-color:#4099FF;}
 .btn-facebook {background-color:#3B5998;}
 .btn-google-plus {background-color:#d34836;}
@@ -57,6 +55,32 @@
 .navbar-default .navbar-nav>li>a{
 color: #FFF;
 }
+
+.user-menu.open > #user{
+    background-color: inherit;
+    color: #FFFFFF;
+}
+.user-menu.open > ul {
+    top: 47px;
+    right: 25%;
+}
+.user-menu.open > ul:before{
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-width: 5px;
+    border-bottom-color: #FFFFFF;
+    left: 112px;
+    bottom: 100%;
+}
+.user-menu.open > ul a:hover {
+    background-color: #4c576a;
+    color: #FFFFFF;
+}
+
 body {
     padding-top:50px;
     font-family: "PT Sans", sans-serif;

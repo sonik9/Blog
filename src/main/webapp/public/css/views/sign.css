@@ -7,8 +7,8 @@
     flex-flow: column nowrap;
     align-items: center;
 }
-.signin-social{
-
+.signin-social .btn{
+color: #FFFFFF;
 }
 .signin-box{
     width: 100%;

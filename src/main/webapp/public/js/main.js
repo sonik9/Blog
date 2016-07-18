@@ -1,46 +1,30 @@
 /**
  * Created by Vitalii on 24.06.2015.
  */
-$(document).ready(function () {
 
+var message;
+function notify(messages, type, trans) {
+    $('.top-right').notify({
+        message: {text: messages},
+        fadeOut: {enabled: true, delay: 150000},
+        type: type,
+        transition: trans
+    }).show();
+}
 
-    var message;
-
-    function notify(messages, type, trans) {
-        $('.top-right').notify({
-            message: {text: messages},
-            fadeOut: {enabled: true, delay: 150000},
-            type: type,
-            transition: trans
-        }).show();
+function sizeH(bytes) {
+    if (typeof bytes !== 'number') {
+        return '';
     }
+    if (bytes >= 1000000000) {
+        return (bytes / 1000000000).toFixed(2) + ' GB';
+    }
+    if (bytes >= 1000000) {
+        return (bytes / 1000000).toFixed(2) + ' MB';
+    }
+    return (bytes / 1000).toFixed(2) + ' Kb.';
+};
 
-    function sizeH(bytes) {
-        if (typeof bytes !== 'number') {
-            return '';
-        }
-        if (bytes >= 1000000000) {
-            return (bytes / 1000000000).toFixed(2) + ' GB';
-        }
-        if (bytes >= 1000000) {
-            return (bytes / 1000000).toFixed(2) + ' MB';
-        }
-        return (bytes / 1000).toFixed(2) + ' Kb.';
-    };
-
-    $('#signup').on('click', function () {
-        $('#signinbox, #accountSignInText').hide();
-        $('#signupbox, #accountSignUpText').show()
-        $("#signup").toggleClass("active");
-        $("#signin").toggleClass("active");
-    });
-    $('#signin').on('click', function () {
-        $('#signinbox, #accountSignInText').show();
-        $('#signupbox, #accountSignUpText').hide();
-        $("#signup").toggleClass("active");
-        $("#signin").toggleClass("active");
-    });
-});
 
 (function ($) {
     $.validattion = (function (customFunction) {
@@ -122,6 +106,55 @@ $(document).ready(function () {
                             }
                             break;
                         }
+                        case 'email': {
+                            var mail = item.val();
+                            $.ajax({
+                                method: "GET",
+                                url: "http://apilayer.net/api/check",
+                                async: false,
+                                data: {
+                                    access_key: "77002e93372fd8809551bb809958b393",
+                                    email: mail,
+                                    smtp: 1,
+                                    format: 1
+                                }
+                            }).done(function (e) {
+                                console.log(e.format_valid, e.smtp_check);
+                                if(!e.format_valid){
+                                    doIf('Wrong email format !');
+                                }
+                                if(!e.smtp_check){
+                                    doIf('Invalid email!');
+                                }
+                                if(e.format_valid && e.smtp_check){
+                                    doElse();
+                                }
+                            }).fail(function (e) {
+                                console.log(e);
+                                var regxMail = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                                if(!regxMail.test(mail)){
+                                    doIf('Wrong email format !');
+                                }else doElse();
+                            });
+                            break;
+                        }
+                        case 'pass':{
+                            var pass=item.val();
+                            var regxPass = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/;
+                            if(!regxPass.test(pass)){
+                                doIf('Invalid format!\nMinimum 8 characters at least 1 Uppercase Alphabet, 1 Lowercase Alphabet and 1 Number');
+                            }else doElse();
+                            break;
+                        }
+                        case 'pass-copy':{
+                            var pass=item.val();
+                            var form = $('form');
+                            var orig =$('#'+item.attr('orig')).val();
+                            if(pass!==orig){
+                                doIf('Invalid confirmation!');
+                            }else doElse();
+                            break;
+                        }
 
                     }
                 },
@@ -158,10 +191,22 @@ $(document).ready(function () {
                     });
                     return valid;
                 }
-
             },
             valid;
 
         app.initialize();
     });
 })(jQuery);
+
+/*
+ var Validation =  function (form) {
+ this.form = form;
+ }
+
+ Validation.prototype.init = function () {
+
+ }
+
+ Validation.prototype.serchInputs = function () {
+
+ }*/
