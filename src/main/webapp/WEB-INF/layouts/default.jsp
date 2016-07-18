@@ -64,13 +64,13 @@ To change this template use File | Settings | File Templates.
     <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" />
     <c:forEach items="${styles}" var="s">
         <link rel="stylesheet"
-              href="${pageContext.request.contextPath}/resources${s}"/>
+              href="/resources${s}"/>
     </c:forEach>
 
     <!-- JavaScripts-->
     <tilesx:useAttribute name="js" classname="java.util.List" id="js"/>
     <c:forEach items="${js}" var="j">
-        <script src="${pageContext.request.contextPath}${j}"><jsp:text/></script>
+        <script src="${j}"><jsp:text/></script>
     </c:forEach>
 
 

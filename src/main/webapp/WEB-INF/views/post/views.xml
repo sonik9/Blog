@@ -18,7 +18,7 @@
             <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
             <add-attribute value="/resources/js/jquery/chosen.jquery.min.js"/>
             <add-attribute value="/resources/js/bootstrap/bootstrap-multiselect.js"/>
-            <add-attribute value="//cdn.tinymce.com/4/tinymce.min.js"/>
+            <add-attribute value="http://cdn.tinymce.com/4/tinymce.min.js"/>
         </put-list-attribute>
     </definition>
 

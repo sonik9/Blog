@@ -69,7 +69,7 @@
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
-            <add-attribute value="resources/js/views/storage.js"/>
+            <add-attribute value="/resources/js/views/storage.js"/>
         </put-list-attribute>
     </definition>
     <definition extends="frame" name="users/storage/download">
