@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 
 <%--
   Created by IntelliJ IDEA.
@@ -35,9 +36,9 @@
                     <%--<form:form id="formFileUpload" method="post" action="${rootUrl}${firstname}.${lastname}/uploadphoto" enctype="multipart/form-data">--%>
                 <div class="col-xs-5" style="top: 45px;">
                     <c:choose>
-                        <c:when test="${principal.getBlgUserDetail().getUsrPhotoLink()!=null}">
+                        <c:when test="${user.blgUserDetail.usrPhotoLink!=null}">
                             <c:choose>
-                                <c:when test="${fn:indexOf(principal.getBlgUserDetail().getUsrPhotoLink(), 'http')==0}">
+                                <c:when test="${fn:indexOf(user.blgUserDetail.usrPhotoLink, 'http')==0}">
                                     <a href="#"><img name="userpic" alt="User Pic"
                                                      src="${user.blgUserDetail.usrPhotoLink}"
                                                      style="width:200px;height:200px" class="img-rounded"></a>
@@ -53,6 +54,7 @@
                             <img src="//placehold.it/200" style="width:200px;height:200px" class="img-rounded"/>
                         </c:otherwise>
                     </c:choose>
+
                     <input type="file" name="image" id="image" style="display: none;">
                 </div>
                     <%--</form:form>--%>
