@@ -96,7 +96,7 @@ To change this template use File | Settings | File Templates.
 <tiles:insertAttribute name="header" ignore="true"/>
 
 <!--Wrapper--><!--Body Wrapper-->
-<tiles:insertAttribute name="body" />
+<tiles:insertAttribute name="body" ignore="true"/>
 
 
 <tiles:insertAttribute name="footer" ignore="true"/>

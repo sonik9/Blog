@@ -21,7 +21,8 @@
     <spring:message code="label_signup_tab" var="labelSignUpTab"/>
     <spring:url value="/users" var="showUserUrl"/>
     <c:url value='/sign/signin' var="authCheckUrl"/>
-    <!--<c:url value='/' var="rootUrl"/>-->
+    <c:url value='/' var="rootUrl"/>
+
     <div id="masthead">
         <div class="container">
             <div class="row">
@@ -60,7 +61,7 @@
 
         <div class="signin-social">
             <div class="btn-group">
-                <a class="btn btn-facebook btn-lg" href="${systemPath}/sign/facebook"><span
+                <a class="btn btn-facebook btn-lg" href="${rootUrl}/sign/facebook"><span
                         class="fa fa-facebook"> </span> Facebook
                 </a>
                 <a class="btn btn-windows btn-lg disabled" href="#">
