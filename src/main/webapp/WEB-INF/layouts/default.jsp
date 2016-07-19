@@ -92,12 +92,11 @@ To change this template use File | Settings | File Templates.
 </head>
 
 <body>
-<div class="notifications top-right"> <![CDATA[&nbsp;]]></div>
-<tiles:insertAttribute name="header" ignore="true"/>
+<div class="notifications top-right"> &nbsp;</div>
 
+<tiles:insertAttribute name="header" ignore="true"/>
 <!--Wrapper--><!--Body Wrapper-->
 <tiles:insertAttribute name="body" ignore="true"/>
-
 
 <tiles:insertAttribute name="footer" ignore="true"/>
 

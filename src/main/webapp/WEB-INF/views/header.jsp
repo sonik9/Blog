@@ -14,10 +14,16 @@ To change this template use File | Settings | File Templates.
 <div id="header" class="navbar navbar-default navbar-fixed-top">
 
 
-    <spring:message code="header_text" var="headerText"/>
+
+    <spring:message code="application_name" var="appName"/>
     <spring:message code="label_en_US" var="labelEnUs"/>
     <spring:message code="label_ru_RU" var="labelRuRu"/>
     <spring:message code="label_blgStorage" var="labelBlgStorage"/>
+    <spring:message code="label_blgPost_createPost" var="labelBlgPostCreatePost"/>
+    <spring:message code="label_show_profile" var="labelShowProfile"/>
+    <spring:message code="label_logout" var="labelLogout"/>
+    <spring:message code="label_signin" var="labelSignin"/>
+    <spring:message code="label_signup" var="labelSignup"/>
 
     <sec:authorize access="isAuthenticated()">
         <sec:authentication var="principal" property="principal"/>
@@ -28,7 +34,7 @@ To change this template use File | Settings | File Templates.
 
     </sec:authorize>
     <spring:url value="/" var="rootUrl"/>
-    <spring:url value="/sign" var="showRegUrl"/>
+    <c:url value="/sign" var="showRegUrl"/>
     <input type="hidden" value="${rootUrl}${firstname}.${lastname}" id="homePath"/>
 
     <div class="container ">
@@ -43,15 +49,12 @@ To change this template use File | Settings | File Templates.
             </button>
         </div>
 
-        <a href="${rootUrl}" class="navbar-brand">Home</a>
+        <a href="${rootUrl}" class="navbar-brand">${appName}</a>
         <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
                 <%--<li>
                     <a href="#">Category</a>
                 </li>--%>
-                <li>
-                    <a href="#" onClick="notify(message)">message test</a>
-                </li>
             </ul>
             <ul class="nav navbar-right navbar-nav">
                 <sec:authorize access="isAuthenticated()">
@@ -62,25 +65,21 @@ To change this template use File | Settings | File Templates.
                         </a>
                     </li>
                     <li>
-                        <a href="${rootUrl}${firstname}.${lastname}/post/create">Post create <span
+                        <a href="${rootUrl}${firstname}.${lastname}/post/create">${labelBlgPostCreatePost}<span
                                 class="fa fa-pencil"/></a>
                     </li>
                 </sec:authorize>
                 <li>
-                    <a href="${usersUrl}?lang=en_US">${labelEnUs}</a>
+                    <nav><a href="${usersUrl}?lang=en_US">${labelEnUs}</a>/<a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a></nav>
                 </li>
-                <li>
-                    <a href="${usersUrl}?lang=ru_RU">${labelRuRu}</a>
-                </li>
+
                 <sec:authorize access="isAnonymous()">
                     <li>
 
                         <a id="accountSignInText" href="${showRegUrl}"
-                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">Sign
-                            In</a>
+                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">${labelSignin}</a>
                         <a style="display: none" id="accountSignUpText" href="#"
-                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">Sign
-                            Up</a>
+                           onClick="$('#signinbox, #accountSignInText').hide(); $('#signupbox, #accountSignUpText').show()">${labelSignup}</a>
                     </li>
                 </sec:authorize>
                 <sec:authorize access="isAuthenticated()">
@@ -109,16 +108,13 @@ To change this template use File | Settings | File Templates.
                             <span class="caret"/>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                                <%--- TODO i18n--%>
-                            <li><a id="profileEdit" href="${rootUrl}${firstname}.${lastname}">Show profile</a></li>
+                            <li><a id="profileEdit" href="${rootUrl}${firstname}.${lastname}">${labelShowProfile}</a></li>
                             <li class="divider"></li>
-                            <li><a id="signOut" href="${rootUrl}j_spring_security_logout">Sign Out</a></li>
+                            <li><a id="signOut" href="${rootUrl}j_spring_security_logout">${labelLogout}</a></li>
                         </ul>
                     </li>
                 </sec:authorize>
             </ul>
-
-            <%----%>
         </nav>
     </div>
 </div>

@@ -64,7 +64,7 @@ public class BlgHomeController {
     BlgPostService blgPostService;
 
     @RequestMapping(method = RequestMethod.GET)
-    public String home(@RequestParam(value = "rows", defaultValue = "5", required = false) int rows,
+    public String home(@RequestParam(value = "rows", defaultValue = "4", required = false) int rows,
                        @RequestParam(value = "page", defaultValue = "0", required = false) int page, Model model) {
         Sort sort = new Sort(Sort.Direction.DESC, "pstTimeCreate");
         Page<BlgPost> blgPostPage = blgPostService.findByPstEnable(true, new PageRequest(page, rows, sort));
@@ -75,12 +75,6 @@ public class BlgHomeController {
         blgPostPagination.setTotalRecords(blgPostPage.getTotalElements());
         model.addAttribute("posts", blgPostPagination);
         return "homePage";
-    }
-
-    @RequestMapping(value = "/user", method = RequestMethod.GET)
-    public String user(Model model) {
-
-        return "userPage";
     }
 
 

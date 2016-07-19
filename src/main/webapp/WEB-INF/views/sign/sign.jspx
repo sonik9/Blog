@@ -19,6 +19,10 @@
     <spring:message code="label_signup" var="labelSignUp"/>
     <spring:message code="label_signin_tab" var="labelSignInTab"/>
     <spring:message code="label_signup_tab" var="labelSignUpTab"/>
+    <spring:message code="sign.signin.header" var="signinHeader"/>
+    <spring:message code="sign.signin.header.small" var="signinHeaderSmall"/>
+    <spring:message code="sign.signup.header" var="signupHeader"/>
+    <spring:message code="sign.signup.header.small" var="signupHeaderSmall"/>
     <spring:url value="/users" var="showUserUrl"/>
     <c:url value='/sign/signin' var="authCheckUrl"/>
     <spring:url value='/' var="rootUrl"/>
@@ -26,22 +30,17 @@
     <div id="masthead">
         <div class="container">
             <div class="row">
-                <div class="col-md-7" id="accountSignUpText" style="display: none">
-                    <!-- TODO i18n-->
-                    <h1>Account creating
+                <div class="col-md-11" id="accountSignUpText" style="display: none">
+                    <h1>${signupHeader}
                         <p class="lead">
-                            <h4>Please Sign Up
-                                <small>It's free and always will be.</small>
-                            </h4>
+                            <h4>${signupHeaderSmall}</h4>
                         </p>
                     </h1>
                 </div>
-                <div class="col-md-7" id="accountSignInText">
-                    <h1>Login to account
+                <div class="col-md-11" id="accountSignInText">
+                    <h1>${signinHeader}
                         <p class="lead">
-                            <h4>Please Sign In
-                                <small>If you don't have an account, press Sign Up.</small>
-                            </h4>
+                            <h4>${signinHeaderSmall}</h4>
                         </p>
                     </h1>
                 </div>
@@ -51,13 +50,14 @@
 
 
     <div class="container sign">
-        <c:if test="${not empty message}">
+        <!--Old version messages show-->
+        <!--<c:if test="${not empty message}">
             <div class="${message.type}" role="alert">
                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span
                         aria-hidden="true">&amp;times</span></button>
                 <strong>${message.firstWord}</strong> ${message.message}
             </div>
-        </c:if>
+        </c:if>-->
 
         <div class="signin-social">
             <div class="btn-group">

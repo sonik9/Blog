@@ -6,22 +6,15 @@
 <tiles-definitions>
     <definition extends="default" name="homePage">
         <!--Path to target jsp-->
-        <put-attribute name="body" value="/WEB-INF/views/home/home.jspx"/>
+        <put-attribute name="body" value="/WEB-INF/views/home/home.jsp"/>
 
         <!--List of css files-->
         <put-list-attribute name="styles" inherit="true">
-
+            <add-attribute value="/css/views/home.css"/>
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
 
-        </put-list-attribute>
-    </definition>
-
-    <definition extends="default" name="userPage">
-        <put-attribute name="body" value="/WEB-INF/frontend/views/home/user.jspx"/>
-        <put-list-attribute name="styles">
-            <add-attribute value="/css/test2.css" type="template"/>
         </put-list-attribute>
     </definition>
 </tiles-definitions>

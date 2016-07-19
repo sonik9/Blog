@@ -1,3 +1,4 @@
+@import url("reset.css");
 @import url("bootstrap/css/bootstrap.min.css");
 @import url("font-awesome/css/font-awesome.min.css");
 @import url("no-more-table.css");
@@ -44,16 +45,62 @@
     cursor: default;
     opacity: 0.6;
 }
+
+a,a:hover {
+    text-decoration:none;
+}
+hr{
+    border-top:1px solid #ccc;
+}
+
+/*Header*/
+.nav a:hover{
+    color: gray!important;
+}
+nav{
+    font-size: 20px;
+}
 .navbar-form input, .form-inline input {
     width:auto;
 }
 .navbar-default{
-    border-color:#444e5f;
-    background-color:#4c576a;
+    background-color: #428BCA;
+    /*background-color:#5f5f5f;*/
+    /*background-color: #4c576a;*/
     color: #FFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12)!important;
+    border: none;
+    border-radius: 0 15px 0 15px;
 }
-.navbar-default .navbar-nav>li>a{
+.navbar-brand {
+    font-size: 30px;
+    color: #FFFFFF!important;
+}
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-nav>li>nav>a{
 color: #FFF;
+}
+
+.navbar-default .navbar-nav>li>nav{
+    padding: 15px;
+    line-height: 20px;
+
+}
+.navbar-default .navbar-nav>li>nav>a{
+    margin-right: 5px;
+    margin-left: 5px;
+
+}
+
+/*User menu*/
+.dropdown-user {
+    margin: 13px 0;
+    padding: 5px;
+    height: 100%;
+}
+
+.dropdown-user:hover {
+    cursor: pointer;
 }
 
 .user-menu.open > #user{
@@ -61,8 +108,9 @@ color: #FFF;
     color: #FFFFFF;
 }
 .user-menu.open > ul {
-    top: 47px;
-    right: 25%;
+    top: 45px;
+    right: 10%;
+    font-size: 20px;
 }
 .user-menu.open > ul:before{
     border: solid transparent;
@@ -71,19 +119,22 @@ color: #FFF;
     width: 0;
     position: absolute;
     pointer-events: none;
-    border-width: 5px;
+    border-width: 7px;
     border-bottom-color: #FFFFFF;
     left: 112px;
     bottom: 100%;
 }
 .user-menu.open > ul a:hover {
     background-color: #4c576a;
-    color: #FFFFFF;
+    color: #FFFFFF!important;
 }
 
 body {
     padding-top:50px;
     font-family: "PT Sans", sans-serif;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
 }
 input, button, select, option {
     font-family: "PT Sans", sans-serif; }
@@ -97,11 +148,10 @@ input, button, select, option {
     line-height: 1;
     margin-top:50px;
 }
-
-#masthead .well {
-    margin-top:31px;
-    min-height:127px;
+#masthead h2{
+    font-size: 55px;
 }
+
 
 .navbar.affix {
     position:fixed;
@@ -109,25 +159,12 @@ input, button, select, option {
     width:100%;
 }
 
-.story-img {
-    margin-top:25%;
-    display:block;
-}
 
 @media screen and (min-width: 768px) {
     #masthead h1 {
         font-size: 80px;
     }
 }
-
-#footer {
-    margin-top:40px;
-    padding-top:40px;
-    padding-bottom:40px;
-    border-color:#444e5f;
-    background-color:#4c576a;
-}
-
 .container-custom{
     width: 90%;
     padding-right: 15px;
@@ -136,21 +173,61 @@ input, button, select, option {
     margin-left: auto;
 }
 
+/*navigtion menu*/
+.navigation {
+    width: 100%;
+    list-style: none;
+    display: flex;
+    flex-flow: row nowrap;
+
+}
+.navigation li {
+    flex: 1 1 auto;
+    text-align: center;
+    /*border-radius:6px;*/
+    background: #ededed;
+    /*margin-left: -7px;*/
+    padding: 10px 0;
+    float: left;
+}
+.navigation li:first-child{
+border-radius: 0px 0 0px 6px;
+}
+.navigation li:last-child{
+    border-radius: 0px 6px 0px 0px;
+}
+.navigation li:hover{
+    background: #428BCA;
+    opacity: 0.6;
+}
+.navigation li:hover a{
+    color: #FFFFFF;
+}
+.navigation li.active,
+.navigation li.active a{
+    background: #428BCA;
+    color: #fff;
+    z-index: 1;
+}
+
+
+
 .user-details .user-info-block {width: 100%; position: absolute; top: 55px; background: rgb(255, 255, 255); z-index: 0; padding-top: 0px;}
 .user-info-block .user-heading {width: 100%; text-align: center; margin: 20px 0 0;}
-.user-info-block .navigation {float: left; width: 100%; padding: 0; list-style: none;}
-.navigation li {float: left; margin: 0; padding: 0; border-radius:6px}
-.navigation li a {padding: 20px 40px; float: left; background: #ededed;}
-.navigation li.active a {background: #428BCA; color: #fff;}
 .user-info-block .user-body {float: left; padding: 5%; width: 90%;}
 .user-body .tab-content > div {float: left; width: 100%;}
 .user-body .tab-content h4 {width: 100%; margin: 0px 0; color: #333;}
 
-.user-details {width: 100%; position: absolute; top: 35px; background: rgb(255, 255, 255); z-index: 0; padding-top: 0px;}
+.user-details {width: 100%; background: rgb(255, 255, 255); z-index: 0;}
+.user-details .navigation li{
+    padding: 0;
+}
+/*
 .user-details .navigation {float: left; width: 100%; padding: 0; list-style: none;}
 .user-details .navigation li {float: left; margin: 0; padding: 0; border-radius:6px}
-.user-details .navigation li a {padding: 5px 10px; float: left; background: #ededed;}
+
 .user-details .navigation li.active a {background: #428BCA; color: #fff;}
+*/
 
 
 
@@ -163,15 +240,6 @@ input, button, select, option {
     margin-bottom: 0;
 }
 
-.dropdown-user {
-    margin: 13px 0;
-    padding: 5px;
-    height: 100%;
-}
-
-.dropdown-user:hover {
-    cursor: pointer;
-}
 
 .table-user-information > tbody > tr {
     border-top: 1px solid rgb(221, 221, 221);
@@ -195,11 +263,6 @@ input, button, select, option {
 {margin-top:20px;
 }
 
-/*hide class for editable form*/
-.edit1{
-}
-.show1{
-}
 
 /*Upload profile photo*/
 #resizable { width: 150px; height: 150px; padding: 0; position:absolute ; border: 1px solid #ff151c; opacity: .5; background:white;}
@@ -266,10 +329,7 @@ input, button, select, option {
 }
 
 
-a,a:hover {
-    color:#223344;
-    text-decoration:none;
-}
+
 
 .panel-correct {
     padding-left: 20px;
@@ -638,4 +698,11 @@ select.form-control + .chosen-container .chosen-search input[type=text]:focus{
 
 .error{
     display: none;
+}
+
+#footer {
+    margin-top: 40px;
+    border-top: 1px solid #ccc;
+    padding-top: 20px;
+    height: 200px;
 }
