@@ -40,7 +40,7 @@
     border-bottom: 3px solid #337ab7;
 }
 
-.btn.disabled {
+.disabled {
     pointer-events: none;
     cursor: default;
     opacity: 0.6;

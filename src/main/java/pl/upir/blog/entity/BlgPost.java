@@ -18,6 +18,28 @@ import java.util.*;
  * Created by Vitalii on 26/08/2015.
  */
 @Entity
+/*@SqlResultSetMappings({
+        @SqlResultSetMapping(name = "SqlResultSetMapping.count", columns = @ColumnResult(name = "cnt"))
+})
+@NamedNativeQueries({
+        @NamedNativeQuery(
+                name = "BlgPost.findByCat",
+                resultClass = BlgPost.class,
+                query = "SELECT * FROM blg_post p" +
+                        "JOIN blg_post_category bpc ON(bpc.pst_id = p.pst_id)" +
+                        "JOIN blg_dic_category bdc ON(bdc.dic_cat_id = bpc.dic_cat_id)" +
+                        "WHERE bdc.dic_cat_name=\"Administration\""
+        ),
+        @NamedNativeQuery(
+                name = "BlgPost.findByCat.count",
+                resultSetMapping = "SqlResultSetMapping.count",
+                query = "SELECT count(*) as cnt FROM blg_post p" +
+                        "JOIN blg_post_category bpc ON(bpc.pst_id = p.pst_id)" +
+                        "JOIN blg_dic_category bdc ON(bdc.dic_cat_id = bpc.dic_cat_id)" +
+                        "WHERE bdc.dic_cat_name=\"Administration\""
+        )
+})*/
+
 @Table(name = "blg_post", schema = "", catalog = "java_blog")
 public class BlgPost {
     private int pstId;

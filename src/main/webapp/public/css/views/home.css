@@ -1,3 +1,6 @@
+.lead{
+    margin-bottom: 0;
+}
 #masthead.home{
     min-height: 160px;
 }
@@ -30,8 +33,7 @@ section nav{
 aside{
     padding-right: 0!important;
 }
-.category-block,
-.history-block{
+.aside-block{
     background-color:#ededed;
     font-size: 20px;
     color:#337ab7 ;
@@ -40,15 +42,31 @@ aside{
     border-top: 4px solid #428BCA;
     border-radius: 0px 6px 0px 6px;
 }
-.category-block .cat-block-header,
-.history-block .his-block-header{
+.aside-block .cat-block-header{
     line-height: 10px;
     font-weight: 600;
 }
-.category-block .cat-block-content,
-.history-block .his-block-content{
+.aside-block .cat-block-content{
     /*padding: 0 0px 20px 20px;*/
 }
+.cat-item > a{
+    padding-left: 10px;
+}
+.month-list{
+    display: none;
+    padding-bottom: 10px;
+}
+.month-item{
+    padding: 0 0 0 20px;
+    font-size: 15px;
+
+}
+.cat-item.active,
+.cat-item.active > a{
+    background-color: #428BCA;
+    color: #ffffff;
+}
+
 .post{
 }
 .post .pre-header-post{
@@ -72,4 +90,7 @@ aside{
 .post .pre-header-post .author-photo .photo{
     width: 35px;
     height: 35px;
+}
+.post article {
+    overflow: hidden;
 }

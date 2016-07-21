@@ -1,0 +1,19 @@
+#masthead.post{
+    min-height: 160px;
+}
+.post-show .pre-header-post{
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+    margin: 10px 0 10px 0;
+}
+.post-show .pre-header-post > li:not(.author-photo){
+    margin: 0px 5px 0 5px;
+    font-size: 14px;
+    line-height: 1.4;
+}
+.post-show .post-footer{
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-end;
+}

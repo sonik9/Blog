@@ -12,12 +12,9 @@ import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.repository.BlgPostRepository;
 import pl.upir.blog.service.BlgPostService;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Set;
 
 /**
  * Created by Vitalii on 26/08/2015.
@@ -102,7 +99,25 @@ public class BlgPostServiceImpl implements BlgPostService {
         return blgPostRepository.findByPstEnable(pstEnable,pageable);
     }
 
+    @Override
+    public Page<BlgPost> findByCat(String category,boolean pstEnable, Pageable pageable) {
+        return blgPostRepository.findByCatAndPstEnable(category,pstEnable,pageable);
+    }
 
+    @Override
+    public Page<BlgPost> findByTag(String tag, boolean pstEnable, Pageable pageable) {
+        return blgPostRepository.findByTagAndPstEnable(tag,pstEnable,pageable);
+    }
+
+    @Override
+    public ArrayList<Date> findAllDateAndPstEnable(boolean pstEnable) {
+        return blgPostRepository.findAllDateAndPstEnable(pstEnable);
+    }
+
+    @Override
+    public Page<BlgPost> findByPstEnableAndLikeDate(boolean pstEnable, String year, Integer month, Pageable pageable) {
+        return blgPostRepository.findByPstEnableAndLikeDate(pstEnable, Integer.parseInt(year), month, pageable);
+    }
 
 
 }

@@ -19,17 +19,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import pl.upir.blog.entity.BlgDicCategory;
 import pl.upir.blog.entity.BlgPost;
 import pl.upir.blog.entity.BlgUser;
 import pl.upir.blog.entity.Gender;
+import pl.upir.blog.service.BlgDicCategoryService;
 import pl.upir.blog.service.BlgPostService;
 import pl.upir.blog.service.BlgUserService;
 import pl.upir.blog.service.security.BlgUserSecurityServiceImpl;
-import pl.upir.blog.web.form.FormPostPagination;
 import pl.upir.blog.web.form.Message;
 import pl.upir.blog.web.util.ImageCropper;
 import pl.upir.blog.web.util.MD5Encoder;
-import pl.upir.blog.web.util.UrlUtil;
 import pl.upir.blog.wrapper.WrapperFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -39,11 +39,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.attribute.FileAttribute;
 import java.nio.file.attribute.PosixFilePermission;
 import java.nio.file.attribute.PosixFilePermissions;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.Month;
 import java.util.*;
 
 /**
@@ -62,18 +64,54 @@ public class BlgHomeController {
     private BlgUserSecurityServiceImpl blgUserSecurityService;
     @Autowired
     BlgPostService blgPostService;
+    @Autowired
+    BlgDicCategoryService blgDicCategoryService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public String home(@RequestParam(value = "rows", defaultValue = "4", required = false) int rows,
-                       @RequestParam(value = "page", defaultValue = "0", required = false) int page, Model model) {
+    @RequestMapping(value = {"", "/category/{category}", "/tag/{tag}" ,"/{y}/{m}"}, method = RequestMethod.GET)
+    public String home(@RequestParam(value = "rows", defaultValue = "5", required = false) int rows,
+                        @RequestParam(value = "page", defaultValue = "0", required = false) int page, Model model,
+                        @PathVariable Optional<String> category, @PathVariable Optional<String> tag,
+                        @PathVariable Optional<String> y, @PathVariable Optional<String> m) throws ParseException {
         Sort sort = new Sort(Sort.Direction.DESC, "pstTimeCreate");
-        Page<BlgPost> blgPostPage = blgPostService.findByPstEnable(true, new PageRequest(page, rows, sort));
-        FormPostPagination blgPostPagination = new FormPostPagination();
-        blgPostPagination.setBlgPostList(blgPostPage.getContent());
-        blgPostPagination.setCurrentPage(blgPostPage.getNumber());
-        blgPostPagination.setTotalPage(blgPostPage.getTotalPages());
-        blgPostPagination.setTotalRecords(blgPostPage.getTotalElements());
-        model.addAttribute("posts", blgPostPagination);
+        Page<BlgPost> blgPostPage = null;
+        if (!category.isPresent()&&!tag.isPresent()&&(!y.isPresent() && !m.isPresent())) {
+            blgPostPage = blgPostService.findByPstEnable(true, new PageRequest(page, rows, sort));
+            model.addAttribute("currentCategory", "");
+        }
+        else if(category.isPresent()){
+            blgPostPage = blgPostService.findByCat(category.get(), true, new PageRequest(page, rows, sort));
+            model.addAttribute("currentCategory", category.get());
+        }
+        else if(tag.isPresent()){
+            blgPostPage = blgPostService.findByTag(tag.get(), true, new PageRequest(page, rows, sort));
+        }
+        else if(y.isPresent()&&m.isPresent()){
+            blgPostPage = blgPostService.findByPstEnableAndLikeDate(true,y.get(),
+                    Month.valueOf(m.get().toUpperCase()).getValue(),
+                    new PageRequest(page, rows, sort));
+        }
+        model.addAttribute("posts", blgPostPage);
+
+        List<BlgDicCategory> blgDicCategoryList = blgDicCategoryService.findAll();
+        model.addAttribute("categories", blgDicCategoryList);
+        ArrayList<Date> allDateAndPstEnableList= blgPostService.findAllDateAndPstEnable(true);
+        Map<String, ArrayList<String>> dateMap = new HashMap<>();
+        allDateAndPstEnableList.forEach(item ->{
+            String year=new SimpleDateFormat("YYYY").format(item);
+            String month=new SimpleDateFormat("MMMM").format(item);
+            if(!dateMap.containsKey(year)){
+                ArrayList<String> value = new ArrayList<String>();
+                value.add(month);
+                dateMap.put(year, value);
+            }else {
+                ArrayList<String> values = dateMap.get(year);
+                if(!values.contains(month)){
+                    values.add(month);
+                }
+                dateMap.replace(year,values);
+            }
+        });
+        model.addAttribute("history", dateMap);
         return "homePage";
     }
 
@@ -359,4 +397,19 @@ public class BlgHomeController {
         }
         return new ResponseEntity("Your image was updated!", HttpStatus.OK);
     }
+
+    /*@RequestMapping(value = "/{category}/{category}", method = RequestMethod.GET)
+    public String homeWithCategory(@RequestParam(value = "rows", defaultValue = "5", required = false) int rows,
+                                   @RequestParam(value = "page", defaultValue = "0", required = false) int page,
+                                   @PathVariable("category") String category,
+                                   Model model) {
+        Sort sort = new Sort(Sort.Direction.DESC,"pstTimeCreate");
+        Page<BlgPost> blgPostPage = blgPostService.findByCat(category,true,new PageRequest(page, rows, sort));
+
+        List<BlgDicCategory> blgDicCategoryList = blgDicCategoryService.findAll();
+        model.addAttribute("posts", blgPostPage);
+        model.addAttribute("categories", blgDicCategoryList);
+        return "homePage";
+    }*/
+
 }

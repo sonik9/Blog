@@ -2,10 +2,13 @@ package pl.upir.blog.service.jpa;
 
 import com.google.common.collect.Lists;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import pl.upir.blog.entity.BlgDicCategory;
+import pl.upir.blog.entity.BlgPost;
 import pl.upir.blog.repository.BlgDicCategoryRepository;
 import pl.upir.blog.service.BlgDicCategoryService;
 
@@ -62,5 +65,10 @@ public class BlgDicCategoryServiceImp implements BlgDicCategoryService {
     @Override
     public BlgDicCategory save(BlgDicCategory blgPostCategories) {
         return blgPostCategoriesRepository.save(blgPostCategories);
+    }
+
+    @Override
+    public Page<BlgPost> findByCatPstEnable(boolean pstEnable, String dicCatName, Pageable pageable) {
+        return null;//blgPostCategoriesRepository.fin(pstEnable,dicCatName,pageable);
     }
 }

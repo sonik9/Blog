@@ -10,11 +10,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%--<%@ page contentType="text/html;charset=UTF-8" language="java" %>--%>
 <%@ page session="false" %>
 <div class="content">
     <%--<jsp:output omit-xml-declaration="yes"/>--%>
     <spring:url value="/" var="homeUrl"/>
+    <spring:url value="" var="currentUrl"/>
+    <c:url value="" var="hurl"/>
     <%--<c:set var="now" value="<%=new java.util.Date();%>"/>--%>
     <jsp:useBean id="now" class="java.util.Date"/>
     <fmt:formatDate value="${now}" pattern="yyyy/MM/dd" var="today"/>
@@ -39,22 +41,26 @@
             <div class="row">
                 <div class="col-md-8">
                     <h2>${headerText}
-                        <%--<p class="lead">Catchy Subtitle Here</p>--%>
+                        <p class="lead">
+                            <c:if test="${not empty currentCategory}">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i> ${currentCategory}
+                            </c:if>
+                        </p>
                     </h2>
                     <div class="tabs">
                         <ul class="navigation">
                             <li class="active">
-                                <a href="/all/" class="tab-item ">
+                                <a href="${homeUrl}" class="tab-item ">
                                     <span class="tab-item__value">${allPost}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/top/" class="tab-item ">
+                                <a href="/top/" class="tab-item disabled">
                                     <span class="tab-item__value">${bestPost}</span>
                                 </a>
                             </li>
                             <li>
-                                <a href="/interesting/" class="tab-item">
+                                <a href="/interesting/" class="tab-item disabled">
                                     <span class="tab-item__value">${interestPost}</span>
                                 </a>
                             </li>
@@ -79,14 +85,21 @@
             <section class="col-md-8">
                 <%--/stories--%>
                 <c:if test="${not empty posts}">
-                    <c:forEach var="item" items="${posts.blgPostList}">
+                    <c:forEach var="item" items="${posts.getContent()}">
+                        <c:set value="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink}" var="profilePhoto"/>
                         <div class="row post">
                             <ul class="pre-header-post">
                                 <li class="author-photo">
                                     <c:choose>
-                                        <c:when test="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink!=null}">
-                                            <img src="${item.blgUserSet.iterator().next().blgUserDetail.usrPhotoLink}"
-                                                 class="photo img-rounded"/>
+                                        <c:when test="${profilePhoto!=null}">
+                                            <c:choose>
+                                                <c:when test="${fn:indexOf(profilePhoto, 'http')==0}">
+                                                    <img src="${profilePhoto}" class="img-rounded photo"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${homeUrl}${profilePhoto}" class="img-rounded photo"/>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </c:when>
                                         <c:otherwise>
                                             <img src="//placehold.it/20" class="photo img-rounded"/>
@@ -127,15 +140,16 @@
                             </h3>
                             <div class="row">
                                 <div class="col-xs-12">
-                                    <c:choose>
-                                        <c:when test="${fn:length(item.pstDocumentShort)>0}">
-                                            <p>${item.pstDocumentShort}</p>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <p>${item.pstDocument}</p>
-                                        </c:otherwise>
-                                    </c:choose>
-
+                                    <article>
+                                        <c:choose>
+                                            <c:when test="${fn:length(item.pstDocumentShort)>0}">
+                                                <p>${item.pstDocumentShort}</p>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <p>${item.pstDocument}</p>
+                                            </c:otherwise>
+                                        </c:choose>
+                                    </article>
                                     <p class="lead">
                                             <%-- <c:url value="${homeUrl}${pstDate}/${item.pstId}" var="activePage">
                                                  <c:param name="id" value="${item.pstId}"/>
@@ -146,7 +160,7 @@
 
                                     <p class="pull-right list-inline">
                                         <c:forEach var="tag" items="${item.blgDicTagSet}">
-                                            <a href="#">
+                                            <a href="/tag/${tag.dicTagName}">
                                                 <span class="label label-default">${tag.dicTagName}</span>
                                             </a>
                                         </c:forEach>
@@ -181,15 +195,15 @@
                         <ul class="pagination pagination-control" style="margin: 0;">
                             <li>
                                 <c:choose>
-                                    <c:when test="${posts.currentPage==0}">
+                                    <c:when test="${posts.getNumber()==0}">
                                         <a href="#" aria-label="Previous" class="btn disabled">
                                             <span aria-hidden="true">&laquo;</span>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:url value="/" var="activePage">
-                                            <c:param name="page" value="${posts.currentPage+1}"/>
-                                            <c:param name="rows" value="4"/>
+                                        <c:url value="${currentUrl}" var="activePage">
+                                            <c:param name="page" value="${posts.getNumber()+1}"/>
+                                            <c:param name="rows" value="5"/>
                                         </c:url>
                                         <a href="#" aria-label="Previous">
                                             <span aria-hidden="true">&laquo;</span>
@@ -197,22 +211,22 @@
                                     </c:otherwise>
                                 </c:choose>
                             </li>
-                            <c:forEach var="itemPage" begin="${1}" end="${posts.totalPage}">
+                            <c:forEach var="itemPage" begin="${1}" end="${posts.getTotalPages()}">
                                 <c:choose>
-                                    <c:when test="${posts.currentPage==itemPage-1}">
+                                    <c:when test="${posts.getNumber()==itemPage-1}">
                                         <li class="active">
-                                            <c:url value="/" var="activePage">
+                                            <c:url value="${currentUrl}" var="activePage">
                                                 <c:param name="page" value="${itemPage-1}"/>
-                                                <c:param name="rows" value="4"/>
+                                                <c:param name="rows" value="5"/>
                                             </c:url>
                                             <a href="${activePage}">${itemPage}</a>
                                         </li>
                                     </c:when>
                                     <c:otherwise>
                                         <li>
-                                            <c:url value="/" var="activePage">
+                                            <c:url value="${currentUrl}" var="activePage">
                                                 <c:param name="page" value="${itemPage-1}"/>
-                                                <c:param name="rows" value="4"/>
+                                                <c:param name="rows" value="5"/>
                                             </c:url>
                                             <a href="${activePage}">${itemPage}</a>
                                         </li>
@@ -221,15 +235,15 @@
                             </c:forEach>
                             <li>
                                 <c:choose>
-                                    <c:when test="${posts.currentPage==posts.totalPage-1}">
+                                    <c:when test="${posts.getNumber()==posts.getTotalPages()-1}">
                                         <a href="" aria-label="Next" class="btn disabled">
                                             <span aria-hidden="true">&raquo;</span>
                                         </a>
                                     </c:when>
                                     <c:otherwise>
-                                        <c:url value="/" var="activePage">
-                                            <c:param name="page" value="${posts.currentPage+1}"/>
-                                            <c:param name="rows" value="4"/>
+                                        <c:url value="${currentUrl}" var="activePage">
+                                            <c:param name="page" value="${posts.getNumber()+1}"/>
+                                            <c:param name="rows" value="5"/>
                                         </c:url>
                                         <a href="${activePage}" aria-label="Next">
                                             <span aria-hidden="true">&raquo;</span>
@@ -245,26 +259,50 @@
             </section>
             <%--/col-8--%>
             <aside class="col-md-4 ">
-                <div class="category-block">
+                <div class="aside-block">
                     <div class="cat-block-header">
                         Category
                     </div>
                     <hr/>
                     <ul class="cat-block-content">
-                        <li>cat1</li>
-                        <li>cat2</li>
-                        <li>cat3</li>
+                        <c:if test="${not empty categories}">
+                            <c:forEach var="itemCat" items="${categories}">
+                                <c:choose>
+                                    <c:when test="${itemCat.dicCatName == currentCategory}">
+                                        <li class="cat-item active">
+                                            <a href="/category/${itemCat.dicCatName}">${itemCat.dicCatName}</a>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="cat-item">
+                                            <a href="/category/${itemCat.dicCatName}">${itemCat.dicCatName}</a>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                            </c:forEach>
+                        </c:if>
                     </ul>
                 </div>
-                <div class="history-block">
-                    <div class="his-block-header">
+                <div class="aside-block">
+                    <div class="cat-block-header">
                         History
                     </div>
                     <hr/>
-                    <ul class="his-block-content">
-                        <li>cat1</li>
-                        <li>cat2</li>
-                        <li>cat3</li>
+                    <ul class="cat-block-content">
+                        <c:if test="${not empty history}">
+                            <c:forEach var="itemYear" items="${history}">
+                                <li class="cat-item">
+                                    <a class="year-item" href="">${itemYear.key}</a>
+                                    <ul class="month-list">
+                                        <c:forEach var="itemMonth" items="${itemYear.value}">
+                                            <li class="month-item">
+                                                <a href="/${itemYear.key}/${itemMonth}">${itemMonth}</a>
+                                            </li>
+                                        </c:forEach>
+                                    </ul>
+                                </li>
+                            </c:forEach>
+                        </c:if>
                     </ul>
                 </div>
             </aside>

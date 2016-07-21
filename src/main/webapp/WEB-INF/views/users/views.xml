@@ -25,7 +25,7 @@
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
             <add-attribute value="/resources/js/jquery/jquery-ui.min.js"/>
-            <add-attribute value="/resources/js/view/user-profile.js"/>
+            <add-attribute value="/resources/js/views/user-profile.js"/>
         </put-list-attribute>
     </definition>
     <definition extends="default" name="users/update">

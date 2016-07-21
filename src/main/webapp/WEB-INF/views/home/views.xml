@@ -14,7 +14,7 @@
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">
-
+            <add-attribute value="/resources/js/views/home.js"/>
         </put-list-attribute>
     </definition>
 </tiles-definitions>

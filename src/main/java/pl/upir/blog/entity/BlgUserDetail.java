@@ -24,6 +24,7 @@ public class BlgUserDetail implements Serializable{
     private int usrDetCity;
     private String usrDetAdres;
     private String usrPhotoLink;
+    private String usrFbPhotoLink;
     private Gender usrGender;
 
 
@@ -131,6 +132,8 @@ public class BlgUserDetail implements Serializable{
         this.usrGender = usrGender;
     }
 
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -139,41 +142,34 @@ public class BlgUserDetail implements Serializable{
         BlgUserDetail that = (BlgUserDetail) o;
 
         if (usrDetId != that.usrDetId) return false;
-       // if (usrId != that.usrId) return false;
         if (usrDetCountry != that.usrDetCountry) return false;
         if (usrDetCity != that.usrDetCity) return false;
-        if (usrDetFirstname != null ? !usrDetFirstname.equals(that.usrDetFirstname) : that.usrDetFirstname != null)
-            return false;
-        if (usrDetLastname != null ? !usrDetLastname.equals(that.usrDetLastname) : that.usrDetLastname != null)
-            return false;
+        if (!blgUser.equals(that.blgUser)) return false;
+        if (!usrDetFirstname.equals(that.usrDetFirstname)) return false;
+        if (!usrDetLastname.equals(that.usrDetLastname)) return false;
         if (usrDetBirthdate != null ? !usrDetBirthdate.equals(that.usrDetBirthdate) : that.usrDetBirthdate != null)
             return false;
         if (usrDetAdres != null ? !usrDetAdres.equals(that.usrDetAdres) : that.usrDetAdres != null) return false;
+        if (usrPhotoLink != null ? !usrPhotoLink.equals(that.usrPhotoLink) : that.usrPhotoLink != null) return false;
+        if (usrFbPhotoLink != null ? !usrFbPhotoLink.equals(that.usrFbPhotoLink) : that.usrFbPhotoLink != null)
+            return false;
+        return usrGender == that.usrGender;
 
-        return true;
     }
 
     @Override
     public int hashCode() {
         int result = usrDetId;
-       // result = 31 * result + usrId;
-        result = 31 * result + (usrDetFirstname != null ? usrDetFirstname.hashCode() : 0);
-        result = 31 * result + (usrDetLastname != null ? usrDetLastname.hashCode() : 0);
+        result = 31 * result + blgUser.hashCode();
+        result = 31 * result + usrDetFirstname.hashCode();
+        result = 31 * result + usrDetLastname.hashCode();
         result = 31 * result + (usrDetBirthdate != null ? usrDetBirthdate.hashCode() : 0);
         result = 31 * result + usrDetCountry;
         result = 31 * result + usrDetCity;
         result = 31 * result + (usrDetAdres != null ? usrDetAdres.hashCode() : 0);
+        result = 31 * result + (usrPhotoLink != null ? usrPhotoLink.hashCode() : 0);
+        result = 31 * result + (usrFbPhotoLink != null ? usrFbPhotoLink.hashCode() : 0);
+        result = 31 * result + (usrGender != null ? usrGender.hashCode() : 0);
         return result;
-    }
-
-
-
-    @Override
-    public String toString() {
-        return "BlgUserDetail{" +
-               // "blgUser=" + blgUser +
-                ", usrDetFirstname='" + usrDetFirstname + '\'' +
-                ", usrDetLastname='" + usrDetLastname + '\'' +
-                '}';
     }
 }
