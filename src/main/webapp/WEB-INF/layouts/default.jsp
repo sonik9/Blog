@@ -64,7 +64,7 @@ To change this template use File | Settings | File Templates.
     <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" />
     <c:forEach items="${styles}" var="s">
         <link rel="stylesheet"
-              href="/resources${s}"/>
+              href="${rootUrl}/resources${s}"/>
     </c:forEach>
 
     <!-- JavaScripts-->
