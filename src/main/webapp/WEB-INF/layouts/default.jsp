@@ -61,10 +61,10 @@ To change this template use File | Settings | File Templates.
     <spring:url value="${rootUrl}${app_css}" var="app_css_url"/>
     <link rel="stylesheet" type="text/css" media="screen" href="${app_css_url}"/>--%>
 
-    <tilesx:useAttribute name="styles" classname="java.util.List" id="styles" />
-    <c:forEach items="${styles}" var="s">
+    <tilesx:useAttribute name="css" classname="java.util.List" id="css" />
+    <c:forEach items="${css}" var="s">
         <link rel="stylesheet"
-              href="${rootUrl}/resources${s}"/>
+              href="${s}"/>
     </c:forEach>
 
     <!-- JavaScripts-->

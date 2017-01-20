@@ -9,8 +9,8 @@
         <put-attribute name="body" value="/WEB-INF/views/home/home.jsp"/>
 
         <!--List of css files-->
-        <put-list-attribute name="styles" inherit="true">
-            <add-attribute value="/css/views/home.css"/>
+        <put-list-attribute name="css" inherit="true">
+            <add-attribute value="/resources/css/views/home.css"/>
         </put-list-attribute>
         <!--List of js files-->
         <put-list-attribute name="js" inherit="true">

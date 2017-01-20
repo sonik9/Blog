@@ -48,7 +48,7 @@ To change this template use File | Settings | File Templates.
                 <span class="icon-bar"></span>
             </button>
         </div>
-
+        <img class="navbar-brand-img" src="${pageContext.request.contextPath}/resources/images/favicon.png"/>
         <a href="${rootUrl}" class="navbar-brand">${appName}</a>
         <nav class="collapse navbar-collapse" role="navigation">
             <ul class="nav navbar-nav">
@@ -65,8 +65,9 @@ To change this template use File | Settings | File Templates.
                         </a>
                     </li>
                     <li>
-                        <a href="${rootUrl}${firstname}.${lastname}/post/create">${labelBlgPostCreatePost}<span
-                                class="fa fa-pencil"/></a>
+                        <a href="${rootUrl}${firstname}.${lastname}/post/create">${labelBlgPostCreatePost}
+                            <span class="fa fa-pencil"/>
+                        </a>
                     </li>
                 </sec:authorize>
                 <li>

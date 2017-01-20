@@ -10,8 +10,8 @@
         <put-attribute name="footer" value="/WEB-INF/views/footer.jspx"/>
 
         <!--List of css files-->
-        <put-list-attribute name="styles">
-            <add-attribute value="/css/main.css" />
+        <put-list-attribute name="css">
+            <add-attribute value="/resources/css/main.css" />
         </put-list-attribute>
 
         <!--List of js files-->

@@ -40,7 +40,9 @@ public interface BlgPostRepository extends JpaRepository<BlgPost, Integer> {//Pa
     /*countQuery = "SELECT count(p) FROM BlgPost p\n"+
             "JOIN p.blgDicCategorySet bpc \n" +
             //"JOIN BlgDicCategory bdc ON(bdc.dicCatId = bpc.dicCatId)\n" +
-            "WHERE bpc.dicCatName=:category and p.pstEnable=:pstEnable",*/)
+            "WHERE bpc.dicCatName=:category and p.pstEnable=:pstEnable",*/
+
+    )
     public Page<BlgPost> findByCatAndPstEnable(@Param("category") String category,@Param("pstEnable") boolean pstEnable,Pageable pageable);
 
     @Query(value = "SELECT distinct p FROM BlgPost p\n"+

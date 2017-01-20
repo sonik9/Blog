@@ -36,10 +36,11 @@ aside{
 .aside-block{
     background-color:#ededed;
     font-size: 20px;
-    color:#337ab7 ;
+    color:rgba(76, 76, 76, 0.9);
     margin: 20px 0px 20px 20px;
     padding: 20px 20px 20px 20px;
-    border-top: 4px solid #428BCA;
+    border-top: 4px solid rgba(76, 76, 76, 0.3) !important;
+    border:1px solid #e3e3e3;
     border-radius: 0px 6px 0px 6px;
 }
 .aside-block .cat-block-header{
@@ -51,6 +52,10 @@ aside{
 }
 .cat-item > a{
     padding-left: 10px;
+    color:rgba(76, 76, 76, 0.9) !important;
+}
+.cat-item > a:hover{
+    color:rgba(76, 76, 76, 0.5) !important;
 }
 .month-list{
     display: none;
@@ -63,8 +68,8 @@ aside{
 }
 .cat-item.active,
 .cat-item.active > a{
-    background-color: #428BCA;
-    color: #ffffff;
+    /*background-color: #428BCA;*/
+    color: #428BCA!important;
 }
 
 .post{
